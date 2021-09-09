@@ -53,7 +53,9 @@
 
 <script>
 
+import Vue from 'vue'
 import {getAction} from '@/api/api'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Login',
@@ -85,6 +87,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["setUser"]),
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -111,14 +114,17 @@ export default {
       //   }
       // })
       this.loading = true;
-      getAction('http://172.29.3.78:8081//lite-live-streaming-platform/user/login',{'auth': this.loginForm.userName,'passwd': this.loginForm.password}).then((res) =>{
+      getAction('http://192.168.1.102:8081/lite-live-streaming-platform/user/login',{'auth': this.loginForm.userName,'passwd': this.loginForm.password}).then((res) =>{
         console.log(res);
         // this.$store.dispatch('setUser', res.data.data.userInfo)
         const user = res.data.data.userInfo
+        // 存入localstorage
+        Vue.ls.set("userInfo", user)
           this.$router.push({
             path:'/dashboard',
             query:{"data":user}
           })
+          this.loading = false;
       });
     }
   }

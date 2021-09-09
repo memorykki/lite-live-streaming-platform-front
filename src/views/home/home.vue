@@ -9,16 +9,16 @@
           
         </div>
         <div id="liveVideo">
-          <player :roompath="realroompath"></player>
+          <player ref="myplayer" :roompath="realroompath"></player>
         </div>
       </el-main>
       <el-aside width="30%"> Aside </el-aside>
     </el-container>
+    
     <el-footer height="60px">
-      <div id="giftdiv" >
-     
-        <p v-for="(item,i) in roomgift" in listObj"></p>
-      </div>
+      <!-- <div id="giftdiv" > -->
+      <dynamic></dynamic>
+        <!-- <p v-for="(item,i) in roomgift" in listObj"></p> -->
     </el-footer>
   </el-container>
 </template>
@@ -26,15 +26,21 @@
 <script>
 //引入子组件
 import Player from "@/views/player";
+import Dynamic from '@/views/dynamic'
+import Vue from 'vue'
+import { getAction } from '@/api/api';
 export default {
   name: "Home",
   //注入子组件
-  components: { Player },
+  components: { 
+    Player,
+    Dynamic 
+  },
   data() {
     return {
       roomdata: [],
       roomgift:[],
-      realroompath: "Music_Fiction_1.flv",
+      realroompath: '',
       roomId: 3,
       userId: 6,
       anchorId: 6,
@@ -42,9 +48,7 @@ export default {
   },
   methods: {
     findRoom() {
-      this.$http
-        .get(
-          "http://172.29.3.78:8081/lite-live-streaming-platform/room/getRoomInfo",
+      getAction("http://192.168.1.102:8081/lite-live-streaming-platform/room/getRoomInfo",
           {
             params: {
               //查询时暂时使用，后面要换为realroompath
@@ -52,9 +56,7 @@ export default {
               userId: this.userId,
               anchorId: this.anchorId,
             },
-          }
-        )
-        .then((res) => {
+          }).then((res) => {
           //  将得到的数据赋值
           this.roomdata = res.data.data.room;
           console.log("直播间信息");
@@ -62,9 +64,8 @@ export default {
         });
     },
     findGifit() {
-      this.$http
-        .get(
-          "http://172.29.3.78:8081/lite-live-streaming-platform/gift/"
+      getAction(
+          "http://192.168.1.102:8081/lite-live-streaming-platform/gift/"
         )
         .then((res) => {
           //  将得到的数据赋值
@@ -77,6 +78,17 @@ export default {
     },
   },
   mounted() {
+    const rid = this.$route.query.roomId
+    const child = this.$refs.myplayer;
+    child.roompath = rid;
+    child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/live/'+child.roompath;
+         new ckplayer(child.videoObject);
+         console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+         console.log(child.videoObject.video)
+    //   console.log(this.liveroom.aaa)
+    console.log(Vue.ls.get("userInfo"));
+
+
     this.findRoom();
     this.findGifit();
   },

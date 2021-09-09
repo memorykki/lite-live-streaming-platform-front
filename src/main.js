@@ -14,8 +14,16 @@ import router from './router'
 import axios from 'axios'
 import '@/icons' // icon
 import '@/permission' // permission control
+import Storage from 'vue-ls'
 
-Vue.prototype.$http=axios
+const options = {
+  namespace: 'vuejs__', // key键前缀
+  name: 'ls', // 命名Vue变量.[ls]或this.[$ls],
+  storage: 'local', // 存储名称: session, local, memory
+};
+Vue.use(Storage,options);
+Vue.prototype.$store=store
+Vue.prototype.http = axios
 
 /**
  * If you don't want to use mock-server

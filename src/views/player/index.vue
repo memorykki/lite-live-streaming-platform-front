@@ -5,11 +5,10 @@
 <script>
 
 export default {
-    props: ['roompath'],
-    
 
     data() {
         return{
+            roompath: '',
             videoObject: {
                 width: "100%", // 宽度，也可以支持百分比(不过父元素宽度要有)
                 height: "100%", // 高度，也可以支持百分比
@@ -24,13 +23,7 @@ export default {
     },
     name: 'Player',
     mounted() {
-        this.videoObject.video = 'rtmp://ts.memorykk.cn:1935/vod/'+this.roompath;
-        let player = new ckplayer(this.videoObject);
-         console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-         console.log(this.videoObject.video)
-       
-      console.log(this.roompath)
-    //   console.log(this.liveroom.aaa)
+        
     }
 }
 </script>
