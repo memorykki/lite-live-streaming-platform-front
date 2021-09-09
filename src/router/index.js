@@ -66,6 +66,17 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
+  //**************************************************** */
+  {
+    path: '/home',
+    component: () => import('@/views/home/home'),
+    hidden: true
+  },
+
+
+
+
+  //*************************************************************** */
   {
     path: '/user',
     component: Layout,
