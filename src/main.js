@@ -14,6 +14,16 @@ import router from './router'
 import axios from 'axios'
 import '@/icons' // icon
 import '@/permission' // permission control
+import Storage from 'vue-ls'
+
+const options = {
+  namespace: 'vuejs__', // key键前缀
+  name: 'ls', // 命名Vue变量.[ls]或this.[$ls],
+  storage: 'local', // 存储名称: session, local, memory
+};
+Vue.use(Storage,options);
+Vue.prototype.$store=store
+Vue.prototype.http = axios
 
 /**
  * If you don't want to use mock-server
@@ -30,6 +40,7 @@ import '@/permission' // permission control
 
 // set ElementUI lang to EN
 Vue.use(ElementUI)
+Vue.use(axios)
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 

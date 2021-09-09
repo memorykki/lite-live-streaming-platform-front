@@ -22,7 +22,7 @@
         size="medium"
       >
         <div style="padding-top: 10px">
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item label="邮箱或手机号" prop="email">
             <el-col :span="10">
               <el-input
                 v-model="ruleForm.email"
@@ -44,7 +44,7 @@
               <el-input
                 v-model="ruleForm.code"
                 maxlength="6"
-                placeholder="请登录邮箱接收验证码"
+                placeholder="请注意接收验证码"
               />
             </el-col>
           </el-form-item>
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { getAction } from '@/api/api'
 import { getEmailCode, register } from '@/api/register'
 import { encrypt } from '@/utils/rsaEncrypt'
 export default {
@@ -87,6 +88,7 @@ export default {
       ruleForm: {
         email: '',
         code: '',
+        uname: '',
         pwd: '',
         cpwd: ''
       },
@@ -94,7 +96,7 @@ export default {
         email: [{
           required: true,
           type: 'email',
-          message: '请输入邮箱',
+          message: '请输入邮箱或手机号',
           trigger: 'blur'
         }],
         code: [{
@@ -103,11 +105,19 @@ export default {
           message: '请输入验证码',
           trigger: 'blur'
         }],
+        uname: [{
+          required: true,
+          type: 'string',
+          message: '请输入用户名',
+          trigger: 'blur'
+        }],
         pwd: [{
           required: true,
           message: '创建密码',
           trigger: 'blur'
-        }, { pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/, message: '密码必须同时包含数字与字母,且长度为 8-20位' }],
+        }
+        // , { pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/, message: '密码必须同时包含数字与字母,且长度为 8-20位' }
+        ],
         cpwd: [{
           required: true,
           message: '确认密码',
@@ -141,48 +151,53 @@ export default {
         emailPass = valid
       })
       // 向后台API验证码发送
-      if (!emailPass) {
-        self.codeLoading = true
-        self.statusMsg = '验证码发送中...'
-        getEmailCode(self.ruleForm.email).then(res => {
-          this.$message({
-            showClose: true,
-            message: '发送成功，验证码有效期5分钟',
-            type: 'success'
-          })
-          let count = 60
-          self.ruleForm.code = ''
-          self.codeLoading = false
-          self.isDisable = true
-          self.statusMsg = `验证码已发送,${count--}秒后重新发送`
-          timerid = window.setInterval(function() {
-            self.statusMsg = `验证码已发送,${count--}秒后重新发送`
-            if (count <= 0) {
-              window.clearInterval(timerid)
-              self.isDisable = false
-              self.statusMsg = ''
-            }
-          }, 1000)
-        }).catch(err => {
-          console.log(err.response)
-          this.isDisable = false
-          this.statusMsg = ''
-          this.codeLoading = false
-          console.log(err.response.data.message)
+      self.codeLoading = true
+      self.statusMsg = '验证码发送中...'
+      getAction('/user/sendVerifiableCode?distAddress=' + self.ruleForm.email).then(res => {
+        // getEmailCode(self.ruleForm.email).then(res => {
+        this.$message({
+          showClose: true,
+          message: '发送成功，验证码有效期5分钟',
+          type: 'success'
         })
-      }
+        let count = 60
+        self.ruleForm.code = ''
+        self.codeLoading = false
+        self.isDisable = true
+        self.statusMsg = `验证码已发送,${count--}秒后重新发送`
+        timerid = window.setInterval(function() {
+          self.statusMsg = `验证码已发送,${count--}秒后重新发送`
+          if (count <= 0) {
+            window.clearInterval(timerid)
+            self.isDisable = false
+            self.statusMsg = ''
+          }
+        }, 1000)
+      }).catch(err => {
+        console.log(err.response)
+        this.isDisable = false
+        this.statusMsg = ''
+        this.codeLoading = false
+        console.log(err.response.data.message)
+      })
     },
 
     // 用户注册
     register: function() {
       this.$refs['ruleForm'].validate((valid) => {
-        if (valid) {
+        if (true) {
           const user = {
             code: this.ruleForm.code,
             email: this.ruleForm.email,
+            uname: this.ruleForm.uname,
             password: encrypt(this.ruleForm.pwd)
           }
-          register(user).then(res => {
+          // register(user).then(res => {
+          getAction('/user/register?code=' + this.ruleForm.code,
+            {
+              userName: this.ruleForm.uname,
+              passwd: this.ruleForm.pwd
+            }).then(res => {
             console.log(res)
             this.$message({
               showClose: true,

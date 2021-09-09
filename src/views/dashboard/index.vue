@@ -1,8 +1,9 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ user }}</div>
-    <button @click="onClick">我是按钮</button>
-    <player></player>
+    <ul :key="item.id" v-for="item in list">
+      <li><a :href="'/home?roomId='+item.roomId">{{item.roomTitle}}</a></li>
+    </ul>
+    
     <!-- <div class="dashboard-text">roles: <span v-for="role in roles" :key="role">从上面拿</span></div> -->
   </div>
 </template>
@@ -10,35 +11,35 @@
 <script>
 import { getAction } from "@/api/api";
 import { mapGetters, mapState } from "vuex";
-import Player from '@/views/player'
+
 export default {
   name: "Dashboard",
-  components:{Player},
+  components:{},
   data() {
     return {
       user: {},
-      indexData: {}
+      indexData: {},
+      list:[]
     };
   },
   mounted() {
-    console.log(this.$route);
+    console.log(this.userMessage)
     this.user = this.$route.query.data;
     getAction(
-      "http://172.29.3.78:8081//lite-live-streaming-platform/room/selectClassifyList",
+      "http://192.168.1.102:8081/lite-live-streaming-platform/room/selectClassifyList",
       { classify: 1 }
-    ).then(res => {
-      console.log(res);
+    ).then(res1 => {
+      console.log(res1);
     });
     getAction(
-      "http://172.29.3.78:8081//lite-live-streaming-platform/room/selectRankingList"
+      "http://192.168.1.102:8081/lite-live-streaming-platform/room/selectRankingList"
     ).then(res => {
       console.log(res);
+      this.list = res.data.data
     });
   },
   computed: {
-    // ...mapState([
-    //   'userMessage',
-    // ])
+    ...mapState(["userMessage"]),
   },
   methods: {
     onClick() {

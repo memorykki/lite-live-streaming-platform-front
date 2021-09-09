@@ -29,12 +29,21 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
+  // devServer: {
+  //   port: port,
+  //   open: true,
+  //   overlay: {
+  //     warnings: false,
+  //     errors: true
+  //   }
+  // },
   devServer: {
-    port: port,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
+    port: 3000,
+    proxy: {
+      '/lite-live-streaming-platform': {
+        target: 'http://192.168.1.102:8081',
+        changeOrigin: true
+      },
     }
   },
   configureWebpack: {

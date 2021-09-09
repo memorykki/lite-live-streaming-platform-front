@@ -5,6 +5,24 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import person from '@/components/person/person.vue';
+import information from '@/components/person/users/information.vue'
+import attention from '@/components/person/users/attention.vue'
+import wallet from '@/components/person/users/wallet.vue'
+import history from '@/components/person/users/history.vue'
+import gift from '@/components/person/users/gift.vue'
+import dynamic from '@/components/person/users/dynamic.vue'
+import show from '@/components/person/users/show.vue'
+
+import anchorInfo from '@/components/person/anchor/anchorInfo.vue'
+import playback from '@/components/person/anchor/playback.vue'
+
+import user from '@/components/person/administrators/user.vue'
+import demand from '@/components/person/administrators/demand.vue'
+import ban from '@/components/person/administrators/ban.vue'
+import report from '@/components/person/administrators/report.vue'
+import Admingift from '@/components/person/administrators/Admingift.vue'
+import Adminwatching from '@/components/person/administrators/Adminwatching.vue'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -66,20 +84,107 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
+  //**************************************************** */
+  {
+    path: '/home',
+    component: () => import('@/views/home/home'),
+    hidden: true
+  },
+
+
+
+
+  //*************************************************************** */
   {
     path: '/user',
     component: Layout,
     hidden: true,
-    // redirect: 'noredirect',
-    children: [
+    children:[
       {
-        path: 'center',
-        component: (resolve) => require(['@/views/user/center'], resolve),
-        name: '个人中心',
-        meta: { title: '个人中心' }
-      }
+        path: 'person',
+        name: 'person',
+        component:person,
+        children:[
+        {
+          path:'anchorInfo',
+          name:'anchorInfo',
+          component:anchorInfo
+        },
+          {
+            path:'playback',
+            name:'playback',
+            component:playback
+          },
+        {
+          path:'information',
+          name:'information',
+          component:information
+        },
+        {
+          path:'attention',
+          name:'attention',
+          component:attention
+        },
+        {
+          path:'wallet',
+          name:'wallet',
+          component:wallet
+        },
+        {
+          path:'history',
+          name:'history',
+          component:history
+        },
+        {
+          path:'gift',
+          name:'gift',
+          component:gift
+        },
+        {
+          path:'dynamic',
+          name:'dynamic',
+          component:dynamic
+        },
+        {
+          path:'show',
+          name:'show',
+          component:show
+        },
+        {
+          path:'report',
+          name:'report',
+          component:report
+        },
+        {
+          path:'demand',
+          name:'demand',
+          component:demand
+        },
+        {
+          path:'ban',
+          name:'ban',
+          component:ban
+        },
+        {
+          path:'user',
+          name:'user',
+          component:user
+        },
+        {
+          path:'admingift',
+          name:'admingift',
+          component:Admingift
+        },
+        {
+          path:'adminwatching',
+          name:'adminwatching',
+          component:Adminwatching
+        }
+        ]
+      },
     ]
-  }
+  },
+  
 
 ]
 
