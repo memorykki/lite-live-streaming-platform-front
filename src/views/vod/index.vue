@@ -17,7 +17,7 @@ export default {
   },
   created() {
     getAction(
-      'http://101.200.54.21:9989/lite-live-streaming-platform/vod',
+      'lite-live-streaming-platform/vod',
       {
         pageCurrent: 0,
         pageSize: 10,

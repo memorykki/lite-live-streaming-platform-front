@@ -78,7 +78,7 @@
             </div>
             <div>
               <el-row :gutter="10">
-                <el-col span="1">
+                <el-col span="6">
                   <el-tooltip content="点赞" placement="bottom">
                     <el-button size="mini" type="warning" circle icon="el-icon-star-on">{{item.dynamicLike}}
                     </el-button>
@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import { deleteAction, postAction ,getAction} from '@/api/api';
   export default {
     data() {
       return {
@@ -147,45 +148,7 @@
       }
     },
     methods: {
-      //上传前回调
-      beforeUploadVideo(file) {
-        var fileSize = file.size / 1024 / 1024 < 50;
-        if (['video/mp4', 'video/ogg', 'video/flv', 'video/avi', 'video/wmv', 'video/rmvb', 'video/mov'].indexOf(file
-            .type) == -1) {
-          layer.msg("请上传正确的视频格式");
-          return false;
-        }
-        if (!fileSize) {
-          layer.msg("视频大小不能超过50MB");
-          return false;
-        }
-        this.isShowUploadVideo = false;
-      },
-      //进度条
-      uploadVideoProcess(event, file, fileList) {
-        this.videoFlag = true;
-        this.videoUploadPercent = file.percentage.toFixed(0) * 1;
-      },
-      //上传成功回调
-      handleVideoSuccess(res, file) {
-        this.isShowUploadVideo = true;
-        this.videoFlag = false;
-        this.videoUploadPercent = 0;
-
-        //前台上传地址
-        //if (file.status == 'success' ) {
-        //    this.videoForm.showVideoPath = file.url;
-        //} else {
-        //     layer.msg("上传失败，请重新上传");
-        //}
-
-        //后台上传地址
-        if (res.Code == 0) {
-          this.videoForm.showVideoPath = res.Data;
-        } else {
-          layer.msg(res.Message);
-        }
-      },
+      
       // 上传图片
       handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -196,7 +159,7 @@
       add(dynamic) { //更新数据到数据库，在方法中编写ajax请求即可
         this.$refs.dynamic.validate((valid) => {
           if (valid) {
-            this.$http.post('/userDynamic/publish', this.dynamic)
+            postAction('lite-live-streaming-platform/userDynamic/publish', this.dynamic)
               .then(res => {
                 this.$message({ //提示添加成功消息
                   message: res.data.message,
@@ -227,7 +190,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$http.delete('/userDynamic?idList=' + row.dynamicId)
+          deleteAction('lite-live-streaming-platform/userDynamic?idList=' + row.dynamicId)
             .then(res => {
               this.findPage() //删除成功后调查询
               this.$message({
@@ -256,13 +219,13 @@
 
       findPage() { //定义的分页查询方法
         // Vue.http.options.root = 'http://172.29.3.78:8081/lite-live-streaming-platform'
-        this.$http.get('/userDynamic/list', {
-          params: {
+        getAction('lite-live-streaming-platform/userDynamic/list', {
+          
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
             pageSize: this.pager.pageSize, //每页显示多少条记录
             dynamicContent: this.dynamicContent, //条件查询的参数
             anchorId: this.userId,
-          }
+          
         }).then(res => {
           //在此将数据赋值给数据表格数组
           this.tableData = res.data.data.records;

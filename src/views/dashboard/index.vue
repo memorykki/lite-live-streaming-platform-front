@@ -1,13 +1,13 @@
 <template>
   <div>
     <el-container>
-      <el-header id="head1">
+      <el-header>
         <img src="../../assets/images/logo.jpg" class="demo" alt="" />
         <loginBar style="position: absolute; right: 5%; top: 20%" />
       </el-header>
       <el-main>
         <el-container>
-          <el-header>
+          <el-header id="head1">
             <headTab/>
           </el-header>
           <el-main>
@@ -49,7 +49,7 @@
   #head1 {
     display: flex;
     position: relative;
-    background: #1c2c3c;
+    background: #ffffff;
     padding-top: 5px;
   }
 
@@ -72,6 +72,7 @@
           position: relative;
           width: 100%;
           height: 60px;
+          background: #1c2c3c;
       }
   .el-main {
     position: absolute;

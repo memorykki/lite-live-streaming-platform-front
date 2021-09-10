@@ -191,7 +191,7 @@
         }) => {
           //修改后台数据
           let user={
-
+            
           };
           this.$message({
             type: 'success',
@@ -231,6 +231,10 @@
         });
       }
     },
+    mounted() { //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
+    this.userInfo=Vue.ls.get("userInfo");
+    console.log(this.userInfo);
+    }
   }
 </script>
 

@@ -169,7 +169,7 @@ export default {
     add() {
       this.$http
         .post(
-          "http://101.200.54.21:9989/lite-live-streaming-platform//vod/",
+          "lite-live-streaming-platform//vod/",
           this.addUser
         )
         .then((res) => {
@@ -199,7 +199,7 @@ export default {
       //记得更新地址********************************************************************
       this.$http
         .put(
-          "http://101.200.54.21:9989/lite-live-streaming-platform//vod/",
+          "lite-live-streaming-platform//vod/",
           this.user
         )
         .then((res) => {
@@ -236,7 +236,7 @@ export default {
           //没有返回值记得删除res
           this.$http
             .delete(
-              "http://101.200.54.21:9989/lite-live-streaming-platform//vod/",
+              "lite-live-streaming-platform//vod/",
               {
                 params: {
                   idList: this.deleUser.vodId,
@@ -281,7 +281,7 @@ export default {
       }
 
       this.$http
-        .get("http://101.200.54.21:9989/lite-live-streaming-platform//vod/", {
+        .get("lite-live-streaming-platform//vod/", {
           params,
         })
         .then((res) => {

@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { getAction } from '@/api/api';
   export default {
     data() {
       return {
@@ -77,12 +78,12 @@
       },
 
       findPage() { //定义的分页查询方法
-        this.$http.get('/giftRecord', {
-          params: {
+        getAction('lite-live-streaming-platform/giftRecord', {
+          
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
             pageSize: this.pager.pageSize, //每页显示多少条记录
             giftName: this.giftName //条件查询的参数
-          }
+          
         }).then(res => {
           //在此将数据赋值给数据表格数组
           this.tableData = res.data.data.records;
