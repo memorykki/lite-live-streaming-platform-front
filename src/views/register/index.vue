@@ -26,7 +26,7 @@
             <el-col :span="10">
               <el-input
                 v-model="ruleForm.email"
-                placeholder="输入邮箱并点击发送验证码"
+                placeholder="输入并点击发送验证码"
               />
             </el-col>
             <el-button
@@ -48,11 +48,19 @@
               />
             </el-col>
           </el-form-item>
+          
+          <el-form-item label="用户名" prop="uname">
+            <el-col :span="10">
+              <el-input v-model="ruleForm.uname" />
+            </el-col>
+          </el-form-item>
+
           <el-form-item label="密码" prop="pwd">
             <el-col :span="10">
               <el-input v-model="ruleForm.pwd" type="password" />
             </el-col>
           </el-form-item>
+
           <el-form-item label="确认密码" prop="cpwd">
             <el-col :span="10">
               <el-input v-model="ruleForm.cpwd" type="password" />
@@ -74,7 +82,7 @@
 </template>
 
 <script>
-import { getAction } from '@/api/api'
+import { getAction, postAction } from '@/api/api'
 import { getEmailCode, register } from '@/api/register'
 import { encrypt } from '@/utils/rsaEncrypt'
 export default {
@@ -193,10 +201,10 @@ export default {
             password: encrypt(this.ruleForm.pwd)
           }
           // register(user).then(res => {
-          getAction('lite-live-streaming-platform/user/register?code=' + this.ruleForm.code,
+          postAction('lite-live-streaming-platform/user/register?code=' + this.ruleForm.code + '&auth=' + this.ruleForm.email,
             {
               userName: this.ruleForm.uname,
-              passwd: this.ruleForm.pwd
+              userPasswd: this.ruleForm.pwd
             }).then(res => {
             console.log(res)
             this.$message({
