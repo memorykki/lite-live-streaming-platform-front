@@ -5,7 +5,7 @@
        <div slot="header" shadow="always">
         <!-- 卡片头部，写入面包屑 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/shouye' }"
+          <el-breadcrumb-item :to="{ path: 'dashboard' }"
             >首页</el-breadcrumb-item
           >
 
@@ -51,7 +51,9 @@ export default {
      liveroom:'',
      livepull:'',
      //user_id登陆时获取记得更改**************************************************************
-     userId:18
+     userId: '',
+     //获取到的user登录信息
+     getuser:[]
 
 
     };
@@ -60,7 +62,7 @@ export default {
    // 获取分页查询
     findLiveMsg() {
       this.$http
-        .get("http://101.200.54.21:9989/lite-live-streaming-platform//user/", {
+        .get("http://101.200.54.21:9989/lite-live-streaming-platform/user/", {
           params: {
             
             //后端查询需要传递的参数，****************************************************记得更改
@@ -85,7 +87,13 @@ export default {
 
   mounted() {
     this.findLiveMsg();
-  },
+    console.log("输出用户信息——————————————————————————————————————");
+    //获取登陆的用户信息
+    console.log(Vue.ls.get("userInfo"));
+    this.getuser=Vue.ls.get("userInfo").user;
+    this.userId=this.getuser.userId
+    console.log(this.userId);
+      },
 };
 </script>
 
