@@ -2,7 +2,7 @@
   <div>
     <el-container>
     <el-header>
-        <img src="@/assets/images/avatar.png" class="demo" alt="" />
+        <img src="@/assets/images/logo.jpg" class="demo" alt="" />
         <loginBar style="position: absolute; right: 5%; top: 20%" />
     </el-header>
     <el-container>
@@ -21,19 +21,14 @@
 <script>
   import leftNav from "@/components/person/naf";
   import loginBar from "@/components/person/bar";
-  import { mapGetters, mapMutations, mapActions } from "vuex";
+  //import { mapGetters, mapMutations, mapActions } from "vuex";
   export default {
     name: "person",
     components: {
       leftNav,
       loginBar,
     },
-    computed: {
-      ...mapGetters([
-        //用户信息
-        "userInfo",
-      ]),
-    },
+    
     data() {
       return {};
     },
@@ -45,7 +40,7 @@
       },
       page(){
         this.$router.push({
-          path: "/musicHome/recomVideo"
+          path: "/"
         });
       }
     },

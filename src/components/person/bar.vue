@@ -3,45 +3,48 @@
     <div style="cursor: pointer">
       <span class="loginSta" @click="logout">首页</span>
       <el-avatar
-        :src="userInfo.avatarUrl"
+        :src="user.userHeadPhoto"
         class="userHead"
         style="vertical-align: middle"
       ></el-avatar>
-      <span class="loginSta">{{nickname}}</span>
+      <span class="loginSta">{{user.userName}}</span>
 
     </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   name: "loginBar",
   components: {},
-  // computed: {
-  //   ...mapGetters([
-  //     //用户信息
-  //     "userInfo",
-  //   ]),
-  // },
+
   data() {
     return {
-      userInfo:{
-        avatarUrl:'../../assets/logo.png',
-        nickname:"直播平台",
-        sex:'男',
-        birthday:'',
+      user: {
+        // 用户id
+        userId: '',
+        userName: '', //用户昵称
+        userEmail: '', //邮箱
+        userPhone: '', //手机号
+        userPasswd: '', //密码
+        userHeadPhoto: '', //头像
+        userStatus: '', //状态1正常，2删除
+        userFansCount: '', //粉丝数
+        userExistCoins: '', //剩余活力币
+        userSumCoins: '', //活力币总数
+        roomId: '', //房间号
+        roleId: '', //角色id
       },
-      nickname:"我是昵称",
     };
   },
   methods: {
-    logout(userInfo){
+    logout(avatarUrl){
       this.$router.push({
         path: "/dashboard"
       });
     },
   },
+  
 };
 </script>
 
@@ -60,6 +63,5 @@ export default {
   width: 40px;
   height: 40px;
   margin-top: 0px;
-  z-index: 100;
 }
 </style>
