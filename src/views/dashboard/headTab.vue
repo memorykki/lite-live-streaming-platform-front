@@ -6,12 +6,12 @@
       mode="horizontal"
       :router="true"
     >
-      <el-menu-item index="/ranking">排行榜</el-menu-item>
-      <el-menu-item index="/game">游戏</el-menu-item>
-      <el-menu-item index="/singing">唱歌</el-menu-item>
-      <el-menu-item index="/dancing">跳舞</el-menu-item>
-      <el-menu-item index="/movie">放映</el-menu-item>
-      <el-menu-item index="/wholelife">整活</el-menu-item>
+      <el-menu-item index="ranking">排行榜</el-menu-item>
+      <el-menu-item index="game">游戏</el-menu-item>
+      <el-menu-item index="singing">唱歌</el-menu-item>
+      <el-menu-item index="dancing">跳舞</el-menu-item>
+      <el-menu-item index="movie">放映</el-menu-item>
+      <el-menu-item index="wholelife">整活</el-menu-item>
     </el-menu>
   </div>
 </template>

@@ -1,19 +1,12 @@
 <template>
   <div>
     <el-container>
-<<<<<<< HEAD
 
       <!-- bar不再需要引入，注释掉 -->
     <!-- <el-header> -->
         <!-- <img src="@/assets/images/avatar.png" class="demo" alt="" /> -->
         <!-- <loginBar style="position: absolute; right: 5%; top: 20%" /> -->
     <!-- </el-header> -->
-=======
-    <el-header>
-        <img src="@/assets/images/logo.jpg" class="demo" alt="" />
-        <loginBar style="position: absolute; right: 5%; top: 20%" />
-    </el-header>
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
     <el-container>
       <!-- 左边导航栏 -->
       <el-aside width="20%"><leftNav /></el-aside>
@@ -29,25 +22,24 @@
 
 <script>
   import leftNav from "@/components/person/naf";
-<<<<<<< HEAD
   // import loginBar from "@/components/person/bar";
   import { mapGetters, mapMutations, mapActions } from "vuex";
-=======
-  import loginBar from "@/components/person/bar";
-  //import { mapGetters, mapMutations, mapActions } from "vuex";
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
   export default {
     name: "person",
     components: {
       leftNav,
       // loginBar,
     },
-    
+    computed: {
+      ...mapGetters([
+        //用户信息
+        "userInfo",
+      ]),
+    },
     data() {
       return {};
     },
     methods: {
-<<<<<<< HEAD
       
       // person(userInfo){
       //   this.$router.push({
@@ -59,18 +51,6 @@
       //     path: "/musicHome/recomVideo"
       //   });
       // }
-=======
-      person(userInfo){
-        this.$router.push({
-          path: "/person"
-        });
-      },
-      page(){
-        this.$router.push({
-          path: "/"
-        });
-      }
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
     },
   };
 </script>

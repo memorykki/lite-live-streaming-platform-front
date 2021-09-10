@@ -26,10 +26,9 @@
 
           </el-table>
           <!-- 分页 -->
-           <el-pagination  @size-change="handleSizeChange"        
-            @current-change="handleCurrentChange"      
-            :current-page="pager.pageCurrent"        
-            :page-size="pager.pageSize"  
+           <el-pagination  @size-change="handleSizeChange"  
+            @current-change="handleCurrentChange" 
+            :current-page="pager.pageCurrent" 
             layout="total, prev, pager, next, jumper" :total="pager.total">      
           </el-pagination>
 

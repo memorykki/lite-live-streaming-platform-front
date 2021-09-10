@@ -22,9 +22,9 @@
       </el-col>
     </el-row>
     <el-pagination  @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"      
-        :current-page="pager.pageCurrent"        
-        :page-size="pager.pageSize"  
+        @current-change="handleCurrentChange"  
+        :current-page="pager.pageCurrent" 
+        :page-size="pager.pageSize" 
         layout="total, prev, pager, next, jumper" :total="pager.total">      
       </el-pagination>
     </el-card>

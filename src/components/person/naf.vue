@@ -14,7 +14,7 @@
       >
         <p class="leftNavFont">个人信息</p>
         <div>
-          <el-menu-item index="information">
+          <el-menu-item index="/information">
             <i class="el-icon-user" style="color: #000000 !important"></i>
             <span slot="title">基本信息</span>
           </el-menu-item>
@@ -177,6 +177,7 @@ export default {
   font-weight: 50;
   font-size: 13px;
   margin-left: 10px;
+  /* height: 100px; */
 }
 
 .iconfont {
@@ -190,5 +191,8 @@ export default {
 .el-menu-item:hover {
   background: #e6e7ea !important;
   color: #000000 !important;
+}
+.leftNav{
+  height: 100%;
 }
 </style>

@@ -24,22 +24,13 @@ import report from '@/components/person/administrators/report.vue'
 import Admingift from '@/components/person/administrators/Admingift.vue'
 import Adminwatching from '@/components/person/administrators/Adminwatching.vue'
 
-<<<<<<< HEAD
-
-
-
-
-
-
-=======
-import dashboard from '../views/dashboard/index.vue'
-import ranking from '../views/dashboard/ranking.vue'
-import dancing from '../views/dashboard/dancing.vue'
-import game from '../views/dashboard/game.vue'
-import singing from '../views/dashboard/singing.vue'
-import movie from '../views/dashboard/movie.vue'
-import wholelife from '../views/dashboard/wholelife.vue'
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
+import dashboard from '@/views/dashboard/index.vue'
+import ranking from '@/views/dashboard/ranking.vue'
+import dancing from '@/views/dashboard/dancing.vue'
+import game from '@/views/dashboard/game.vue'
+import singing from '@/views/dashboard/singing.vue'
+import movie from '@/views/dashboard/movie.vue'
+import wholelife from '@/views/dashboard/wholelife.vue'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -117,6 +108,7 @@ export const constantRoutes = [
     path:'/dashboard',
     name:'dashboard',
     component:dashboard,
+    
     children:[
       {
         path:'/ranking',
@@ -159,7 +151,7 @@ export const constantRoutes = [
     hidden: true,
     children:[
       {
-        path: '/person',
+        path: 'person',
         name: 'person',
         component:person,
         children:[

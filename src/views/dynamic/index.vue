@@ -24,11 +24,7 @@ export default {
   },
   created() {
     getAction(
-<<<<<<< HEAD
-      'http://101.200.54.21:9989/lite-live-streaming-platform/userDynamic/list',
-=======
       'lite-live-streaming-platform/userDynamic/list',
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
       {
         pageCurrent: 0,
         pageSize: 10,
@@ -47,11 +43,7 @@ export default {
   methods: {
     cancel_like(id, index) {
       console.log(this.list[index].userDynamic.dynamicLike)
-<<<<<<< HEAD
-      deleteAction('http://101.200.54.21:9989/lite-live-streaming-platform/userLikeDynamic/cancel?userId=' + 7 + '&dynamicId=' + id
-=======
       deleteAction('lite-live-streaming-platform/userLikeDynamic/cancel?userId=' + 7 + '&dynamicId=' + id
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike - 1
@@ -63,11 +55,7 @@ export default {
     },
     like(id, index) {
       console.log(this.list[index].userDynamic.dynamicLike)
-<<<<<<< HEAD
-      putAction('http://101.200.54.21:9989/lite-live-streaming-platform/userLikeDynamic/like?userId=' + 7 + '&dynamicId=' + id
-=======
       putAction('lite-live-streaming-platform/userLikeDynamic/like?userId=' + 7 + '&dynamicId=' + id
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike + 1

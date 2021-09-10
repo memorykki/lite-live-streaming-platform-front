@@ -242,15 +242,11 @@
   .el-card span {
     font-weight: bold;
     font-size: 18px;
-    font-style: ;
+    /* font-style: ; */
   }
 
   .el-row {
     margin-bottom: 20px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
   .el-col {

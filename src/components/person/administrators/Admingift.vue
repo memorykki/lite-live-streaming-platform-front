@@ -195,11 +195,7 @@ export default {
     add() {
       this.$http
         .post(
-<<<<<<< HEAD
-          "http://101.200.54.21:9989/lite-live-streaming-platform/gift/",
-=======
           "lite-live-streaming-platform//gift/",
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
           this.addUser
         )
         .then((res) => {
@@ -229,11 +225,7 @@ export default {
       //记得更新地址********************************************************************
       this.$http
         .put(
-<<<<<<< HEAD
-          "http://101.200.54.21:9989/lite-live-streaming-platform/gift/",
-=======
           "lite-live-streaming-platform//gift/",
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
           this.user
         )
         .then((res) => {
@@ -272,11 +264,7 @@ export default {
           //没有返回值记得删除res
           this.$http
             .delete(
-<<<<<<< HEAD
-              "http://101.200.54.21:9989/lite-live-streaming-platform/gift/",
-=======
               "lite-live-streaming-platform//gift/",
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
               {
                 params: {
                   idList: this.deleUser.gifId,
@@ -323,11 +311,7 @@ export default {
     
 
       this.$http
-<<<<<<< HEAD
-        .get("http://101.200.54.21:9989/lite-live-streaming-platform/gift/", {
-=======
         .get("lite-live-streaming-platform//gift/", {
->>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
           params,
         })
         .then((res) => {
