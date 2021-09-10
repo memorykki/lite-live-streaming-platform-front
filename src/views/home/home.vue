@@ -113,6 +113,11 @@ export default {
 
     this.findRoom();
     this.findGifit();
+
+
+
+    console.log("输出路由信息——————————————————————————————————————");
+         console.log(this.$route.query.test)
   },
   computed: {},
 };
