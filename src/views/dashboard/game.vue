@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { getAction } from '@/api/api';
   export default {
     name: "game",
     components: {},
@@ -62,12 +63,12 @@
 
       find(tag) { //定义的分页查询方法
         // Vue.http.options.root = 'http://172.29.3.78:8081/lite-live-streaming-platform'
-        this.$http.get('/room/selectClassifyList', {
-          params: {
+        getAction('lite-live-streaming-platform/room/selectClassifyList', {
+          
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
             pageSize: this.pager.pageSize, //每页显示多少条记录
             classify: this.classify,
-          }
+          
         }).then(res => {
           //在此将数据赋值给数据表格数组
           console.log(res);

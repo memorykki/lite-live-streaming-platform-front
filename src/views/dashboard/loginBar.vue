@@ -40,7 +40,9 @@ export default {
   methods: {
     //打开登录窗口
     changeShowLogin(isShow) {
-      this.$store.dispatch("changeShowLogin", isShow);
+      this.$router.push({
+        path: "/login"
+      });
     },
     person(userInfo){
       this.$router.push({

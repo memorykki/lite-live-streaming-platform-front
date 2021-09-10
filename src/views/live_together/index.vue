@@ -17,7 +17,7 @@ export default {
   },
   created() {
     getAction(
-      'http://101.200.54.21:9989/lite-live-streaming-platform/live_together',
+      'lite-live-streaming-platform/live_together',
       {
         pageCurrent: 0,
         pageSize: 10,

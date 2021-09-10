@@ -49,6 +49,8 @@
 </template>
 
 <script>
+
+import {getAction} from '@/api/api'
   // import {
   //   mapGetters,
   //   mapMutations,
@@ -66,10 +68,8 @@
     methods: {
       // 获取数据
       find(tag) {
-        this.$http.get("/room/selectRankingList ", {
-            params: {
-
-            },
+        getAction("lite-live-streaming-platform/room/selectRankingList", {
+          
           })
           .then((res) => {
             console.log(res);

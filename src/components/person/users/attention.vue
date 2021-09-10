@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import { deleteAction, getAction } from '@/api/api';
+import Vue from 'vue'
   export default {
     data() {
       return {
@@ -84,7 +86,8 @@
           focusedUserId:''
         },
         tableData: [],
-        tabPosition: 'left'
+        tabPosition: 'left',
+        userInfo:[],
       }
     },
     methods: {
@@ -97,7 +100,7 @@
           type: 'warning'
         }).then(() => {
 
-          this.$http.delete('/userFocus?idList=' + row.focusUserId)
+          deleteAction('lite-live-streaming-platform/userFocus?idList=' + row.focusUserId)
             .then(res => {
               this.findPage() //删除成功后调查询
               this.$message({
@@ -124,13 +127,13 @@
         this.findPage(); //回调查询方法
       },
       findPage() { //定义的分页查询方法
-        this.$http.get('/userFocus/list', {
-          params: {
+        getAction('lite-live-streaming-platform/userFocus/list', {
+          
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
             pageSize: this.pager.pageSize, //每页显示多少条记录
             focusUserId: this.focusUserId ,//条件查询的参数
             userId:6,
-          }
+          
         }).then(res => {
           //在此将数据赋值给数据表格数组
           console.log(res);
@@ -143,8 +146,9 @@
       }
     },
     mounted() { //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
-      this.findPage();
-
+    this.userInfo=Vue.ls.get("userInfo");
+    console.log(this.userInfo);
+    this.findPage();
     }
   }
 </script>

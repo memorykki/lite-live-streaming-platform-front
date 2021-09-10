@@ -41,7 +41,7 @@ module.exports = {
     port: 3000,
     proxy: {
       '/lite-live-streaming-platform': {
-        target: 'http://192.168.1.102:8081',
+        target: 'http://172.29.3.78:8081/',
         changeOrigin: true
       },
     }

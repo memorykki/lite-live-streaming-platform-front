@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     findRoom() {
-      getAction("http://101.200.54.21:9989/lite-live-streaming-platform/room/getRoomInfo",
+      getAction("lite-live-streaming-platform/room/getRoomInfo",
           {
             params: {
               //查询时暂时使用，后面要换为realroompath
@@ -65,7 +65,7 @@ export default {
     },
     findGifit() {
       getAction(
-          "http://101.200.54.21:9989/lite-live-streaming-platform/gift/"
+          "lite-live-streaming-platform/gift/"
         )
         .then((res) => {
           //  将得到的数据赋值

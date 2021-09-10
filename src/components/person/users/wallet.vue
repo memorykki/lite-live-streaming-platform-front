@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { getAction } from '@/api/api';
   export default {
     data() {
       return {
@@ -85,12 +86,12 @@
 
       findPage() { //定义的分页查询方法
         // Vue.http.options.root = 'http://172.29.3.78:8081/lite-live-streaming-platform'
-        this.$http.get('/coinHistory?userId=1', {
-          params: {
+        getAction('lite-live-streaming-platform/coinHistory?userId=1', {
+          
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
             pageSize: this.pager.pageSize, //每页显示多少条记录
             changeReason: this.changeReason //条件查询的参数
-          }
+          
         }).then(res => {
           //在此将数据赋值给数据表格数组
           //console.log(res);

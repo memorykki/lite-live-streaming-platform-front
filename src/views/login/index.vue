@@ -114,7 +114,10 @@ export default {
       //   }
       // })
       this.loading = true;
-      getAction('http://101.200.54.21:9989/lite-live-streaming-platform/user/login',{'auth': this.loginForm.userName,'passwd': this.loginForm.password}).then((res) =>{
+      getAction('lite-live-streaming-platform/user/login',{
+        'auth': this.loginForm.userName,
+        'passwd': this.loginForm.password
+        }).then((res) =>{
         console.log(res);
         // this.$store.dispatch('setUser', res.data.data.userInfo)
         const user = res.data.data.userInfo
