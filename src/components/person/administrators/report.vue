@@ -133,7 +133,7 @@ export default {
       //记得更新地址********************************************************************
       this.$http
         .put(
-          "http://101.200.54.21:9989/lite-live-streaming-platform//banRecord/",
+          "http://101.200.54.21:9989/lite-live-streaming-platform/banRecord/",
           this.user
         )
         .then((res) => {
@@ -184,7 +184,7 @@ export default {
     
 
       this.$http
-        .get("http://101.200.54.21:9989/lite-live-streaming-platform//banRecord/", {
+        .get("http://101.200.54.21:9989/lite-live-streaming-platform/banRecord/", {
           params,
         })
         .then((res) => {

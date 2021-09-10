@@ -14,38 +14,38 @@
       >
         <p class="leftNavFont">个人信息</p>
         <div>
-          <el-menu-item index="/information">
+          <el-menu-item index="information">
             <i class="el-icon-user" style="color: #000000 !important"></i>
             <span slot="title">基本信息</span>
           </el-menu-item>
         </div>
         <div>
-          <el-menu-item index="/dynamic">
+          <el-menu-item index="dynamic">
             <i class="el-icon-camera" style="color: #000000 !important"></i>
             <span slot="title">动态列表</span>
           </el-menu-item>
         </div>
         <div>
-          <el-menu-item index="/attention">
+          <el-menu-item index="attention">
             <i class="el-icon-view" style="color: #000000 !important"></i>
             <span slot="title">我的关注</span>
           </el-menu-item>
         </div>
         <div>
-          <el-menu-item index="/history">
+          <el-menu-item index="history">
             <i class="el-icon-time" style="color: #000000 !important"></i>
             <span slot="title">观看历史</span>
           </el-menu-item>
         </div>
         <div>
-          <el-menu-item index="/wallet">
+          <el-menu-item index="wallet">
             <i class="el-icon-coin" style="color: #000000 !important"></i>
             <span slot="title">活力币</span>
           </el-menu-item>
         </div>
         <!-- 当用户不是主播时显示 -->
         <div v-if="!anchor">
-          <el-menu-item index="/show">
+          <el-menu-item index="show">
             <i class="el-icon-video-camera" style="color: #000000 !important"></i>
             <span slot="title">我要开播</span>
           </el-menu-item>
@@ -66,11 +66,11 @@
       >
         <p class="leftNavFont">主播</p>
         <div>
-          <el-menu-item index="/anchorInfo">
+          <el-menu-item index="anchorInfo">
             <i class="el-icon-camera" style="color: #000000 !important"></i>
             <span slot="title">开播信息</span>
           </el-menu-item>
-          <el-menu-item index="/playback">
+          <el-menu-item index="playback">
             <i class="el-icon-video-camera" style="color: #000000 !important"></i>
             <span slot="title">回放管理</span>
           </el-menu-item>
@@ -92,27 +92,27 @@
       >
         <p class="leftNavFont">用户管理</p>
         <div>
-          <el-menu-item index="/user">
+          <el-menu-item index="user">
             <i class="el-icon-more-outline" style="color: #000000 !important"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
-          <el-menu-item index="/report">
+          <el-menu-item index="report">
             <i class="el-icon-warning-outline" style="color: #000000 !important"></i>
             <span slot="title">举报记录</span>
           </el-menu-item>
-          <el-menu-item index="/admingift">
+          <el-menu-item index="admingift">
             <i class="el-icon-shopping-bag-2" style="color: #000000 !important"></i>
             <span slot="title">礼物管理</span>
           </el-menu-item>
-          <el-menu-item index="/ban">
+          <el-menu-item index="ban">
             <i class="el-icon-circle-close" style="color: #000000 !important"></i>
             <span slot="title">封禁权限</span>
           </el-menu-item>
-          <el-menu-item index="/demand">
+          <el-menu-item index="demand">
             <i class="el-icon-video-play" style="color: #000000 !important"></i>
             <span slot="title">点播管理</span>
           </el-menu-item>
-          <el-menu-item index="/adminwatching">
+          <el-menu-item index="adminwatching">
             <template slot="title">
               <!-- 图标组件 -->
               <i class="el-icon-view"></i>

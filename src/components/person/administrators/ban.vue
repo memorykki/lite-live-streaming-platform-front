@@ -131,7 +131,7 @@ export default {
       //记得更新地址********************************************************************
       this.$http
         .put(
-          "http://101.200.54.21:9989/lite-live-streaming-platform//user/",
+          "http://101.200.54.21:9989/lite-live-streaming-platform/user/",
           this.user
         )
         .then((res) => {
@@ -182,7 +182,7 @@ export default {
     
 
       this.$http
-        .get("http://101.200.54.21:9989/lite-live-streaming-platform//user/", {
+        .get("http://101.200.54.21:9989/lite-live-streaming-platform/user/", {
           params,
         })
         .then((res) => {

@@ -24,6 +24,13 @@ import report from '@/components/person/administrators/report.vue'
 import Admingift from '@/components/person/administrators/Admingift.vue'
 import Adminwatching from '@/components/person/administrators/Adminwatching.vue'
 
+
+
+
+
+
+
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -90,6 +97,11 @@ export const constantRoutes = [
     component: () => import('@/views/home/home'),
     hidden: true
   },
+  // {
+  //   path: '/dynamic',
+  //   component: () => import('@/views/dynamic/index.vue'),
+  //   hidden: true
+  // },
 
 
 

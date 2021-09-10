@@ -1,10 +1,12 @@
 <template>
   <div>
     <el-container>
-    <el-header>
-        <img src="@/assets/images/avatar.png" class="demo" alt="" />
-        <loginBar style="position: absolute; right: 5%; top: 20%" />
-    </el-header>
+
+      <!-- bar不再需要引入，注释掉 -->
+    <!-- <el-header> -->
+        <!-- <img src="@/assets/images/avatar.png" class="demo" alt="" /> -->
+        <!-- <loginBar style="position: absolute; right: 5%; top: 20%" /> -->
+    <!-- </el-header> -->
     <el-container>
       <!-- 左边导航栏 -->
       <el-aside width="20%"><leftNav /></el-aside>
@@ -20,13 +22,13 @@
 
 <script>
   import leftNav from "@/components/person/naf";
-  import loginBar from "@/components/person/bar";
+  // import loginBar from "@/components/person/bar";
   import { mapGetters, mapMutations, mapActions } from "vuex";
   export default {
     name: "person",
     components: {
       leftNav,
-      loginBar,
+      // loginBar,
     },
     computed: {
       ...mapGetters([
@@ -38,16 +40,17 @@
       return {};
     },
     methods: {
-      person(userInfo){
-        this.$router.push({
-          path: "/person"
-        });
-      },
-      page(){
-        this.$router.push({
-          path: "/musicHome/recomVideo"
-        });
-      }
+      
+      // person(userInfo){
+      //   this.$router.push({
+      //     path: "/person"
+      //   });
+      // },
+      // page(){
+      //   this.$router.push({
+      //     path: "/musicHome/recomVideo"
+      //   });
+      // }
     },
   };
 </script>
@@ -59,12 +62,12 @@
     background: #1c2c3c;
     padding-top: 5px;
   }
-  .demo {
+  /* .demo {
     width: 150px;
     height: 150px;
     margin-top: -50px;
     margin-left: 10px;
-  }
+  } */
 
   .el-header span {
     width: 100px;

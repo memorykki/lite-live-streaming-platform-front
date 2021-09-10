@@ -24,7 +24,7 @@ export default {
   },
   created() {
     getAction(
-      '/userDynamic/list',
+      'http://101.200.54.21:9989/lite-live-streaming-platform/userDynamic/list',
       {
         pageCurrent: 0,
         pageSize: 10,
@@ -43,7 +43,7 @@ export default {
   methods: {
     cancel_like(id, index) {
       console.log(this.list[index].userDynamic.dynamicLike)
-      deleteAction('http://192.168.1.102:8081/lite-live-streaming-platform/userLikeDynamic/cancel?userId=' + 7 + '&dynamicId=' + id
+      deleteAction('http://101.200.54.21:9989/lite-live-streaming-platform/userLikeDynamic/cancel?userId=' + 7 + '&dynamicId=' + id
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike - 1
@@ -55,7 +55,7 @@ export default {
     },
     like(id, index) {
       console.log(this.list[index].userDynamic.dynamicLike)
-      putAction('http://192.168.1.102:8081/lite-live-streaming-platform/userLikeDynamic/like?userId=' + 7 + '&dynamicId=' + id
+      putAction('http://101.200.54.21:9989/lite-live-streaming-platform/userLikeDynamic/like?userId=' + 7 + '&dynamicId=' + id
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike + 1

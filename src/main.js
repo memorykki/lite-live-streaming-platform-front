@@ -23,7 +23,7 @@ const options = {
 };
 Vue.use(Storage,options);
 Vue.prototype.$store=store
-Vue.prototype.http = axios
+Vue.prototype.$http = axios
 
 /**
  * If you don't want to use mock-server
