@@ -12,6 +12,7 @@
       <el-menu-item index="dancing">跳舞</el-menu-item>
       <el-menu-item index="movie">放映</el-menu-item>
       <el-menu-item index="wholelife">整活</el-menu-item>
+      
     </el-menu>
   </div>
 </template>

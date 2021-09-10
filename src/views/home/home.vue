@@ -62,14 +62,14 @@ export default {
   },
   methods: {
     findRoom() {
-      getAction("lite-live-streaming-platform/room/getRoomInfo",
+      getAction('http://172.29.3.78:8081/lite-live-streaming-platform/room/getRoomInfo',
           {
-            params: {
+            
               //查询时暂时使用，后面要换为realroompath
               roomId: this.roomId,
-              userId: this.userId,
-              anchorId: this.anchorId,
-            },
+              userId: this.inuserId,
+              anchorId: this.inanchorId,
+            
           }).then((res) => {
           //  将得到的数据赋值
           this.roomdata = res.data.data.room;
