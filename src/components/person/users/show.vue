@@ -1,6 +1,8 @@
 <template>
   <el-card class="box-card">
-          <el-form ref="form" :model="form" label-width="100px">
+    <el-tabs :tab-position="tabPosition" style="height: 200px;">
+      <el-tab-pane label="我要开播">
+<el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="您的电话">
               <el-input v-model="form.tel"></el-input>
             </el-form-item>
@@ -29,6 +31,9 @@
               <el-button type="primary" @click="onSubmit">立即申请</el-button>
             </el-form-item>
           </el-form>
+      </el-tab-pane>
+    </el-tabs>
+          
       </el-card>
 </template>
 

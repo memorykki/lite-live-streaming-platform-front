@@ -153,7 +153,7 @@ export default {
       // 向后台API验证码发送
       self.codeLoading = true
       self.statusMsg = '验证码发送中...'
-      getAction('http://101.200.54.21:9989/lite-live-streaming-platform//user/sendVerifiableCode?distAddress=' + self.ruleForm.email).then(res => {
+      getAction('lite-live-streaming-platform//user/sendVerifiableCode?distAddress=' + self.ruleForm.email).then(res => {
         // getEmailCode(self.ruleForm.email).then(res => {
         this.$message({
           showClose: true,
@@ -193,7 +193,7 @@ export default {
             password: encrypt(this.ruleForm.pwd)
           }
           // register(user).then(res => {
-          getAction('http://101.200.54.21:9989/lite-live-streaming-platform/user/register?code=' + this.ruleForm.code,
+          getAction('lite-live-streaming-platform/user/register?code=' + this.ruleForm.code,
             {
               userName: this.ruleForm.uname,
               passwd: this.ruleForm.pwd

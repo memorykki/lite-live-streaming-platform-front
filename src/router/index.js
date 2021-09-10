@@ -24,12 +24,22 @@ import report from '@/components/person/administrators/report.vue'
 import Admingift from '@/components/person/administrators/Admingift.vue'
 import Adminwatching from '@/components/person/administrators/Adminwatching.vue'
 
+<<<<<<< HEAD
 
 
 
 
 
 
+=======
+import dashboard from '../views/dashboard/index.vue'
+import ranking from '../views/dashboard/ranking.vue'
+import dancing from '../views/dashboard/dancing.vue'
+import game from '../views/dashboard/game.vue'
+import singing from '../views/dashboard/singing.vue'
+import movie from '../views/dashboard/movie.vue'
+import wholelife from '../views/dashboard/wholelife.vue'
+>>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -103,7 +113,43 @@ export const constantRoutes = [
   //   hidden: true
   // },
 
-
+  {
+    path:'/dashboard',
+    name:'dashboard',
+    component:dashboard,
+    children:[
+      {
+        path:'/ranking',
+        name:'ranking',
+        component:ranking
+      },
+      {
+        path:'/dancing',
+        name:'dancing',
+        component:dancing
+      },
+      {
+        path:'/singing',
+        name:'singing',
+        component:singing
+      },
+      {
+        path:'/game',
+        name:'game',
+        component:game
+      },
+      {
+        path:'/movie',
+        name:'movie',
+        component:movie
+      },
+      {
+        path:'/wholelife',
+        name:'wholelife',
+        component:wholelife
+      },
+    ]
+  },
 
 
   //*************************************************************** */
@@ -113,7 +159,7 @@ export const constantRoutes = [
     hidden: true,
     children:[
       {
-        path: 'person',
+        path: '/person',
         name: 'person',
         component:person,
         children:[
@@ -128,42 +174,42 @@ export const constantRoutes = [
             component:playback
           },
         {
-          path:'information',
+          path:'/information',
           name:'information',
           component:information
         },
         {
-          path:'attention',
+          path:'/attention',
           name:'attention',
           component:attention
         },
         {
-          path:'wallet',
+          path:'/wallet',
           name:'wallet',
           component:wallet
         },
         {
-          path:'history',
+          path:'/history',
           name:'history',
           component:history
         },
         {
-          path:'gift',
+          path:'/gift',
           name:'gift',
           component:gift
         },
         {
-          path:'dynamic',
+          path:'/dynamic',
           name:'dynamic',
           component:dynamic
         },
         {
-          path:'show',
+          path:'/show',
           name:'show',
           component:show
         },
         {
-          path:'report',
+          path:'/report',
           name:'report',
           component:report
         },

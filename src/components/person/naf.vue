@@ -40,7 +40,13 @@
         <div>
           <el-menu-item index="wallet">
             <i class="el-icon-coin" style="color: #000000 !important"></i>
-            <span slot="title">活力币</span>
+            <span slot="title">活力币历史记录</span>
+          </el-menu-item>
+        </div>
+        <div>
+          <el-menu-item index="/gift">
+            <i class="el-icon-coin" style="color: #000000 !important"></i>
+            <span slot="title">礼物历史记录</span>
           </el-menu-item>
         </div>
         <!-- 当用户不是主播时显示 -->

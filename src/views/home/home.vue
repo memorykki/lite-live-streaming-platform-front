@@ -62,6 +62,7 @@ export default {
   },
   methods: {
     findRoom() {
+<<<<<<< HEAD
       getAction(
         "http://101.200.54.21:9989/lite-live-streaming-platform/room/getRoomInfo",
         {
@@ -88,6 +89,35 @@ export default {
         console.log(giftlength);
         console.log(res);
       });
+=======
+      getAction("lite-live-streaming-platform/room/getRoomInfo",
+          {
+            params: {
+              //查询时暂时使用，后面要换为realroompath
+              roomId: this.roomId,
+              userId: this.userId,
+              anchorId: this.anchorId,
+            },
+          }).then((res) => {
+          //  将得到的数据赋值
+          this.roomdata = res.data.data.room;
+          console.log("直播间信息");
+          console.log(res);
+        });
+    },
+    findGifit() {
+      getAction(
+          "lite-live-streaming-platform/gift/"
+        )
+        .then((res) => {
+          //  将得到的数据赋值
+          this.roomgift = res.data.data.records;
+          let giftlength=this.roomgift.length
+           console.log("直播间礼物");
+           console.log(giftlength)
+          console.log(res);
+        });
+>>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
     },
   },
   mounted() {

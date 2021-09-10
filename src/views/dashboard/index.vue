@@ -1,62 +1,86 @@
 <template>
-  <div class="dashboard-container">
-    <ul :key="item.id" v-for="item in list">
-      <li><a :href="'/home?roomId='+item.roomId">{{item.roomTitle}}</a></li>
-    </ul>
-    
-    <!-- <div class="dashboard-text">roles: <span v-for="role in roles" :key="role">从上面拿</span></div> -->
+  <div>
+    <el-container>
+      <el-header>
+        <img src="../../assets/images/logo.jpg" class="demo" alt="" />
+        <loginBar style="position: absolute; right: 5%; top: 20%" />
+      </el-header>
+      <el-main>
+        <el-container>
+          <el-header id="head1">
+            <headTab/>
+          </el-header>
+          <el-main>
+            <router-view></router-view>
+          </el-main>
+        </el-container>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-import { getAction } from "@/api/api";
-import { mapGetters, mapState } from "vuex";
+  import loginBar from "@/views/dashboard/loginBar";
+  import headTab from "@/views/dashboard/headTab";
+  import ranking from "@/views/dashboard/ranking";
+  export default {
+    name: "person",
+    components: {
+      loginBar,
+      headTab,
+      ranking
+    },
 
-export default {
-  name: "Dashboard",
-  components:{},
-  data() {
-    return {
-      user: {},
-      indexData: {},
-      list:[]
-    };
-  },
-  mounted() {
-    console.log(this.userMessage)
-    this.user = this.$route.query.data;
-    getAction(
-      "http://101.200.54.21:9989/lite-live-streaming-platform/room/selectClassifyList",
-      { classify: 1 }
-    ).then(res1 => {
-      console.log(res1);
-    });
-    getAction(
-      "http://101.200.54.21:9989/lite-live-streaming-platform/room/selectRankingList"
-    ).then(res => {
-      console.log(res);
-      this.list = res.data.data
-    });
-  },
-  computed: {
-    ...mapState(["userMessage"]),
-  },
-  methods: {
-    onClick() {
-      this.$router.push('/dashboard')
-    }
-  }
-};
+    data() {
+      return {};
+    },
+    methods: {
+      person(userInfo) {
+        this.$router.push({
+          path: "/person"
+        });
+      },
+      
+    },
+  };
 </script>
 
-<style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
+<style>
+  #head1 {
+    display: flex;
+    position: relative;
+    background: #ffffff;
+    padding-top: 5px;
   }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
+
+  .demo {
+    width: 150px;
+    height: 150px;
+    margin-top: -50px;
+    margin-left: 10px;
   }
-}
+
+  .el-header span {
+    width: 100px;
+    margin-left: 10px;
+    margin-top: 15px;
+    font-weight: 500;
+    font-size: 20px;
+    color: #ffffff;
+  }
+  .el-header {
+          position: relative;
+          width: 100%;
+          height: 60px;
+          background: #1c2c3c;
+      }
+  .el-main {
+    position: absolute;
+    left: 10px;
+    right: 0;
+    top: 60px;
+    bottom: 0;
+    overflow-y: scroll;
+    }
+</style>
 </style>

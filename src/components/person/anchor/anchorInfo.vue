@@ -62,7 +62,11 @@ export default {
    // 获取分页查询
     findLiveMsg() {
       this.$http
+<<<<<<< HEAD
         .get("http://101.200.54.21:9989/lite-live-streaming-platform/user/", {
+=======
+        .get("lite-live-streaming-platform//user/", {
+>>>>>>> d4ccff7dd0df5be7b858693936f0c6bd7adba82a
           params: {
             
             //后端查询需要传递的参数，****************************************************记得更改
