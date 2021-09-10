@@ -180,7 +180,7 @@ export default {
     add() {
       this.$http
         .post(
-          "http://172.29.3.78:8081/lite-live-streaming-platform/liveTogether/",
+          "http://101.200.54.21:9989/lite-live-streaming-platform//liveTogether/",
           this.addUser
         )
         .then((res) => {
@@ -210,7 +210,7 @@ export default {
       //记得更新地址********************************************************************
       this.$http
         .put(
-          "http://172.29.3.78:8081/lite-live-streaming-platform/liveTogether/",
+          "http://101.200.54.21:9989/lite-live-streaming-platform//liveTogether/",
           this.user
         )
         .then((res) => {
@@ -247,7 +247,7 @@ export default {
           //没有返回值记得删除res
           this.$http
             .delete(
-              "http://172.29.3.78:8081/lite-live-streaming-platform/liveTogether/",
+              "http://101.200.54.21:9989/lite-live-streaming-platform//liveTogether/",
               {
                 params: {
                   idList: this.deleUser.livetorgetherId,
@@ -292,7 +292,7 @@ export default {
       }
 
       this.$http
-        .get("http://172.29.3.78:8081/lite-live-streaming-platform/liveTogether/", {
+        .get("http://101.200.54.21:9989/lite-live-streaming-platform//liveTogether/", {
           params,
         })
         .then((res) => {
