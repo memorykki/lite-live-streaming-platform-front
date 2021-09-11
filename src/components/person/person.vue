@@ -3,10 +3,9 @@
     <el-container>
 
       <!-- bar不再需要引入，注释掉 -->
-    <!-- <el-header> -->
-        <!-- <img src="@/assets/images/avatar.png" class="demo" alt="" /> -->
-        <!-- <loginBar style="position: absolute; right: 5%; top: 20%" /> -->
-    <!-- </el-header> -->
+   <div id="asdd">
+        <navbar></navbar>
+   </div>
     <el-container>
       <!-- 左边导航栏 -->
       <el-aside width="20%"><leftNav /></el-aside>
@@ -24,10 +23,14 @@
   import leftNav from "@/components/person/naf";
   // import loginBar from "@/components/person/bar";
   import { mapGetters, mapMutations, mapActions } from "vuex";
+  import Navbar from '@/layout/components/Navbar';
+
   export default {
     name: "person",
     components: {
       leftNav,
+      Navbar
+       
       // loginBar,
     },
     computed: {
@@ -76,6 +79,9 @@
     font-weight: 500;
     font-size: 20px;
     color: #ffffff;
+  }
+  #asdd{
+    margin: 5px;
   }
   </style>
 </style>

@@ -84,8 +84,7 @@ export default {
         });
     },
     findGifit() {
-      getAction(
-          "/lite-live-streaming-platform/gift/"
+      getAction( '/lite-live-streaming-platform/gift/'
         )
         .then((res) => {
           //  将得到的数据赋值

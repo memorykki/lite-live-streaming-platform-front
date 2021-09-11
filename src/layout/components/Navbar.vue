@@ -2,9 +2,14 @@
   <div class="navbar">
     <!-- 首页头部导航栏 -->
 
-    <el-menu mode="horizontal" router background-color="#545c64"
+    <el-menu
+      mode="horizontal"
+      router
+      background-color="#545c64"
       text-color="#fff"
-      active-text-color="#ffd04b">
+      active-text-color="#ffd04b"
+    >
+      <el-menu-item index="/dashboard">直播</el-menu-item>
       <el-menu-item index="/vod">点播</el-menu-item>
 
       <el-menu-item index="/liveTogether">一起看</el-menu-item>
@@ -24,9 +29,11 @@
             <i class="el-icon-caret-bottom" />
           </div>
           <el-dropdown-menu slot="dropdown">
-            <router-link to="/person">
+            <!-- <router-link to="/person"> -->
+            <span @click="judge">
               <el-dropdown-item> 个人中心 </el-dropdown-item>
-            </router-link>
+            </span>
+            <!-- </router-link> -->
             <span style="display: block" @click="exit">
               <el-dropdown-item divided> 退出登录 </el-dropdown-item>
             </span>
@@ -42,6 +49,9 @@ import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 import Avatar from "@/assets/images/avatar.png";
+import Vue from "vue";
+import router from "@/router";
+import { getAction } from "@/api/api";
 
 export default {
   components: {
@@ -57,6 +67,13 @@ export default {
     ...mapGetters(["sidebar", "user", "baseApi"]),
   },
   methods: {
+    judge() {
+      if (Vue.ls.get("userInfo")) {
+        this.$router.push("/person");
+      } else {
+        this.$router.push("/login");
+      }
+    },
     toggleSideBar() {
       this.$store.dispatch("app/toggleSideBar");
     },
@@ -66,12 +83,15 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        this.logout();
+        getAction("/lite-live-streaming-platform/user/logout").then((res) => {
+          //  将得到的数据赋值
+           this.$message({
+                type: "success",
+                message: res.data.msg,
+              });
+          console.log(res.data.msg);
+        });
       });
-    },
-    async logout() {
-      await this.$store.dispatch("logout");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
     },
   },
 };
