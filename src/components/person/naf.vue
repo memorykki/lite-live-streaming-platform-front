@@ -14,7 +14,7 @@
       >
         <p class="leftNavFont">个人信息</p>
         <div>
-          <el-menu-item index="/information">
+          <el-menu-item index="information">
             <i class="el-icon-user" style="color: #000000 !important"></i>
             <span slot="title">基本信息</span>
           </el-menu-item>
@@ -44,7 +44,7 @@
           </el-menu-item>
         </div>
         <div>
-          <el-menu-item index="/gift">
+          <el-menu-item index="gift">
             <i class="el-icon-coin" style="color: #000000 !important"></i>
             <span slot="title">礼物历史记录</span>
           </el-menu-item>

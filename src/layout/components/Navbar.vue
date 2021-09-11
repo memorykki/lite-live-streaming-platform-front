@@ -1,81 +1,80 @@
 <template>
   <div class="navbar">
-    
-    
-   
+    <!-- 首页头部导航栏 -->
 
-    <div class="right-menu">
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <img
-            :src="
-              user.avatarUrl
-                ? baseApi + '/file/' + user.avatarUrl
-                : Avatar
-            "
-            class="user-avatar"
-          >
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <router-link to="user/person/">
-            <el-dropdown-item>
-              个人中心
-            </el-dropdown-item>
-          </router-link>
-          <span style="display:block;" @click="exit">
-            <el-dropdown-item divided>
-              退出登录
-            </el-dropdown-item>
-          </span>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
+    <el-menu mode="horizontal" router background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b">
+      <el-menu-item index="/vod">点播</el-menu-item>
+
+      <el-menu-item index="/liveTogether">一起看</el-menu-item>
+
+      <div class="right-menu">
+        <el-dropdown
+          class="avatar-container right-menu-item hover-effect"
+          trigger="click"
+        >
+          <div class="avatar-wrapper">
+            <img
+              :src="
+                user.avatarUrl ? baseApi + '/file/' + user.avatarUrl : Avatar
+              "
+              class="user-avatar"
+            />
+            <i class="el-icon-caret-bottom" />
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <router-link to="/person">
+              <el-dropdown-item> 个人中心 </el-dropdown-item>
+            </router-link>
+            <span style="display: block" @click="exit">
+              <el-dropdown-item divided> 退出登录 </el-dropdown-item>
+            </span>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+    </el-menu>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-import Avatar from '@/assets/images/avatar.png'
+import { mapGetters } from "vuex";
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
+import Avatar from "@/assets/images/avatar.png";
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
   },
   data() {
     return {
-      Avatar: Avatar
-    }
+      Avatar: Avatar,
+    };
   },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      'user',
-      'baseApi'
-    ])
+    ...mapGetters(["sidebar", "user", "baseApi"]),
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+      this.$store.dispatch("app/toggleSideBar");
     },
     exit() {
-      this.$confirm('确定注销并退出系统吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("确定注销并退出系统吗？", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       }).then(() => {
-        this.logout()
-      })
+        this.logout();
+      });
     },
     async logout() {
-      await this.$store.dispatch('logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    }
-  }
-}
+      await this.$store.dispatch("logout");
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -83,18 +82,18 @@ export default {
   height: 50px;
 
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
     line-height: 46px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -121,12 +120,15 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
+    }
+    .leftmenu {
+      float: left;
     }
 
     .avatar-container {

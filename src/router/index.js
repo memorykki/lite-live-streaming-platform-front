@@ -100,6 +100,25 @@ export const constantRoutes = [
     component: () => import('@/views/home/home'),
     hidden: true
   },
+  {
+    path: '/vod',
+    name:"vod",
+    component: () => import('@/views/vod/index'),
+    hidden: true
+  },
+  {
+    path: '/liveTogether',
+    name:"liveTogether",
+    component: () => import('@/views/live_together/index'),
+    hidden: true
+  },
+
+  {
+    path: '/postimage',
+    name:"liveTogether",
+    component: () => import('@/views/postimage/postimage'),
+    hidden: true
+  },
   // {
   //   path: '/dynamic',
   //   component: () => import('@/views/dynamic/index.vue'),
@@ -147,25 +166,114 @@ export const constantRoutes = [
   },
 
 
-  //*************************************************************** */
-  {
-    path: '/user',
-    component: Layout,
-    hidden: true,
-    children:[
-      {
-        path: 'person',
+  // //*************************************************************** */
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   hidden: true,
+  //   children:[
+  //     {
+  //       path: 'person',
+  //       name: 'person',
+  //       component:person,
+  //       children:[
+  //       {
+  //         path:'anchorInfo',
+  //         name:'anchorInfo',
+  //         component:anchorInfo
+  //       },
+  //         {
+  //           path:'playback',
+  //           name:'playback',
+  //           component:playback
+  //         },
+  //       {
+  //         path:'information',
+  //         name:'information',
+  //         component:information
+  //       },
+  //       {
+  //         path:'attention',
+  //         name:'attention',
+  //         component:attention
+  //       },
+  //       {
+  //         path:'wallet',
+  //         name:'wallet',
+  //         component:wallet
+  //       },
+  //       {
+  //         path:'history',
+  //         name:'history',
+  //         component:history
+  //       },
+  //       {
+  //         path:'gift',
+  //         name:'gift',
+  //         component:gift
+  //       },
+  //       {
+  //         path:'dynamic',
+  //         name:'dynamic',
+  //         component:dynamic
+  //       },
+  //       {
+  //         path:'show',
+  //         name:'show',
+  //         component:show
+  //       },
+  //       {
+  //         path:'report',
+  //         name:'report',
+  //         component:report
+  //       },
+  //       {
+  //         path:'demand',
+  //         name:'demand',
+  //         component:demand
+  //       },
+  //       {
+  //         path:'ban',
+  //         name:'ban',
+  //         component:ban
+  //       },
+  //       {
+  //         path:'user',
+  //         name:'user',
+  //         component:user
+  //       },
+  //       {
+  //         path:'admingift',
+  //         name:'admingift',
+  //         component:Admingift
+  //       },
+  //       {
+  //         path:'adminwatching',
+  //         name:'adminwatching',
+  //         component:Adminwatching
+  //       }
+  //       ]
+  //     },
+  //   ]
+  // },
+  
+
+  //绝对路径，，，，，，，，，，，，，记得改
+   //*************************************************************** */
+   {
+    
+        path: '/person',
         name: 'person',
         redirect: '/information',
         component:person,
         children:[
         {
-          path:'anchorInfo',
+          path:'/anchorInfo',
           name:'anchorInfo',
           component:anchorInfo
         },
           {
-            path:'playback',
+            path:'/playback',
             name:'playback',
             component:playback
           },
@@ -210,27 +318,27 @@ export const constantRoutes = [
           component:report
         },
         {
-          path:'demand',
+          path:'/demand',
           name:'demand',
           component:demand
         },
         {
-          path:'ban',
+          path:'/ban',
           name:'ban',
           component:ban
         },
         {
-          path:'user',
+          path:'/user',
           name:'user',
           component:user
         },
         {
-          path:'admingift',
+          path:'/admingift',
           name:'admingift',
           component:Admingift
         },
         {
-          path:'adminwatching',
+          path:'/adminwatching',
           name:'adminwatching',
           component:Adminwatching
         },
@@ -241,9 +349,7 @@ export const constantRoutes = [
         }
         ]
       },
-    ]
-  },
-  
+ 
 
 ]
 
