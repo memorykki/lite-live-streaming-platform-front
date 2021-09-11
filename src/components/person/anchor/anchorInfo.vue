@@ -48,9 +48,11 @@
         </el-form-item>
       </el-form>
     </div>
+    <div id="duiqi">
     <!-- 上传图片子组件，获取子组件数据 -->
    <postimage ref="postimage"></postimage>
-   <button @click="getchilddata" >获取子组件的数据</button>
+   <button type="info" @click="getchilddata" >获取封面路径</button>
+   </div>
   </el-card>
 </template>
 
@@ -115,4 +117,7 @@ export default {
 </script>
 
 <style>
+#duiqi{
+  text-align: center;
+}
 </style>
