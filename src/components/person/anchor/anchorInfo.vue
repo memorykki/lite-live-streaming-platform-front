@@ -26,7 +26,8 @@
         <el-form-item label="封面">
           <el-input
             v-model="Room.roomPhoto"
-            placeholder="请输入直播间封面"
+            placeholder="直播间封面"
+            :disabled="true"
             clearable
           ></el-input>
         </el-form-item>
@@ -47,13 +48,20 @@
         </el-form-item>
       </el-form>
     </div>
+    <!-- 上传图片子组件，获取子组件数据 -->
+   <postimage ref="postimage"></postimage>
+   <button @click="getchilddata" >获取子组件的数据</button>
   </el-card>
 </template>
 
 <script>
 import Vue from "vue";
 import { getAction, putAction } from "@/api/api";
+import postimage from "@/views/postimage/postimage"
 export default {
+  components: {
+    postimage
+  },
   data() {
     return {
       Room: {
@@ -71,6 +79,11 @@ export default {
     };
   },
   methods: {
+    getchilddata(){
+     this.Room.roomPhoto=this.$refs.postimage.imageurl
+     console.log(this.$refs.postimage.imageurl)
+     console.log(this.roomPhoto)
+    },
     putroommsg() {
       putAction("lite-live-streaming-platform/room/", this.Room).
       then((res) => {
