@@ -19,13 +19,13 @@
           <el-table :data="tableData" stripe style="width: 80%">
             <el-table-column label="序号" type="index" width="80">
             </el-table-column>
-            <el-table-column prop="userInfo.user.userHeadPhoto" label="头像" width="80">
+            <el-table-column prop="userHeadPhoto" label="头像" width="80">
               <template slot-scope="scope">
-                <img :src="scope.row.userInfo.user.userHeadPhoto" alt="" style="width: 40px;height: 40px">
+                <img :src="scope.row.userHeadPhoto" alt="" style="width: 40px;height: 40px">
               </template>
             </el-table-column>
-            <el-table-column prop="userInfo.user.userName" label="用户名"></el-table-column>
-            <el-table-column prop="userInfo.user.roomId" label="房间号"></el-table-column>
+            <el-table-column prop="userName" label="用户名"></el-table-column>
+            <el-table-column prop="roomId" label="房间号"></el-table-column>
             <el-table-column label="操作" width="130">
               <template slot-scope="scope">
                 <el-tooltip content="取消关注" placement="bottom">
@@ -49,7 +49,7 @@
 
 <script>
 import { deleteAction, getAction } from "@/api/api";
-import Vue from "vue";
+import Vue from 'vue';
 export default {
   data() {
     return {
@@ -117,7 +117,7 @@ export default {
         pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
         pageSize: this.pager.pageSize, //每页显示多少条记录
         focusUserId: this.focusUserId, //条件查询的参数
-        userId: 6,
+        userId: this.userInfo.userId,
       })
         .then((res) => {
           //在此将数据赋值给数据表格数组
@@ -133,7 +133,7 @@ export default {
   },
   mounted() {
     //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
-    this.userInfo = Vue.ls.get("userInfo");
+    this.userInfo = Vue.ls.get("userInfo").user;
     console.log(this.userInfo);
     this.findPage();
   },

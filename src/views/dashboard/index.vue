@@ -1,7 +1,17 @@
 <template>
   <div class="dashboard-container">
-    <head-tab/>
-    <router-view/>
+    <el-container>
+
+      <!-- bar不再需要引入，注释掉 -->
+    <el-header>
+        <head-tab/>
+    </el-header>
+      <!-- 左边导航栏 -->
+      <el-main>
+        <router-view/>
+      </el-main>
+  </el-container>    
+    
     
     <!-- <div class="dashboard-text">roles: <span v-for="role in roles" :key="role">从上面拿</span></div> -->
   </div>
@@ -50,6 +60,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-header{
+  background: #fff;
+}
 .dashboard {
   &-container {
     margin: 30px;

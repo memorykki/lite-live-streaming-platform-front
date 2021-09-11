@@ -53,14 +53,15 @@
                       请选择图片：
                       <el-upload
                         class="upload-demo"
-                        action="上传的后端接口"
+                        :action="imgAction"
+                        :before-upload="changeAction"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
                         :file-list="fileList"
                         list-type="picture"
                         limit="1"
                       >
-                        <el-button size="small" type="primary"
+                        <el-button size="small" type="primary" @click="changeAction()"
                           >点击上传</el-button
                         >
                         <div slot="tip" class="el-upload__tip">
@@ -76,38 +77,21 @@
                     <div>
                       请选择视频：
                       <el-upload
-                        class="avatar-uploader"
-                        action="上传地址"
-                        v-bind:data="{
-                          FoldPath: '上传目录',
-                          SecretKey: '安全验证',
-                        }"
-                        v-bind:on-progress="uploadVideoProcess"
-                        v-bind:on-success="handleVideoSuccess"
-                        v-bind:before-upload="beforeUploadVideo"
-                        v-bind:show-file-list="false"
+                        class="upload-demo"
+                        :action="imgAction"
+                        :before-upload="changeAction"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :file-list="fileList"
+                        list-type="video"
                         limit="1"
                       >
-                        <video
-                          v-if="videoForm.showVideoPath != '' && !videoFlag"
-                          v-bind:src="videoForm.showVideoPath"
-                          class="avatar video-avatar"
-                          controls="controls"
+                        <el-button size="small" type="primary"
+                          >点击上传</el-button
                         >
-                          您的浏览器不支持视频播放
-                        </video>
-                        <i
-                          v-else-if="
-                            videoForm.showVideoPath == '' && !videoFlag
-                          "
-                          class="el-icon-plus avatar-uploader-icon"
-                        ></i>
-                        <el-progress
-                          v-if="videoFlag == true"
-                          type="circle"
-                          v-bind:percentage="videoUploadPercent"
-                          style="margin-top: 7px"
-                        ></el-progress>
+                        <div slot="tip" class="el-upload__tip">
+                          只能选择一个视频，只能上传jpg/png文件，且不超过500kb
+                        </div>
                       </el-upload>
                     </div>
                   </el-form-item>
@@ -174,7 +158,7 @@
                   <el-tooltip content="点击删除" placement="bottom">
                     <el-button
                       size="small"
-                      @click="remove(scope.row)"
+                      @click="remove(item)"
                       type="danger"
                       circle
                       icon="el-icon-delete"
@@ -206,9 +190,11 @@
 
 <script>
 import { deleteAction, postAction, getAction } from "@/api/api";
+import Vue from 'vue';
 export default {
   data() {
     return {
+      imgAction:"",
       // 分页
       videoFlag: false,
       //是否显示进度条
@@ -239,10 +225,15 @@ export default {
       },
       // 表格
       tableData: [],
-      userId: "6",
+      userInfo:[]
     };
   },
   methods: {
+    //修改图片视频上传Action
+    changeAction(){
+      this.imgAction = "lite-live-streaming-platform/userDynamic/publish?type=" + this.dynamic.dynamicType + "&userId=" + Vue.ls.get("userInfo").user.userId
+      // console.log(this.imgAction)
+    },
     // 上传图片
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -251,14 +242,14 @@ export default {
       console.log(file);
     },
     add(dynamic) {
+      var URL = "lite-live-streaming-platform/userDynamic/publish?userId=" + this.dynamic.userId + "&type=" + this.dynamic.dynamicType
+      if(this.dynamic.dynamicType == 1){
+        URL += "&message=" + this.dynamic.dynamicContent;
+      }
       //更新数据到数据库，在方法中编写ajax请求即可
       this.$refs.dynamic.validate((valid) => {
         if (valid) {
-          postAction(
-            "lite-live-streaming-platform/userDynamic/publish",
-            this.dynamic
-          )
-            .then((res) => {
+          postAction(URL).then((res) => {
               this.$message({
                 //提示添加成功消息
                 message: res.data.message,
@@ -273,19 +264,10 @@ export default {
         }
       });
     },
-    stateFormat(row) {
-      if (row.dynamicType === 1) {
-        return row.dynamicContent;
-      } else if (row.dynamicType === 2) {
-        return row.dynamicContent;
-      } else if (row.dynamicType === 3) {
-        return row.dynamicContent;
-      }
-    },
     // 删除
     remove(row) {
       //类型数据删除的
-      console.info(row);
+      console.log(row);
       this.$confirm("此操作将永久删除该数据, 是否继续?", "消息", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -294,12 +276,11 @@ export default {
         .then(() => {
           deleteAction(
             "lite-live-streaming-platform/userDynamic?idList=" + row.dynamicId
-          )
-            .then((res) => {
+          ).then((res) => {
               this.findPage(); //删除成功后调查询
               this.$message({
                 type: "success",
-                message: res.data.message,
+                message: res.data.msg,
               });
             })
             .catch((res) => {
@@ -331,7 +312,7 @@ export default {
         pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
         pageSize: this.pager.pageSize, //每页显示多少条记录
         dynamicContent: this.dynamicContent, //条件查询的参数
-        anchorId: this.userId,
+        anchorId: this.userInfo.userId,
       })
         .then((res) => {
           //在此将数据赋值给数据表格数组
@@ -347,8 +328,12 @@ export default {
   },
   mounted() {
     //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
+    this.userInfo = Vue.ls.get("userInfo").user;
+    console.log(this.userInfo);
+    this.dynamic.userId=Vue.ls.get("userInfo").user.userId;
     this.findPage();
   },
+
 };
 </script>
 

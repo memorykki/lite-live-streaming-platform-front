@@ -13,7 +13,7 @@
             </el-col>
             <el-col :span="8">
               <div class="grid-content bg-purple">
-                <el-avatar :src="user.userHeadPhoto" class="userHead" style="vertical-align: middle"></el-avatar>
+                <el-avatar :src="userInfo.userHeadPhoto" class="userHead" style="vertical-align: middle"></el-avatar>
               </div>
             </el-col>
             <!-- 修改头像 -->
@@ -39,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <div class="grid-content bg-purple">
-                <p>{{user.userName}}</p>
+                <p>{{userInfo.userName}}</p>
               </div>
             </el-col>
             <el-col :span="6">
@@ -56,7 +56,7 @@
               </div>
             </el-col>
             <el-col :span="8">
-              <p>{{user.userEmail}}</p>
+              <p>{{userInfo.userEmail}}</p>
             </el-col>
 
           </el-row>
@@ -69,7 +69,7 @@
             </el-col>
             <el-col :span="8">
               <div class="grid-content bg-purple">
-                <p>{{user.userPhone}}</p>
+                <p>{{userInfo.userPhone}}</p>
               </div>
             </el-col>
           </el-row>
@@ -82,7 +82,7 @@
             </el-col>
             <el-col :span="8">
               <div class="grid-content bg-purple">
-                <p>{{user.userPasswd}}</p>
+                <p>{{userInfo.userPasswd}}</p>
               </div>
             </el-col>
             <el-col :span="6">
@@ -100,7 +100,7 @@
             </el-col>
             <el-col :span="8">
               <div class="grid-content bg-purple">
-                <p>{{user.userFansCount}}</p>
+                <p>{{userInfo.userFansCount}}</p>
               </div>
               </el-col>
               </el-row>
@@ -120,11 +120,11 @@
                   <el-col :span="4">
                     <el-image
                           style="width: 53px; height: 54px"
-                          :src="user.roleId"
+                          :src="role.identifity"
                           ></el-image>
                   </el-col>
                   <el-col :span="6">
-                    <p>{{user.roleId}}</p>
+                    <p>{{role.roleName}}</p>
                   </el-col>
                 </el-row>
               </div>
@@ -137,6 +137,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
   export default {
     name: "info",
     components: {
@@ -157,7 +158,8 @@
           userExistCoins:'',
 
         },
-
+        userInfo:[],
+        role:[],
       };
     },
     methods: {
@@ -221,7 +223,7 @@
           this.$message({
             type: 'success',
             message: '修改成功',
-            //user.user_passwd=value
+            //userInfo.user_passwd=value
           });
         }).catch(() => {
           this.$message({
@@ -232,7 +234,8 @@
       }
     },
     mounted() { //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
-    this.userInfo=Vue.ls.get("userInfo");
+    this.userInfo=Vue.ls.get("userInfo").user;
+    this.role=Vue.ls.get("userInfo").role;
     console.log(this.userInfo);
     }
   }

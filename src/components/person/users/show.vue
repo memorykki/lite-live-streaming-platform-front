@@ -1,36 +1,33 @@
 <template>
   <el-card class="box-card">
-    <el-tabs :tab-position="tabPosition" style="height: 200px;">
-      <el-tab-pane label="我要开播">
-<el-form ref="form" :model="form" label-width="100px">
-            <el-form-item label="您的电话">
-              <el-input v-model="form.tel"></el-input>
+    <el-tabs :tab-position="tabPosition" style="height: 100%;">
+      <el-tab-pane label="申请成为主播">
+        <!-- <el-button
+                type="primary"
+                plain
+                icon="el-icon-plus"
+                size="small"
+                @click="dialogVisible = true"
+                v-if="!anchor"
+                >申请成为主播
+              </el-button> -->
+        <!-- <el-dialog title="申请成为主播"
+                :visible.sync="dialogVisible"
+                width="30%"> -->
+                <el-form ref="room" :model="room" label-width="100px">
+            <el-form-item label="身份证明">
+              <el-input v-model="room.applyEvidence"></el-input>
             </el-form-item>
-            <el-form-item label="主播类型">
-              <el-select v-model="form.class" placeholder="请选择主播类别">
-                <el-option label="类型一" value="shanghai"></el-option>
-                <el-option label="类型二" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
-            <!-- <el-form-item label="加入公会">
-              <el-switch v-model="form.delivery"></el-switch>
-            </el-form-item> -->
-            <el-form-item label="直播主题">
-              <el-checkbox-group v-model="form.type">
-                <el-checkbox label="美食" name="type"></el-checkbox>
-                <el-checkbox label="LOL" name="type"></el-checkbox>
-                <el-checkbox label="旅游" name="type"></el-checkbox>
-                <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-              </el-checkbox-group>
-            </el-form-item>
-
-            <el-form-item label="申请说明">
-              <el-input type="textarea" v-model="form.desc"></el-input>
+            
+            <el-form-item label="申请原因">
+              <el-input type="textarea" v-model="room.applyReason"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">立即申请</el-button>
             </el-form-item>
           </el-form>
+                <!-- </el-dialog> -->
+
       </el-tab-pane>
     </el-tabs>
           
@@ -38,26 +35,57 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { postAction } from "@/api/api";
    export default {
       data() {
         return {
-          form: {
-            name: '',
-            region: '',
-            date1: '',
-            date2: '',
-            delivery: false,
-            type: [],
-            resource: '',
-            desc: ''
-          }
+          tabPosition:'left',
+          room: {
+            userId:'',
+            applyReason:'',
+            applyEvidence:'',
+
+          },
+          dialogVisible:false,
+          userInfo:'',
         }
       },
       methods: {
-        onSubmit() {
-          console.log('submit!');
-        }
-      }
+        onSubmit(form) {
+      //更新数据到数据库，在方法中编写ajax请求即可
+     
+        
+          postAction(
+            "lite-live-streaming-platform/applyAnchorRecord",{
+              applyReason:this.room.applyReason,
+              userId: Vue.ls.get("userInfo").user.userId,
+              applyEvidence:this.room.applyEvidence,
+            }
+           
+          )
+            .then((res) => {
+              this.$message({
+                //提示添加成功消息
+                message: "申请成功",
+                type: "success",
+              });
+              this.dialogVisible = !this.dialogVisible; //关闭添加对话框
+            })
+            .catch((res) => {
+              this.$message.error("网络异常，添加失败");
+            });
+             
+    },
+      },
+      mounted() {
+    //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
+    this.userInfo = Vue.ls.get("userInfo").user;
+    
+    // this.form.userId=Vue.ls.get("userInfo").user.userId;
+    // this.form.roomId=Vue.ls.get("userInfo").user.roomId;
+    console.log(Vue.ls.get("userInfo").user.userId);
+  },
     }
 </script>
 

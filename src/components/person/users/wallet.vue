@@ -25,8 +25,8 @@
                          type="index"
                          width="50">
                        </el-table-column>
-            <el-table-column prop="userId" label="用户" width="120">
-            </el-table-column>
+            <!-- <el-table-column prop="userId" label="用户" width="120">
+            </el-table-column> -->
 
             <el-table-column prop="changeNum" label="变动数额" width="80">
             </el-table-column>
@@ -51,6 +51,7 @@
 
 <script>
 import { getAction } from '@/api/api';
+import Vue from 'vue';
   export default {
     data() {
       return {
@@ -71,7 +72,8 @@ import { getAction } from '@/api/api';
           createTime: '', //变动时间
         },
         // 表格
-        tableData: []
+        tableData: [],
+        userInfo:[],
       }
     },
     methods: {
@@ -90,7 +92,8 @@ import { getAction } from '@/api/api';
           
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
             pageSize: this.pager.pageSize, //每页显示多少条记录
-            changeReason: this.changeReason //条件查询的参数
+            changeReason: this.changeReason,//条件查询的参数
+            userId:this.userInfo.userId
           
         }).then(res => {
           //在此将数据赋值给数据表格数组
@@ -105,6 +108,8 @@ import { getAction } from '@/api/api';
       }
     },
     mounted() { //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
+    this.userInfo=Vue.ls.get("userInfo").user;
+    console.log(this.userInfo);
       this.findPage();
     }
   }

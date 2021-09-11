@@ -53,7 +53,7 @@
         <div v-if="!anchor">
           <el-menu-item index="show">
             <i class="el-icon-video-camera" style="color: #000000 !important"></i>
-            <span slot="title">我要开播</span>
+            <span slot="title">申请成为主播</span>
           </el-menu-item>
         </div>
       </el-menu>
@@ -118,6 +118,10 @@
             <i class="el-icon-video-play" style="color: #000000 !important"></i>
             <span slot="title">点播管理</span>
           </el-menu-item>
+           <el-menu-item index="applyAnchorRecord">
+            <i class="el-icon-video-play" style="color: #000000 !important"></i>
+            <span slot="title">主播申请记录</span>
+          </el-menu-item>
           <el-menu-item index="adminwatching">
             <template slot="title">
               <!-- 图标组件 -->
@@ -135,19 +139,21 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
+import Vue from "vue";
 export default {
   name: "leftNav",
   components: {},
   computed: {
     ...mapGetters([
-      //用户歌单
+      //用户
       "personalList",
     ]),
   },
   data() {
     return {
       administrators:true,
-      anchor:true
+      anchor:false,
+      userInfo:[],
     };
   },
   methods: {
@@ -158,7 +164,14 @@ export default {
       console.log(key, keyPath);
     },
   },
-  created() {},
+  created() {
+    this.userInfo = Vue.ls.get("userInfo").user;
+    if(this.userInfo.roleId<=10){
+      this.anchor=false;
+    }else{
+      this.anchor=true;
+    };
+  },
 };
 </script>
 

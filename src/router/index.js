@@ -23,6 +23,7 @@ import ban from '@/components/person/administrators/ban.vue'
 import report from '@/components/person/administrators/report.vue'
 import Admingift from '@/components/person/administrators/Admingift.vue'
 import Adminwatching from '@/components/person/administrators/Adminwatching.vue'
+import applyAnchorRecord from '@/components/person/administrators/applyAnchorRecord.vue'
 
 import dashboard from '@/views/dashboard/index.vue'
 import ranking from '@/views/dashboard/ranking.vue'
@@ -84,7 +85,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    // redirect: '/dashboard',
+    // redirect: '/ranking',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -108,6 +109,7 @@ export const constantRoutes = [
   {
     path:'/dashboard',
     name:'dashboard',
+    redirect: '/ranking',
     component:dashboard,
     
     children:[
@@ -154,6 +156,7 @@ export const constantRoutes = [
       {
         path: 'person',
         name: 'person',
+        redirect: '/information',
         component:person,
         children:[
         {
@@ -230,6 +233,11 @@ export const constantRoutes = [
           path:'adminwatching',
           name:'adminwatching',
           component:Adminwatching
+        },
+        {
+          path:'/applyAnchorRecord',
+          name:'applyAnchorRecord',
+          component:applyAnchorRecord
         }
         ]
       },

@@ -25,8 +25,8 @@
           <el-table :data="tableData" stripe style="width: 100%">
             <el-table-column label="序号" type="index" width="50">
             </el-table-column>
-            <el-table-column prop="userId" label="用户" width="120">
-            </el-table-column>
+            <!-- <el-table-column prop="userId" label="用户" width="120">
+            </el-table-column> -->
             <el-table-column prop="giftId" label="礼物id" width="120">
             </el-table-column>
             <el-table-column prop="roomId" label="房间号" width="80">
@@ -50,6 +50,7 @@
 
 <script>
 import { getAction } from "@/api/api";
+import Vue from 'vue';
 export default {
   data() {
     return {
@@ -72,6 +73,7 @@ export default {
       },
       // 表格
       tableData: [],
+      userInfo:[]
     };
   },
   methods: {
@@ -107,6 +109,8 @@ export default {
   },
   mounted() {
     //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
+    this.userInfo = Vue.ls.get("userInfo").user;
+    console.log(this.userInfo);
     this.findPage();
   },
 };
