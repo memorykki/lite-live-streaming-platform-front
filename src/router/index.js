@@ -111,6 +111,13 @@ export const constantRoutes = [
     component: () => import('@/views/live_together/index'),
     hidden: true
   },
+
+  {
+    path: '/postimage',
+    name:"liveTogether",
+    component: () => import('@/views/postimage/postimage'),
+    hidden: true
+  },
   // {
   //   path: '/dynamic',
   //   component: () => import('@/views/dynamic/index.vue'),
