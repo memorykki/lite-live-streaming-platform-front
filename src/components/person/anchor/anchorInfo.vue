@@ -1,105 +1,105 @@
+
+
 <template>
-  <div>
-    <el-card>
+  <el-card class="box-card">
+    <div slot="header" shadow="always">
+      <!-- 卡片头部，写入面包屑 -->
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: 'dashboard' }"
+          >首页</el-breadcrumb-item
+        >
 
-       <div slot="header" shadow="always">
-        <!-- 卡片头部，写入面包屑 -->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: 'dashboard' }"
-            >首页</el-breadcrumb-item
-          >
+        <el-breadcrumb-item>信息管理</el-breadcrumb-item>
+        <el-breadcrumb-item>直播信息</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
 
-          <el-breadcrumb-item>信息管理</el-breadcrumb-item>
-          <el-breadcrumb-item>直播信息</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
-      <!-- 详细列表，有边框，每行存储一个 -->
-      <el-descriptions 
-      title="直播信息" 
-      border 
-      :column="1">
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-house"></i>
-            直播房间号
-          </template>
-         <span> {{ liveroom }} </span>
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-bangzhu"></i>
-            推流信息
-          </template>
-        <!-- 传递链接 -->
-        <!-- <a :href="livepull">{{livepull}} </a> -->
-        <!-- 传递字符串 -->
-        <span> {{ livepull }} </span>
-        </el-descriptions-item>
-      </el-descriptions>
-        
+    <div class="inputlivemsg">
+      <el-form :model="Room" label-width="100px">
+        <el-form-item label="标题">
+          <el-input
+            v-model="Room.roomTitle"
+            placeholder="请输入标题"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="封面">
+          <el-input
+            v-model="Room.roomPhoto"
+            placeholder="请输入直播间封面"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="直播类型">
+          <el-select v-model="Room.roomType" placeholder="请选择直播类别">
+            <el-option label="游戏" value="1"></el-option>
+            <el-option label="娱乐" value="2"></el-option>
+            <el-option label="音乐" value="3"></el-option>
+            <el-option label="放映" value="4"></el-option>
+          </el-select>
+        </el-form-item>
 
-    </el-card>
-  </div>
+        <el-form-item label="直播公告" clearable>
+          <el-input type="textarea" v-model="Room.roomAnnouncement"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="putroommsg">确定</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </el-card>
 </template>
 
 <script>
+import Vue from "vue";
+import { getAction, putAction } from "@/api/api";
 export default {
   data() {
     return {
-    //存放get到的数据
-
-     liveroom:'',
-     livepull:'',
-     //user_id登陆时获取记得更改**************************************************************
-     userId: '',
-     //获取到的user登录信息
-     getuser:[]
-
-
+      Room: {
+        roomId: "",
+        roomTitle: "",
+        userId: "",
+        roomAnnouncement: "",
+        roomPhoto: "",
+        roomType: "",
+        roomStatus: "1",
+      },
+      dialogVisible: false,
+      userInfo: [],
+      anchor: false,
     };
   },
   methods: {
-   // 获取分页查询
-    findLiveMsg() {
-      this.$http
-        .get("lite-live-streaming-platform//user/", {
-          params: {
-            
-            //后端查询需要传递的参数，****************************************************记得更改
-            userId: this.userId,
-          },
-        })
-        .then((res) => {
-         
+    putroommsg() {
+      putAction("lite-live-streaming-platform/room/", this.Room).
+      then((res) => {
+        console.log(res);
+        if(res.data.code){
+          this.$message.error("出错了");
+          
+        }else{
+           
+           this.$message({
+                type: "success",
+                message: "修改成功!",
+              });
+        }
 
-         
-           console.log(res);
-            
-         
-        
-          //获取后端分页统计数
-          this.liveroom =res.data.data.records[0].roomId;
-          //获取分页信息
-          this.livepull = "http://ts.memorykk.cn:1936/lite-live-streaming-platform/room/selectOne？roomId="+this.liveroom;
-        });
+
+      });
     },
   },
-
   mounted() {
-    this.findLiveMsg();
-    console.log("输出用户信息——————————————————————————————————————");
-    //获取登陆的用户信息
-    console.log(Vue.ls.get("userInfo"));
-    this.getuser=Vue.ls.get("userInfo").user;
-    this.userId=this.getuser.userId
-    console.log(this.userId);
-      },
+    //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
+    this.userInfo = Vue.ls.get("userInfo").user;
+
+    this.Room.userId = this.userInfo.userId;
+     this.Room.roomId = this.userInfo.roomId;
+    console.log(Vue.ls.get("userInfo").user);
+  },
 };
 </script>
 
-<style scoped="scoped">
-.el-card{
-
-  margin-top: 40px;
-}
+<style>
 </style>

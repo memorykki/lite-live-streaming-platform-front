@@ -195,7 +195,7 @@ export default {
     add() {
       this.$http
         .post(
-          "lite-live-streaming-platform//gift/",
+          "http://172.29.3.78:8081/lite-live-streaming-platform/gift/",
           this.addUser
         )
         .then((res) => {
@@ -225,7 +225,7 @@ export default {
       //记得更新地址********************************************************************
       this.$http
         .put(
-          "lite-live-streaming-platform//gift/",
+          "lite-live-streaming-platform/gift/",
           this.user
         )
         .then((res) => {
@@ -264,7 +264,7 @@ export default {
           //没有返回值记得删除res
           this.$http
             .delete(
-              "lite-live-streaming-platform//gift/",
+              "lite-live-streaming-platform/gift/",
               {
                 params: {
                   idList: this.deleUser.gifId,
@@ -311,7 +311,7 @@ export default {
     
 
       this.$http
-        .get("lite-live-streaming-platform//gift/", {
+        .get("lite-live-streaming-platform/gift/", {
           params,
         })
         .then((res) => {

@@ -24,7 +24,7 @@
             <i class="el-icon-caret-bottom" />
           </div>
           <el-dropdown-menu slot="dropdown">
-            <router-link to="user/person/">
+            <router-link to="/person">
               <el-dropdown-item> 个人中心 </el-dropdown-item>
             </router-link>
             <span style="display: block" @click="exit">

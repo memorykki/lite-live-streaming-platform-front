@@ -58,7 +58,7 @@ export default {
       user: [],
       roomdata: [],
       roomgift: [],
-      realroompath: "Music_Fiction_1.flv",
+      realroompath: "1.flv",
 
       roomId: 3,
       inuserId: "",
