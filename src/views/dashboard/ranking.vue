@@ -15,7 +15,7 @@
               :src="item.roomPhoto"
               fit="fill"
               style="width: 100%; height: 100%; border-radius: 8px"
-              @click="send"
+              @click="send(item.roomId)"
             ></el-image
             ><!-- @click="toVideoPage(item.id)" -->
             <div
@@ -87,11 +87,11 @@ export default {
 
 
 
-    send(){
+    send(sentroomid){
         this.$router.push({
                     name: 'home',
                     query: {
-                      test:1
+                      roomid:sentroomid
                     },
                   })
     },

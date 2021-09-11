@@ -97,12 +97,12 @@ export default {
     },
   },
   mounted() {
-    const rid = this.$route.query.roomId;
+    const rid = this.$route.query.roomid;
     const child = this.$refs.myplayer;
     child.roompath = rid;
-    // child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/live/'+child.roompath
-    child.videoObject.video =
-      "rtmp://ts.memorykk.cn:1935/vod/" + this.realroompath;
+    child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/live/'+child.roompath
+    // child.videoObject.video =
+    //   "rtmp://ts.memorykk.cn:1935/vod/" + this.realroompath;
     new ckplayer(child.videoObject);
 
     console.log(child.videoObject.video);
@@ -122,7 +122,7 @@ export default {
 
 
     console.log("输出路由信息——————————————————————————————————————");
-         console.log(this.$route.query.test)
+         console.log(this.$route.query.roomid)
   },
   computed: {},
 };
