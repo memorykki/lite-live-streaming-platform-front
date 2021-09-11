@@ -1,14 +1,25 @@
 <template>
+<div>
+  <div><navbar/></div>
+
   <div id="dynamic">
-    <div v-for="(item) in list" id="one-dynamic" :key="item.id">
-      <div class="dynamic-text">{{ item.userDynamic.dynamicContent }}</div>
-      <div class="dynamic-text">{{ item.userDynamic.dynamicContent }}</div>
+    <div v-for="(item) in list" id="one-dynamic"  :key="item.id" @click="gotoHome(item.vodId)">
+      <div class="dynamic-text">{{ item.vodId }}</div>
+      <div class="dynamic-text" style="color: red;">{{ item.vodName }}</div>
+      <div class="dynamic-text">{{ item.vodIntroduction }}</div>
     </div>
+  </div>
   </div>
 </template>
 <script>
 import { getAction } from '@/api/api'
+import  Navbar  from '@/layout/components/Navbar.vue'
+
 export default {
+   components: {
+    Navbar,
+    
+  },
   name: 'vod',
   data() {
     return {
@@ -32,6 +43,14 @@ export default {
     })
   },
   methods: {
+    gotoHome(a){
+      this.$router.push({
+        path: "/vodHome",
+        query: {
+          vodId: a
+        }
+      })
+    }
   }
 }
 </script>
@@ -46,30 +65,7 @@ export default {
     margin: 50px;
     border-radius: 30px;
   }
-  #zan-btn_like{
-    float: right;
-    width: 50px;
-  }
-  #zan-btn_cacel_like{
-    float: right;
-    width: 50px;
-  }
-  #zan-count{
-    float: left;
-    width: 50px;
-  }
-  #opra{
-    display: flex;
-    line-height: 50px;
-    text-align: center;
-    float: right;
-    position: absolute;
-    right: 15%;
-  }
   .dynamic-text{
-    min-height: 200px;
-  }
-  .dynamic-time{
-    min-height: 50px;
+    margin: 2% 0 2% 0;
   }
 </style>

@@ -1,6 +1,10 @@
 <template>
   <el-container>
-    <el-header height="80px">Header</el-header>
+    
+      <div>
+      <navbar/>
+      </div>
+   
     <el-container>
       <!-- main中是直播视频 -->
       <el-main>
@@ -39,12 +43,14 @@ import Player from "@/views/player";
 import Dynamic from "@/views/dynamic";
 import Vue from "vue";
 import { getAction } from "@/api/api";
+import Navbar from '@/layout/components/Navbar';
 export default {
   name: "Home",
   //注入子组件
   components: {
     Player,
     Dynamic,
+    Navbar,
   },
   data() {
     return {
@@ -62,7 +68,7 @@ export default {
   },
   methods: {
     findRoom() {
-      getAction('http://172.29.3.78:8081/lite-live-streaming-platform/room/getRoomInfo',
+      getAction('/lite-live-streaming-platform/room/getRoomInfo',
           {
             
               //查询时暂时使用，后面要换为realroompath
@@ -79,7 +85,7 @@ export default {
     },
     findGifit() {
       getAction(
-          "lite-live-streaming-platform/gift/"
+          "/lite-live-streaming-platform/gift/"
         )
         .then((res) => {
           //  将得到的数据赋值
@@ -124,12 +130,7 @@ export default {
 </script>
 
 <style scoped="scoped">
-.el-header {
-  display: flex;
-  position: relative;
-  background: #1c2c3c;
-  padding-top: 5px;
-}
+
 
 .el-main {
   display: flex;

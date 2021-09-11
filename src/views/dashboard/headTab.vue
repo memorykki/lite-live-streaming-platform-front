@@ -43,4 +43,7 @@ export default {
 .el-header{
   background: #ffffff;
 }
+.headTab{
+text-align: center;
+}
 </style>

@@ -99,6 +99,18 @@ export const constantRoutes = [
     component: () => import('@/views/home/home'),
     hidden: true
   },
+  {
+    path: '/vod',
+    name:"vod",
+    component: () => import('@/views/vod/index'),
+    hidden: true
+  },
+  {
+    path: '/liveTogether',
+    name:"liveTogether",
+    component: () => import('@/views/live_together/index'),
+    hidden: true
+  },
   // {
   //   path: '/dynamic',
   //   component: () => import('@/views/dynamic/index.vue'),
@@ -167,42 +179,42 @@ export const constantRoutes = [
             component:playback
           },
         {
-          path:'/information',
+          path:'information',
           name:'information',
           component:information
         },
         {
-          path:'/attention',
+          path:'attention',
           name:'attention',
           component:attention
         },
         {
-          path:'/wallet',
+          path:'wallet',
           name:'wallet',
           component:wallet
         },
         {
-          path:'/history',
+          path:'history',
           name:'history',
           component:history
         },
         {
-          path:'/gift',
+          path:'gift',
           name:'gift',
           component:gift
         },
         {
-          path:'/dynamic',
+          path:'dynamic',
           name:'dynamic',
           component:dynamic
         },
         {
-          path:'/show',
+          path:'show',
           name:'show',
           component:show
         },
         {
-          path:'/report',
+          path:'report',
           name:'report',
           component:report
         },
