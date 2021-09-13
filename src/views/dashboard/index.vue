@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard-container">
+    
     <el-container>
 
       <!-- bar不再需要引入，注释掉 -->
@@ -35,18 +36,7 @@ export default {
   mounted() {
     console.log(this.userMessage)
     this.user = this.$route.query.data;
-    // getAction(
-    //   "http://101.200.54.21:9989/lite-live-streaming-platform/room/selectClassifyList",
-    //   { classify: 1 }
-    // ).then(res1 => {
-    //   console.log(res1);
-    // });
-    // getAction(
-    //   "http://101.200.54.21:9989/lite-live-streaming-platform/room/selectRankingList"
-    // ).then(res => {
-    //   console.log(res);
-    //   this.list = res.data.data
-    // });
+  
   },
   computed: {
     ...mapState(["userMessage"]),
