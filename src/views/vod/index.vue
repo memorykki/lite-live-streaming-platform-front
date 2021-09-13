@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     gotoHome(a){
+      console.log(a)
       this.$router.push({
         path: "/vodHome",
         query: {

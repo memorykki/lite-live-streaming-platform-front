@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-container>
+   
 
       <!-- bar不再需要引入，注释掉 -->
    <div id="asdd">
@@ -15,7 +15,7 @@
         </el-main>
       </el-main>
     </el-container>
-  </el-container>
+  
   </div>
 </template>
 
@@ -59,29 +59,14 @@
 </script>
 
 <style>
-  .el-header {
-    display: flex;
-    position: relative;
-    background: #1c2c3c;
-    padding-top: 5px;
-  }
-  /* .demo {
-    width: 150px;
-    height: 150px;
-    margin-top: -50px;
-    margin-left: 10px;
-  } */
-
-  .el-header span {
-    width: 100px;
-    margin-left: 10px;
-    margin-top: 15px;
-    font-weight: 500;
-    font-size: 20px;
-    color: #ffffff;
-  }
+  
   #asdd{
     margin: 5px;
+    
+  }
+  .el-container{
+    width: 100%;
+    margin: 20px;
   }
   </style>
 </style>

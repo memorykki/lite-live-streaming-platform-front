@@ -101,6 +101,18 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/vodHome',
+    name:"vodHome",
+    component: () => import('@/views/home/vod'),
+    hidden: true
+  },
+  {
+    path: '/liveTogetherHome',
+    name:"liveTogetherHome",
+    component: () => import('@/views/home/live_together'),
+    hidden: true
+  },
+  {
     path: '/vod',
     name:"vod",
     component: () => import('@/views/vod/index'),

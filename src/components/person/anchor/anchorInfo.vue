@@ -53,6 +53,7 @@
    <postimage ref="postimage"></postimage>
    <button type="info" @click="getchilddata" >获取封面路径</button>
    </div>
+  <div id="address">您的直播推流地址是：rtmp://ts.memorykk.cn:1935/live/{{roomId}}</div>
   </el-card>
 </template>
 
@@ -100,9 +101,9 @@ export default {
                 message: "修改成功!",
               });
         }
-
-
+        this.roomId = Vue.ls.get("userInfo").user.userId;
       });
+
     },
   },
   mounted() {
@@ -119,5 +120,9 @@ export default {
 <style>
 #duiqi{
   text-align: center;
+}
+#address{
+  color: red;
+  margin-top: 50px;
 }
 </style>
