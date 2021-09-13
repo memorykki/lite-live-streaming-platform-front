@@ -29,10 +29,9 @@ export default {
   methods: {
   },
   mounted() {
-    const rid = this.$route.query.roomId
+    const rid = this.$route.query.vodId
     const child = this.$refs.myplayer;
-    child.roompath = rid;
-    child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/vod/'+child.roompath;
+    child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/vod/'+rid+'.flv';
          new ckplayer(child.videoObject);
          console.log(child.videoObject.video)
   },

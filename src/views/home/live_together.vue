@@ -29,10 +29,9 @@ export default {
   methods: {
   },
   mounted() {
-    const rid = this.$route.query.roomId
+    const rid = this.$route.query.liveTogetherId
     const child = this.$refs.myplayer;
-    child.roompath = rid;
-    child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/live_together/'+child.roompath;
+    child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/live_together/'+rid;
          new ckplayer(child.videoObject);
          console.log(child.videoObject.video)
   },

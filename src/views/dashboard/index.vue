@@ -2,7 +2,9 @@
   <div class="dashboard-container">
     
     <el-container>
-
+      <div id="headdiv">
+            <!-- <navbar/> -->
+      </div>
       <!-- bar不再需要引入，注释掉 -->
     <el-header>
         <head-tab/>
@@ -20,12 +22,14 @@
 
 <script>
 import { getAction } from "@/api/api";
+import Navbar from '@/layout/components/Navbar';
 import { mapGetters, mapState } from "vuex";
 import headTab from "@/views/dashboard/headTab.vue"
 
 export default {
   name: "Dashboard",
-  components:{ headTab,},
+  components:{ headTab,
+  Navbar},
   data() {
     return {
       user: {},

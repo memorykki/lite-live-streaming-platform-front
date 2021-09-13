@@ -21,9 +21,7 @@
         >
           <div class="avatar-wrapper">
             <img
-              :src="
-                user.avatarUrl ? baseApi + '/file/' + user.avatarUrl : Avatar
-              "
+              :src="Avatar"
               class="user-avatar"
             />
             <i class="el-icon-caret-bottom" />
@@ -48,7 +46,6 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
-import Avatar from "@/assets/images/avatar.png";
 import Vue from "vue";
 import router from "@/router";
 import { getAction } from "@/api/api";
@@ -60,7 +57,7 @@ export default {
   },
   data() {
     return {
-      Avatar: Avatar,
+      Avatar: "",
     };
   },
   computed: {
@@ -72,6 +69,11 @@ export default {
         this.$router.push("/person");
       } else {
         this.$router.push("/login");
+      }
+    },
+    judgeHeadIcon() {
+      if (Vue.ls.get("userInfo")) {
+        this.Avatar = Vue.ls.get("userInfo").user.userHeadPhoto;
       }
     },
     toggleSideBar() {
@@ -94,6 +96,9 @@ export default {
       });
     },
   },
+  mounted(){
+    this.judgeHeadIcon();
+  }
 };
 </script>
 
