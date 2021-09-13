@@ -20,27 +20,27 @@
         <el-row :gutter="10">
           <el-col :span="6"
             ><!-- 查询输入框,可清空 -->
-            <el-input
+            <!-- <el-input
               v-model="live_together_id"
               placeholder="请输入编号"
               prefix-icon="el-icon-search"
               clearable
-            ></el-input>
+            ></el-input> -->
           </el-col>
           <el-col :span="4">
-            <el-button type="info" icon="el-icon-search" plain @click="findPage"
+            <!-- <el-button type="info" icon="el-icon-search" plain @click="findPage"
               >查询</el-button
-            >
+            > -->
           </el-col>
           <el-col :span="4">
             <!-- 添加按钮 -->
-            <el-button
+            <!-- <el-button
               type="info"
               icon="el-icon-plus"
               plain
               @click="openAddDialog"
               >添加</el-button
-            >
+            > -->
           </el-col>
         </el-row>
       </div>
@@ -57,26 +57,21 @@
           style="width: 100%"
           height="500"
         >
-          <el-table-column prop="playtogetherId" label="视频编号"> </el-table-column>
+          <el-table-column prop="liveTogetherId" label="视频编号">
+          </el-table-column>
           <el-table-column prop="name" label="文件名"> </el-table-column>
-          <el-table-column prop="pushPath" label="推送地址"></el-table-column>
-             <el-table-column prop="flag" label="状态">
+          <el-table-column prop="flag"   label="状态">
+            
           </el-table-column>
 
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                circle
-                icon="el-icon-edit"
-                @click="openEditDialog(scope.row)"
-              ></el-button>
-              <el-button
-                size="mini"
-                circle
-                icon="el-icon-delete"
-                @click="remove(scope.row)"
-              ></el-button>
+              <el-button size="mini" @click="start(scope.row)"
+                >推流
+              </el-button>
+              <el-button size="mini" @click="stop(scope.row)">
+                结束</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -101,14 +96,8 @@
     <el-dialog title="修改信息" :visible.sync="dialogFormVisible">
       <el-form :model="user">
         <el-input v-model="user.name" placeholder="请输入文件名"></el-input>
-        <el-input
-          v-model="user.pushPath"
-          placeholder="请输入路径"
-        ></el-input>
-        <el-input
-          v-model="user.flag"
-          placeholder="请输入状态"
-        ></el-input>
+        <el-input v-model="user.pushPath" placeholder="请输入路径"></el-input>
+        <el-input v-model="user.flag" placeholder="请输入状态"></el-input>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -119,18 +108,12 @@
     <!-- 添加对话框 -->
     <el-dialog title="添加信息" :visible.sync="dialogAddUser">
       <el-form :model="addUser">
-         <el-input
-          v-model="addUser.name"
-          placeholder="请输入文件名"
-        ></el-input>
+        <el-input v-model="addUser.name" placeholder="请输入文件名"></el-input>
         <el-input
           v-model="addUser.pushPath"
           placeholder="请输入路径"
         ></el-input>
-        <el-input
-          v-model="addUser.flag"
-          placeholder="请输入状态"
-        ></el-input>
+        <el-input v-model="addUser.flag" placeholder="请输入状态"></el-input>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogAddUser = false">取 消</el-button>
@@ -140,19 +123,21 @@
   </div>
 </template>
 <script>
+import { getAction } from "@/api/api";
 export default {
   data() {
     return {
       //分页工具
       pager: {
         pageCurrent: 1, //双向绑定
-        pageSize: 2,
+        pageSize: 5,
         total: 0, //双向绑定
       },
 
       // 条件查询需要传入的参数
       live_together_id: "",
-      tableData: [],
+      tableData: [
+      ],
       // 表单对象，用来存放修改用户信息的数据
       user: {
         name: "",
@@ -161,7 +146,7 @@ export default {
       },
       //表单对象用来存放添加用户信息的数据
       addUser: {
-       name: "",
+        name: "",
         pushPath: "",
         flag: "",
       },
@@ -179,10 +164,7 @@ export default {
     //添加数据
     add() {
       this.$http
-        .post(
-          "lite-live-streaming-platform//liveTogether/",
-          this.addUser
-        )
+        .post("lite-live-streaming-platform/liveTogether/", this.addUser)
         .then((res) => {
           //关闭对话框
           this.dialogAddUser = !this.dialogAddUser;
@@ -209,10 +191,7 @@ export default {
     update() {
       //记得更新地址********************************************************************
       this.$http
-        .put(
-          "lite-live-streaming-platform//liveTogether/",
-          this.user
-        )
+        .put("lite-live-streaming-platform/liveTogether/", this.user)
         .then((res) => {
           //关闭对话框
           this.dialogFormVisible = !this.dialogFormVisible;
@@ -224,48 +203,33 @@ export default {
     },
 
     // 弹出修改对话框
-    openEditDialog(row) {
-      // 将数据填充到表单
-      //将所有数据赋给user对象，可能出问题，记得更改**************************************
-
-      this.user = row;
-      //让对话框显示
-      this.dialogFormVisible = true;
+    start(row) {
+      getAction(
+        "lite-live-streaming-platform/liveTogether/start/" + row.liveTogetherId
+      ).then((res) => {
+        if (res.status === 200) {
+          // console.log(res);
+          // this.list = res.data.data.records;
+          row.flag = "已推流"
+        } else {
+          alert("获取数据失败");
+        }
+      });
     },
 
     // 数据删除
-    remove(row) {
-      this.deleUser.vodId = row.vodId;
-
-      // 消息提示
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          //没有返回值记得删除res
-          this.$http
-            .delete(
-              "lite-live-streaming-platform//liveTogether/",
-              {
-                params: {
-                  idList: this.deleUser.livetorgetherId,
-                },
-              }
-            )
-            .then((res) => {
-              this.findPage(); //刷新页面
-
-              this.$message({
-                type: "success",
-                message: "删除成功!",
-              });
-            });
-        })
-        .catch(() => {
-          this.$message.error("出错了");
-        });
+    stop(row) {
+      getAction(
+        "lite-live-streaming-platform/liveTogether/stop/" + row.liveTogetherId
+      ).then((res) => {
+        if (res.status === 200) {
+          // console.log(res);
+          // this.list = res.data.data.records;
+          row.flag = "已推流"
+        } else {
+          alert("获取数据失败");
+        }
+      });
     },
     // 每页有多少条数据
     handleSizeChange(val) {
@@ -292,12 +256,23 @@ export default {
       }
 
       this.$http
-        .get("lite-live-streaming-platform//liveTogether/", {
+        .get("lite-live-streaming-platform/liveTogether/", {
           params,
         })
         .then((res) => {
           //  将得到的数据赋值,可能出问题记得更改*************************************************
           this.tableData = res.data.data.records;
+
+          for(var i=0; i<res.data.data.records.length; ++i){
+            if(res.data.data.records[i].flag === 0){
+              this.tableData[i].flag = "未推流"
+            }else{
+              this.tableData[i].flag = "已推流"
+            }
+            this.tableData[i].liveTogetherId = res.data.data.records[i].liveTogetherId;
+            this.tableData[i].name = res.data.data.records[i].name;
+          }
+          
 
           //获取后端分页统计数
           this.pager.total = res.data.data.total;
@@ -305,6 +280,11 @@ export default {
           console.log(res);
           //获取分页信息
           this.pager.pageCurrent = res.data.data.current;
+
+          // console.log(this.tableData.length)
+          // if(this.tableData.length === 0){
+          //   this
+          // }
         });
     },
   },

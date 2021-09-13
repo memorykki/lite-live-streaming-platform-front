@@ -1,10 +1,9 @@
 <template>
   <el-container>
-    
-      <div>
-      <navbar/>
-      </div>
-   
+    <div>
+      <navbar />
+    </div>
+
     <el-container>
       <!-- main中是直播视频 -->
       <el-main>
@@ -43,7 +42,7 @@ import Player from "@/views/player";
 import Dynamic from "@/views/dynamic";
 import Vue from "vue";
 import { getAction } from "@/api/api";
-import Navbar from '@/layout/components/Navbar';
+import Navbar from "@/layout/components/Navbar";
 export default {
   name: "Home",
   //注入子组件
@@ -68,41 +67,35 @@ export default {
   },
   methods: {
     findRoom() {
-      getAction('/lite-live-streaming-platform/room/getRoomInfo',
-          {
-            
-              //查询时暂时使用，后面要换为realroompath
-              roomId: this.roomId,
-              userId: this.inuserId,
-              anchorId: this.inanchorId,
-            
-          }).then((res) => {
-          //  将得到的数据赋值
-          this.roomdata = res.data.data.room;
-          console.log("直播间信息");
-          console.log(res);
-        });
+      getAction("/lite-live-streaming-platform/room/getRoomInfo", {
+        //查询时暂时使用，后面要换为realroompath
+        roomId: this.roomId,
+        userId: this.inuserId,
+        anchorId: this.inanchorId,
+      }).then((res) => {
+        //  将得到的数据赋值
+        this.roomdata = res.data.data.room;
+        console.log("直播间信息");
+        console.log(res);
+      });
     },
     findGifit() {
-      getAction( '/lite-live-streaming-platform/gift/'
-        )
-        .then((res) => {
-          //  将得到的数据赋值
-          this.roomgift = res.data.data.records;
-          let giftlength=this.roomgift.length
-           console.log("直播间礼物");
-           console.log(giftlength)
-          console.log(res);
-        });
+      getAction("/lite-live-streaming-platform/gift/").then((res) => {
+        //  将得到的数据赋值
+        this.roomgift = res.data.data.records;
+        let giftlength = this.roomgift.length;
+        console.log("直播间礼物");
+        console.log(giftlength);
+        console.log(res);
+      });
     },
   },
   mounted() {
     const rid = this.$route.query.roomid;
     const child = this.$refs.myplayer;
     child.roompath = rid;
-    child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/live/'+child.roompath
-    // child.videoObject.video =
-    //   "rtmp://ts.memorykk.cn:1935/vod/" + this.realroompath;
+    child.videoObject.video =
+      "rtmp://ts.memorykk.cn:1935/live/" + child.roompath;
     new ckplayer(child.videoObject);
 
     console.log(child.videoObject.video);
@@ -119,18 +112,14 @@ export default {
     this.findRoom();
     this.findGifit();
 
-
-
     console.log("输出路由信息——————————————————————————————————————");
-         console.log(this.$route.query.roomid)
+    console.log(this.$route.query.roomid);
   },
   computed: {},
 };
 </script>
 
 <style scoped="scoped">
-
-
 .el-main {
   display: flex;
   flex-direction: column;
@@ -185,5 +174,3 @@ export default {
   height: 50px;
 }
 </style>
-
-

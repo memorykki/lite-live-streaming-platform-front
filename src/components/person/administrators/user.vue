@@ -63,7 +63,7 @@
           <el-table-column prop="userPhone" label="电话"> </el-table-column>
           <el-table-column prop="userHeadPhoto" label="头像"> </el-table-column>
           <el-table-column prop="roomId" label="房间号"> </el-table-column>
-          <el-table-column prop="roleId" label="角色"> </el-table-column>
+          <el-table-column prop="roleId" label="角色"> </el-table-column> 
 
           <el-table-column label="操作">
             <template slot-scope="scope">

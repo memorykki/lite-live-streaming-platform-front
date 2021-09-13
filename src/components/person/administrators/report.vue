@@ -32,7 +32,6 @@
               >查询</el-button
             >
           </el-col>
-         
         </el-row>
       </div>
 
@@ -51,10 +50,11 @@
           <el-table-column prop="banId" label="记录编号"> </el-table-column>
           <el-table-column prop="userId" label="用户UID"> </el-table-column>
           <el-table-column prop="type" label="类型"> </el-table-column>
-          <el-table-column prop="subType" label="描述"> </el-table-column>
+          <el-table-column prop="subType" label="子类型"> </el-table-column>
           <el-table-column prop="status" label="状态"> </el-table-column>
-          <el-table-column prop="evidence" label="快照"> </el-table-column>
-          <el-table-column prop="createTime" label="创建时间"> </el-table-column>
+          <el-table-column prop="evidence" label="举证"> </el-table-column>
+          <el-table-column prop="createTime" label="创建时间">
+          </el-table-column>
 
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -64,7 +64,6 @@
                 icon="el-icon-edit"
                 @click="openEditDialog(scope.row)"
               ></el-button>
-              
             </template>
           </el-table-column>
         </el-table>
@@ -88,16 +87,20 @@
 
     <el-dialog title="修改封禁状态" :visible.sync="dialogFormVisible">
       <el-form :model="user">
-        <el-input v-model="user.status" placeholder="请输入当前状态"></el-input>
-       
+        <!-- <el-input v-model="user.status" placeholder="请输入当前状态"></el-input> -->
+        <el-form-item label="类型">
+          <el-radio v-model="user.status" label="1">待审核</el-radio>
+          <el-radio v-model="user.status" label="2">已封禁</el-radio>
+          <el-radio v-model="user.status" label="3">情况不符</el-radio>
+          <el-radio v-model="user.status" label="4">已恢复</el-radio>
+        </el-form-item>
       </el-form>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="update">保存</el-button>
       </div>
     </el-dialog>
-
-  
   </div>
 </template>
 <script>
@@ -116,30 +119,33 @@ export default {
       tableData: [],
       // 表单对象，用来存放修改用户信息的数据
       user: {
-        
         status: "",
       },
-     
+
       //控制修改对话框是否显示，默认不显示
       dialogFormVisible: false,
-     
     };
   },
   methods: {
-   
-
     //修改数据
     update() {
       //记得更新地址********************************************************************
       this.$http
-        .put(
-          "lite-live-streaming-platform//banRecord/",
-          this.user
-        )
+        .put("lite-live-streaming-platform/banRecord/", {
+          banId: this.user.banId,
+          type: 1,
+          status: this.user.status,
+        })
         .then((res) => {
           //关闭对话框
           this.dialogFormVisible = !this.dialogFormVisible;
           this.findPage();
+          
+          this.$message({
+            //提示添加成功消息
+            message: "处理完成",
+            type: "success",
+          });
         })
         .catch((res) => {
           this.$message.error("出错了");
@@ -156,7 +162,6 @@ export default {
       this.dialogFormVisible = true;
     },
 
-    
     // 每页有多少条数据
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
@@ -181,15 +186,42 @@ export default {
         params.banId = this.ban_id;
       }
 
-    
-
       this.$http
-        .get("lite-live-streaming-platform//banRecord/", {
+        .get("lite-live-streaming-platform/banRecord/", {
           params,
         })
         .then((res) => {
           //  将得到的数据赋值,可能出问题记得更改*************************************************
           this.tableData = res.data.data.records;
+
+          for (var i = 0; i < res.data.data.records.length; ++i) {
+            if (res.data.data.records[i].type === 1) {
+              this.tableData[i].type = "直播间";
+            } else {
+              this.tableData[i].type = "其他";
+            }
+
+            if (res.data.data.records[i].subType == 1) {
+              this.tableData[i].subType = "政治";
+            } else if (res.data.data.records[i].subType == 2) {
+              this.tableData[i].subType = "暴力";
+            } else if (res.data.data.records[i].subType == 3) {
+              this.tableData[i].subType = "血腥";
+            } else {
+              console.log(res.data.data.records[i].subType)
+              this.tableData[i].subType = "其他";
+            }
+
+            if (res.data.data.records[i].status === 1) {
+              this.tableData[i].status = "待审核";
+            } else if (res.data.data.records[i].status === 2) {
+              this.tableData[i].status = "已封禁";
+            } else if (res.data.data.records[i].status === 3) {
+              this.tableData[i].status = "情况不符";
+            } else if (res.data.data.records[i].status === 4) {
+              this.tableData[i].status = "已恢复";
+            }
+          }
 
           //获取后端分页统计数
           this.pager.total = res.data.data.total;

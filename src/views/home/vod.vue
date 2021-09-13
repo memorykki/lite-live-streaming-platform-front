@@ -32,8 +32,8 @@ export default {
     const rid = this.$route.query.vodId
     const child = this.$refs.myplayer;
     child.videoObject.video = 'rtmp://ts.memorykk.cn:1935/vod/'+rid+'.flv';
-         new ckplayer(child.videoObject);
-         console.log(child.videoObject.video)
+    child.videoObject.live = false;
+    new ckplayer(child.videoObject);
   },
   computed: {},
 };

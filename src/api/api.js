@@ -57,3 +57,11 @@ export function deleteAction(url,parameter) {
     params: parameter
   })
 }
+//deleteAction
+export function deleteByBodyAction(url,parameter) {
+  return axios({
+    url: url,
+    method: 'delete',
+    data: parameter
+  })
+}
