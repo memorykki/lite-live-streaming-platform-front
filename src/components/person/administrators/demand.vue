@@ -137,7 +137,7 @@ export default {
       //分页工具
       pager: {
         pageCurrent: 1, //双向绑定
-        pageSize: 2,
+        pageSize: 5,
         total: 0, //双向绑定
       },
 

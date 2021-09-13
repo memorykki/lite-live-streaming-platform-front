@@ -97,10 +97,8 @@
 import Player from "@/views/player";
 import Dynamic from "@/views/dynamic";
 import Vue from "vue";
-import {putAction,deleteAction, getAction } from "@/api/api";
+import { getAction } from "@/api/api";
 import Navbar from "@/layout/components/Navbar";
-
-import Postimage from '../postimage/postimage.vue';
 export default {
   name: "Home",
   //注入子组件
@@ -294,6 +292,9 @@ export default {
 
     this.findRoom();
     this.findGifit();
+
+    console.log("输出路由信息——————————————————————————————————————");
+    console.log(this.$route.query.roomid);
   },
   computed: {},
 };
@@ -374,5 +375,3 @@ export default {
   width: 100%;
 }
 </style>
-
-

@@ -4,23 +4,34 @@
       <div class="dynamic-time">{{ item.userDynamic.updateTime }}</div>
       <div v-if="item.userDynamic.dynamicType === 1" class="dynamic-text">{{ item.userDynamic.dynamicContent }}</div>
       <img v-if="item.userDynamic.dynamicType === 2" :src = "item.userDynamic.dynamicContent">
-      <div v-if="item.userDynamic.dynamicType === 3">这是视频 链接：{{ item.userDynamic.dynamicContent }}</div>
+      <div v-if="item.userDynamic.dynamicType === 3">
+        这是视频 链接：{{ item.userDynamic.dynamicContent }}
+        <div id="liveVideo">
+          <player ref="myplayer" :roompath="item.userDynamic.dynamicContent"></player>
+        </div>
+      </div>
       <div id="opra">
         <div id="zan-count">{{ item.userDynamic.dynamicLike }}</div>
-        <div v-if="item.haveLike" id="zan-btn_cacel_like"><button href="" @click="cancel_like(item.userDynamic.dynamicId,index)">取消点赞</button></div>
-        <div v-else id="zan-btn_like"><button href="" @click="like(item.userDynamic.dynamicId,index)">点赞</button></div>
+        <div v-if="item.haveLike" id="zan-btn_cacel_like"><img class="like" src="http://ts.memorykk.cn:1936/dynamic_img/like_no.png" @click="cancel_like(item.userDynamic.dynamicId,index)"/></div>
+        <div v-else id="zan-btn_like"><img class="like" src="http://ts.memorykk.cn:1936/dynamic_img/like_yes.png" @click="like(item.userDynamic.dynamicId,index)"/></div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { getAction, deleteAction, putAction } from '@/api/api'
+import Player from "@/views/player/index";
 export default {
   name: 'Dynamic',
+  components: {
+    Player
+  },
   data() {
     return {
-      list: []
+      list: [],
+      realroompath: "",
     }
+    props:['liveid']
   },
   created() {
     getAction(
@@ -33,37 +44,46 @@ export default {
       }
     ).then(res => {
       if (res.status === 200) {
-        console.log(res)
+        // console.log(res)
         this.list = res.data.data.records
       } else {
         alert('获取数据失败')
       }
-    })
+    }),
+    setTimeout(() => {
+      this.loadVideo();
+    }, 1000);
+    this.userId = Vue.ls.get("userInfo").user.userId;
+    this.anchorId = this.liveid;
   },
   methods: {
+    loadVideo(){
+      // const child = this.$refs.myplayer[0]
+      // child.videoObject.video = "http://ts.memorykk.cn:1936/dynamic_video/s_20210829_174136_04.flv"
+      // child.videoObject.video = child.roompath;
+      // new ckplayer(child.videoObject);
+    },
     cancel_like(id, index) {
-      console.log(this.list[index].userDynamic.dynamicLike)
       deleteAction('lite-live-streaming-platform/userLikeDynamic/cancel?userId=' + 7 + '&dynamicId=' + id
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike - 1
+          this.list[index].haveLike = false
         } else {
           alert('取消失败！')
         }
       })
-      console.log(this.list[index].userDynamic.dynamicLike)
     },
     like(id, index) {
-      console.log(this.list[index].userDynamic.dynamicLike)
       putAction('lite-live-streaming-platform/userLikeDynamic/like?userId=' + 7 + '&dynamicId=' + id
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike + 1
+          this.list[index].haveLike = true
         } else {
           alert('点赞失败！')
         }
       })
-      console.log(this.list[index].userDynamic.dynamicLike)
     }
   }
 }
@@ -104,5 +124,17 @@ export default {
   }
   .dynamic-time{
     min-height: 50px;
+  }
+  #liveVideo {
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+
+    height: 400px;
+    width: 400px;
+  }
+  .like{
+    height: 40px;
+    width: 40px;
   }
 </style>

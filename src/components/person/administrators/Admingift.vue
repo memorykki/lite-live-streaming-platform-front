@@ -59,9 +59,13 @@
         >
           <el-table-column prop="giftId" label="礼物编号"> </el-table-column>
           <el-table-column prop="giftName" label="礼物名"> </el-table-column>
-          <el-table-column prop="giftPhoto" label="礼物图片"> </el-table-column>
+          <el-table-column prop="giftPhoto" label="礼物图片">
+               <template slot-scope="scope">
+                <img slot="reference" :src="scope.row.giftPhoto" style="width: 30px;height: 30px">
+               </template>
+          </el-table-column>
           <el-table-column prop="giftValue" label="价值"> </el-table-column>
-          <el-table-column prop="giftStatus" label="状态"> </el-table-column>
+          <el-table-column prop="giftStatus" label="状态" :formatter="nameFormat"> </el-table-column>
          
 
           <el-table-column label="操作">
@@ -101,21 +105,10 @@
 
     <el-dialog title="修改礼物信息" :visible.sync="dialogFormVisible">
       <el-form :model="user">
-        <el-input v-model="user.giftName" placeholder="请输入礼物名"></el-input>
-        
-        <el-input
-          v-model="user.giftPhoto"
-          placeholder="请输入图片地址"
-        ></el-input>
-        <el-input
-          v-model="user.giftValue"
-          placeholder="请输入礼物价值"
-        ></el-input>
-        <el-input
-          v-model="user.giftStatus"
-          placeholder="请输入状态"
-        ></el-input>
-        
+        <el-form-item label="类型">
+          <el-radio v-model="user.giftStatus" label="1">上架</el-radio>
+          <el-radio v-model="user.giftStatus" label="2">下架</el-radio>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -191,6 +184,13 @@ export default {
     };
   },
   methods: {
+    nameFormat(row){
+          if(row.giftStatus===1){
+              return "已上架";
+          }else{
+              return "下架";
+          }
+    },
     //添加数据
     add() {
       this.$http
@@ -225,13 +225,21 @@ export default {
       //记得更新地址********************************************************************
       this.$http
         .put(
-          "lite-live-streaming-platform/gift/",
-          this.user
+          "lite-live-streaming-platform/gift",
+          {
+            giftId: this.user.giftId,
+            giftStatus: this.user.giftStatus
+          }
         )
         .then((res) => {
           //关闭对话框
           this.dialogFormVisible = !this.dialogFormVisible;
           this.findPage();
+          this.$message({
+            //提示添加成功消息
+            message: "处理完成",
+            type: "success",
+          });
         })
         .catch((res) => {
           this.$message.error("出错了");
@@ -317,7 +325,7 @@ export default {
         .then((res) => {
           //  将得到的数据赋值,可能出问题记得更改*************************************************
           this.tableData = res.data.data.records;
-
+          console.log(this.tableData)
           //获取后端分页统计数
           this.pager.total = res.data.data.total;
 
