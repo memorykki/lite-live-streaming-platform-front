@@ -1,16 +1,20 @@
 <template>
   <div class="dashboard-container">
-    
+    <div id="navbarhhhh" v-if="this.$route.path != '/dashboard'">
+      <navbar/>
+  
+  </div>
     <el-container>
-      <div id="headdiv">
-            <!-- <navbar/> -->
-      </div>
-      <!-- bar不再需要引入，注释掉 -->
-    <el-header>
+      <el-header>
         <head-tab/>
-    </el-header>
+      </el-header>
+      
+    
+      
+     
       <!-- 左边导航栏 -->
       <el-main>
+       
         <router-view/>
       </el-main>
   </el-container>    
@@ -54,6 +58,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+body{
+margin: 0px;
+padding: 0px;
+width: 100%;
+height: 100%;
+}
+#dashboard-container{
+  margin: 0px;
+  padding: 0px;
+}
 .el-header{
   background: #fff;
 }

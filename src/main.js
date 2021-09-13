@@ -40,7 +40,7 @@ Vue.prototype.$http = axios
 
 // set ElementUI lang to EN
 Vue.use(ElementUI)
-Vue.use(axios)
+
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 

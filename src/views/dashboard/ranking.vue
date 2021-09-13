@@ -15,7 +15,7 @@
               :src="item.roomPhoto"
               fit="fill"
               style="width: 100%; height: 100%; border-radius: 8px"
-              @click="send(item.roomId)"
+              @click="send(item)"
             ></el-image
             ><!-- @click="toVideoPage(item.id)" -->
             <div
@@ -87,11 +87,12 @@ export default {
 
 
 
-    send(sentroomid){
+    send(sendroom){
         this.$router.push({
                     name: 'home',
                     query: {
-                      roomid:sentroomid
+                      data:sendroom
+
                     },
                   })
     },
@@ -158,17 +159,5 @@ export default {
   color: #373737;
   opacity: 0.6;
 }
-.el-header {
-  position: relative;
-  width: 100%;
-  height: 60px;
-}
-.el-main {
-  position: absolute;
-  left: 200px;
-  right: 0;
-  top: 60px;
-  bottom: 0;
-  overflow-y: scroll;
-}
+
 </style>

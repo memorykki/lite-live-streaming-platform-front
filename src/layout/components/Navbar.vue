@@ -20,11 +20,10 @@
           trigger="click"
         >
           <div class="avatar-wrapper">
-            <img
-              :src="Avatar"
-              class="user-avatar"
-            />
-            <i class="el-icon-caret-bottom" />
+           
+          <!-- 登录时使用数据库中头像，未登录则显示默认头像 -->
+             <img  :src="Avatar" class="user-avatar" onerror="this.src='http://172.29.3.78:8081/lite-live-streaming-platform/static/file/commonfile/5f4901fe-a286-471c-bc94-d76379629929.png'"/>
+            
           </div>
           <el-dropdown-menu slot="dropdown">
             <!-- <router-link to="/person"> -->
@@ -57,7 +56,7 @@ export default {
   },
   data() {
     return {
-      Avatar: "",
+      Avatar: "not",
     };
   },
   computed: {
@@ -85,20 +84,22 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        getAction("/lite-live-streaming-platform/user/logout").then((res) => {
-          //  将得到的数据赋值
-           this.$message({
-                type: "success",
-                message: res.data.msg,
-              });
-          console.log(res.data.msg);
+        this.$message({
+          type: "success",
+          message: "退出登录",
         });
+
+        //退出登陆后清除localstorage信息
+        localStorage.removeItem("vuejs__userInfo");
+        
+        //刷新页面
+        location.reload();
       });
     },
   },
-  mounted(){
+  mounted() {
     this.judgeHeadIcon();
-  }
+  },
 };
 </script>
 
