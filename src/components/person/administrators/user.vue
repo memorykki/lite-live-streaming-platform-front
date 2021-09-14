@@ -57,13 +57,21 @@
           style="width: 100%"
           height="500"
         >
-          <el-table-column prop="userId" label="UID"> </el-table-column>
-          <el-table-column prop="userName" label="姓名"> </el-table-column>
-          <el-table-column prop="userEmail" label="邮箱"> </el-table-column>
-          <el-table-column prop="userPhone" label="电话"> </el-table-column>
-          <el-table-column prop="userHeadPhoto" label="头像"> </el-table-column>
-          <el-table-column prop="roomId" label="房间号"> </el-table-column>
-          <el-table-column prop="roleId" label="角色"> </el-table-column> 
+          <el-table-column prop="user.userId" label="UID"> </el-table-column>
+          <el-table-column prop="user.userName" label="姓名"> </el-table-column>
+          <el-table-column prop="user.userEmail" label="邮箱"> </el-table-column>
+          <el-table-column prop="user.userPhone" label="电话"> </el-table-column>
+          <el-table-column prop="user.userHeadPhoto" label="头像">
+            <template slot-scope="scope">
+              <img slot="reference" :src="scope.row.user.userHeadPhoto" style="width: 30px;height: 30px">
+            </template>
+          </el-table-column>
+          <el-table-column prop="user.roleId" label="角色"> </el-table-column> 
+          <el-table-column prop="user.roomId" label="房间号"> </el-table-column>
+          <el-table-column prop="user.userFansCount" label="粉丝数"> </el-table-column> 
+          <el-table-column prop="user.userExistCoins" label="剩余活力币"> </el-table-column> 
+          <el-table-column prop="user.userSumCoins" label="全部活力币"> </el-table-column> 
+          <el-table-column prop="user.userStatus" label="状态" :formatter="nameFormatUserStatus"> </el-table-column> 
 
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -199,6 +207,13 @@ export default {
     };
   },
   methods: {
+    nameFormatUserStatus(row){
+      if(row.user.userStatus===1){
+          return "正常";
+      }else{
+          return "异常";
+      }
+    },
     //添加数据
     add() {
       this.$http

@@ -19,7 +19,8 @@ import playback from '@/components/person/anchor/playback.vue'
 
 import user from '@/components/person/administrators/user.vue'
 import demand from '@/components/person/administrators/demand.vue'
-import ban from '@/components/person/administrators/ban.vue'
+import role from '@/components/person/administrators/role.vue'
+import permission from '@/components/person/administrators/permission.vue'
 import report from '@/components/person/administrators/report.vue'
 import Admingift from '@/components/person/administrators/Admingift.vue'
 import Adminwatching from '@/components/person/administrators/Adminwatching.vue'
@@ -335,9 +336,14 @@ export const constantRoutes = [
           component:demand
         },
         {
-          path:'/ban',
-          name:'ban',
-          component:ban
+          path:'/role',
+          name:'role',
+          component:role
+        },
+        {
+          path:'/permission',
+          name:'permission',
+          component:permission
         },
         {
           path:'/user',

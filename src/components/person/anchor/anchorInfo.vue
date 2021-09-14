@@ -49,21 +49,23 @@
       </el-form>
     </div>
     <div id="duiqi">
-    <!-- 上传图片子组件，获取子组件数据 -->
-   <postimage ref="postimage"></postimage>
-   <button type="info" @click="getchilddata" >获取封面路径</button>
-   </div>
-  <div id="address">您的直播推流地址是：rtmp://ts.memorykk.cn:1935/live/{{roomId}}</div>
+      <!-- 上传图片子组件，获取子组件数据 -->
+      <postimage ref="postimage"></postimage>
+      <button type="info" @click="getchilddata">获取封面路径</button>
+    </div>
+    <div id="address" v-if="havePush">
+      您的直播推流地址是：rtmp://ts.memorykk.cn:1935/live/{{ roomId }}
+    </div>
   </el-card>
 </template>
 
 <script>
 import Vue from "vue";
 import { getAction, putAction } from "@/api/api";
-import postimage from "@/views/postimage/postimage"
+import postimage from "@/views/postimage/postimage";
 export default {
   components: {
-    postimage
+    postimage,
   },
   data() {
     return {
@@ -76,34 +78,29 @@ export default {
         roomType: "",
         roomStatus: "1",
       },
+      havePush: false,
       dialogVisible: false,
       userInfo: [],
       anchor: false,
     };
   },
   methods: {
-    getchilddata(){
-     this.Room.roomPhoto=this.$refs.postimage.imageurl
-     console.log(this.$refs.postimage.imageurl)
-     console.log(this.roomPhoto)
+    getchilddata() {
+      this.Room.roomPhoto = this.$refs.postimage.imageurl;
     },
     putroommsg() {
-      putAction("lite-live-streaming-platform/room/", this.Room).
-      then((res) => {
-        console.log(res);
-        if(res.data.code){
+      putAction("lite-live-streaming-platform/room/", this.Room).then((res) => {
+        if (res.data.code) {
           this.$message.error("出错了");
-          
-        }else{
-           
-           this.$message({
-                type: "success",
-                message: "修改成功!",
-              });
+        } else {
+          this.Room.roomId = Vue.ls.get("userInfo").user.roomId;
+          this.havePush = true
+          this.$message({
+            type: "success",
+            message: "开播成功，请去OBS操作!",
+          });
         }
-        this.roomId = Vue.ls.get("userInfo").user.userId;
       });
-
     },
   },
   mounted() {
@@ -111,18 +108,18 @@ export default {
     this.userInfo = Vue.ls.get("userInfo").user;
 
     this.Room.userId = this.userInfo.userId;
-     this.Room.roomId = this.userInfo.roomId;
-    console.log(Vue.ls.get("userInfo").user);
+    this.Room.roomId = this.userInfo.roomId;
   },
 };
 </script>
 
 <style>
-#duiqi{
+#duiqi {
   text-align: center;
 }
-#address{
+#address {
   color: red;
   margin-top: 50px;
+  font-size: 25px;
 }
 </style>
