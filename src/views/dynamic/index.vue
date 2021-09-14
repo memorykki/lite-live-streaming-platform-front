@@ -21,6 +21,7 @@
 <script>
 import { getAction, deleteAction, putAction } from '@/api/api'
 import Player from "@/views/player/index";
+import Vue from "vue";
 export default {
   name: 'Dynamic',
   components: {

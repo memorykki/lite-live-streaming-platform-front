@@ -96,7 +96,7 @@ export const constantRoutes = [
   },
   //**************************************************** */
   {
-    path: '/home',
+    path: 'home',
     name:"home",
     component: () => import('@/views/home/home'),
     hidden: true

@@ -68,11 +68,7 @@
 
 <script>
 import { getAction } from "@/api/api";
-// import {
-//   mapGetters,
-//   mapMutations,
-//   mapActions
-// } from "vuex";
+
 export default {
   name: "ranking",
   components: {},
@@ -91,7 +87,7 @@ export default {
         this.$router.push({
                     name: 'home',
                     query: {
-                      data:sendroom
+                      data:JSON.stringify(sendroom)
 
                     },
                   })
