@@ -23,14 +23,14 @@
             <el-table-column
                     label="序号"
                          type="index"
-                         width="50">
+                         width="150">
                        </el-table-column>
             <!-- <el-table-column prop="userId" label="用户" width="120">
             </el-table-column> -->
 
-            <el-table-column prop="changeNum" label="变动数额" width="80">
+            <el-table-column prop="changeNum" label="变动数额" width="180">
             </el-table-column>
-            <el-table-column prop="changeReason" label="变动原因" width="180">
+            <el-table-column prop="changeReason" label="变动原因" width="280">
             </el-table-column>
             <el-table-column prop="createTime" label="时间" width="200">
             </el-table-column>

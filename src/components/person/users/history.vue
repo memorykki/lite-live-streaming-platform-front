@@ -14,12 +14,12 @@
           </el-row>
           <!-- 表格 -->
           <el-table :data="tableData" stripe style="width: 100%;height: 550px;">
-            <el-table-column label="序号" type="index" width="50">
+            <el-table-column label="序号" type="index" width="150">
             </el-table-column>
-            <el-table-column prop="userId" label="用户" width="120">
+            <el-table-column prop="userId" label="用户" width="220">
             </el-table-column>
 
-            <el-table-column prop="roomId" label="房间号" width="80">
+            <el-table-column prop="roomId" label="房间号" width="280">
             </el-table-column>
             <el-table-column prop="watchTime" label="观看时间" width="300">
             </el-table-column>

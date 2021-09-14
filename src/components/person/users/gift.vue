@@ -23,15 +23,15 @@
           </el-row>
           <!-- 表格 -->
           <el-table :data="tableData" stripe style="width: 100%">
-            <el-table-column label="序号" type="index" width="50">
+            <el-table-column label="序号" type="index" width="150">
             </el-table-column>
             <!-- <el-table-column prop="userId" label="用户" width="120">
             </el-table-column> -->
-            <el-table-column prop="giftId" label="礼物id" width="120">
+            <el-table-column prop="giftId" label="礼物id" width="220">
             </el-table-column>
-            <el-table-column prop="roomId" label="房间号" width="80">
+            <el-table-column prop="roomId" label="房间号" width="180">
             </el-table-column>
-            <el-table-column prop="createTime" label="时间" width="200">
+            <el-table-column prop="createTime" label="时间" width="300">
             </el-table-column>
           </el-table>
           <!-- 分页 -->

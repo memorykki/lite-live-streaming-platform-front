@@ -2,8 +2,11 @@
   <div class="info">
     <!-- 基本信息 -->
     <el-card class="box-card">
-      <el-tabs :tab-position="tabPosition" style="height: 500px;">
+      <el-tabs :tab-position="tabPosition" style="height: 700px;">
         <el-tab-pane label="我的信息">
+          <div class="grid-content bg-purple">
+                <el-button @click="openEditDialog"><i class="el-icon-edit">修改个人信息</i></el-button>
+              </div>
           <!-- 头像 -->
           <el-row :gutter="20">
             <el-col :span="6">
@@ -40,11 +43,6 @@
             <el-col :span="8">
               <div class="grid-content bg-purple">
                 <p>{{userInfo.userName}}</p>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <el-button @click="open"><i class="el-icon-edit"></i></el-button>
               </div>
             </el-col>
           </el-row>
@@ -85,11 +83,6 @@
                 <p>{{userInfo.userPasswd}}</p>
               </div>
             </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple">
-                <el-button @click="passwd"><i class="el-icon-edit"></i></el-button>
-              </div>
-            </el-col>
           </el-row>
           <!-- 粉丝数 -->
           <el-row :gutter="20">
@@ -101,6 +94,31 @@
             <el-col :span="8">
               <div class="grid-content bg-purple">
                 <p>{{userInfo.userFansCount}}</p>
+              </div>
+              </el-col>
+              </el-row>
+              <!-- 活力币剩余数量 -->
+              <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <p>活力币剩余数量</p>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple">
+                <p>{{userInfo.userExistCoins}}</p>
+              </div>
+              </el-col>
+              </el-row>
+              <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <p>活力币总数</p>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div class="grid-content bg-purple">
+                <p>{{userInfo.userSumCoins}}</p>
               </div>
               </el-col>
               </el-row>
@@ -120,7 +138,7 @@
                   <el-col :span="4">
                     <el-image
                           style="width: 53px; height: 54px"
-                          :src="role.identifity"
+                          :src="role.roleIdentification"
                           ></el-image>
                   </el-col>
                   <el-col :span="6">
@@ -130,6 +148,20 @@
               </div>
               </el-col>
               </el-row>
+    <el-dialog title="修改个人信息" :visible.sync="dialogFormVisible">
+      <el-form :model="user">
+        <el-form-item label="昵称">
+          <el-input v-model="user.userName"/>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="user.userPasswd"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="update">保存</el-button>
+      </div>
+    </el-dialog>
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -146,17 +178,10 @@ import Vue from 'vue';
     data() {
       return {
         tabPosition: 'left',
+        dialogFormVisible:false,
         user:{
-          userId:'',
-          userName:'小草',
-          userEmail:'',
-          userPhone:'15809172183',
+          userName:'',    
           userPasswd:'',
-          userHeadPhoto:'',
-          userFansCount:'',
-          roleId:'',
-          userExistCoins:'',
-
         },
         userInfo:[],
         role:[],
@@ -182,56 +207,38 @@ import Vue from 'vue';
         return isJPG && isLt2M;
       },
       // 修改昵称
-      open() {
-        this.$prompt('请输入昵称', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]/,
-          inputErrorMessage: '昵称不能包含中文、英文、数字以外的字符'
-        }).then(({
-          value
-        }) => {
-          //修改后台数据
-          let user={
-            
-          };
+      update() {
+      //记得更新地址********************************************************************
+      this.$http
+        .put("lite-live-streaming-platform/user/", {
+          userName:this.user.userName,
+          userPasswd:this.user.userPasswd
+        })
+        .then((res) => {
+          //关闭对话框
+          this.dialogFormVisible = !this.dialogFormVisible;
+          this.findPage();
+          
           this.$message({
-            type: 'success',
-            message: '你的昵称是: ' + value,
+            //提示添加成功消息
+            message: "处理完成",
+            type: "success",
           });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });
+        })
+        .catch((res) => {
+          this.$message.error("出错了");
         });
-      },
-      //修改密码
-      passwd() {
-        this.$prompt('请输入密码', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputPattern:/^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-          inputErrorMessage: '密码至少8个字符，至少包括1个小写字母和1个数字'
-        }).then(({
-          value
-        }) => {
-          //修改后台数据
-          let user={
+    },
 
-          };
-          this.$message({
-            type: 'success',
-            message: '修改成功',
-            //userInfo.user_passwd=value
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });
-        });
-      }
+    // 弹出修改对话框
+    openEditDialog(row) {
+      // 将数据填充到表单
+      //将所有数据赋给user对象，可能出问题，记得更改**************************************
+
+      this.user = row;
+      //让对话框显示
+      this.dialogFormVisible = true;
+    },
     },
     mounted() { //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
     this.userInfo=Vue.ls.get("userInfo").user;
