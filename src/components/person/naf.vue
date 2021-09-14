@@ -110,7 +110,11 @@
             <i class="el-icon-shopping-bag-2" style="color: #000000 !important"></i>
             <span slot="title">礼物管理</span>
           </el-menu-item>
-          <el-menu-item index="ban">
+          <el-menu-item index="role">
+            <i class="el-icon-circle-close" style="color: #000000 !important"></i>
+            <span slot="title">角色管理</span>
+          </el-menu-item>
+          <el-menu-item index="permission">
             <i class="el-icon-circle-close" style="color: #000000 !important"></i>
             <span slot="title">封禁权限</span>
           </el-menu-item>
@@ -151,7 +155,7 @@ export default {
   },
   data() {
     return {
-      administrators:true,
+      administrators:false,
       anchor:false,
       userInfo:[],
     };
@@ -168,9 +172,13 @@ export default {
     this.userInfo = Vue.ls.get("userInfo").user;
     if(this.userInfo.roleId<=10){
       this.anchor=false;
-    }else{
+    }
+    else if(this.userInfo.roleId>10){
       this.anchor=true;
-    };
+    }
+    if(this.userInfo.roleId==999){
+      this.administrators=true;
+    }
   },
 };
 </script>

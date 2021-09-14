@@ -11,7 +11,7 @@
           >
 
           <el-breadcrumb-item>信息管理</el-breadcrumb-item>
-          <el-breadcrumb-item>封禁权限</el-breadcrumb-item>
+          <el-breadcrumb-item>角色管理</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
@@ -32,7 +32,6 @@
               >查询</el-button
             >
           </el-col>
-        
         </el-row>
       </div>
 
@@ -48,10 +47,18 @@
           style="width: 100%"
           height="500"
         >
-          <el-table-column prop="userId" label="UID"> </el-table-column>
-          <el-table-column prop="userName" label="姓名"> </el-table-column>
-         
-          <el-table-column prop="roleId" label="角色"> </el-table-column>
+          <el-table-column prop="user.userId" label="UID"> </el-table-column>
+          <el-table-column prop="user.userName" label="用户名"> </el-table-column>
+          <el-table-column prop="roleType" label="角色类别" :formatter="nameFormatRoleType"> </el-table-column>
+          <el-table-column prop="user.roleId" label="角色等级"> </el-table-column>
+          <el-table-column prop="roleName" label="角色名"> </el-table-column>
+          <el-table-column prop="roleIdentification" label="图标">
+            <template slot-scope="scope">
+              <img slot="reference" :src="scope.row.roleIdentification" style="width: 30px;height: 30px">
+            </template>
+          </el-table-column>
+          <el-table-column prop="isBaned" label="权限状态" :formatter="nameFormatIsBaned" >
+          </el-table-column>
 
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -61,7 +68,6 @@
                 icon="el-icon-edit"
                 @click="openEditDialog(scope.row)"
               ></el-button>
-             
             </template>
           </el-table-column>
         </el-table>
@@ -83,19 +89,15 @@
 
     <!-- 修改对话框 -->
 
-    <el-dialog title="修改用户权限" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改用户角色" :visible.sync="dialogFormVisible">
       <el-form :model="user">
-        
-      
-        <el-input v-model="user.roleId" placeholder="请输入角色"></el-input>
+        <el-input v-model="user.roleId" placeholder="请输入角色等级"></el-input>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="update">保存</el-button>
       </div>
     </el-dialog>
-
-    
   </div>
 </template>
 <script>
@@ -114,26 +116,35 @@ export default {
       tableData: [],
       // 表单对象，用来存放修改用户信息的数据
       user: {
-      
         roleId: "",
       },
-  
+
       //控制修改对话框是否显示，默认不显示
       dialogFormVisible: false,
-  
-     
     };
   },
   methods: {
-  
+    nameFormatRoleType(row){
+      if(row.roleType === 1){
+          return "普通用户";
+      }else if(row.roleType === 2){
+          return "主播";
+      }else if(row.roleType === 3){
+          return "管理员";
+      }
+    },
+    nameFormatIsBaned(row){
+      if(row.isBaned){
+          return "部分限制";
+      }else{
+          return "无";
+      }
+    },
     //更新数据
     update() {
       //记得更新地址********************************************************************
       this.$http
-        .put(
-          "lite-live-streaming-platform//user/",
-          this.user
-        )
+        .put("lite-live-streaming-platform//user/", this.user)
         .then((res) => {
           //关闭对话框
           this.dialogFormVisible = !this.dialogFormVisible;
@@ -154,14 +165,13 @@ export default {
       this.dialogFormVisible = true;
     },
 
-   
     // 每页有多少条数据
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     // 当前页数
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       this.pager.pageCurrent = val;
       //查询第val页
       this.findPage();
@@ -179,20 +189,19 @@ export default {
         params.userName = this.user_name;
       }
 
-    
-
       this.$http
-        .get("lite-live-streaming-platform//user/", {
+        .get("lite-live-streaming-platform/user/", {
           params,
         })
         .then((res) => {
+          console.log(res)
+
           //  将得到的数据赋值,可能出问题记得更改*************************************************
           this.tableData = res.data.data.records;
 
           //获取后端分页统计数
           this.pager.total = res.data.data.total;
 
-          console.log(res);
           //获取分页信息
           this.pager.pageCurrent = res.data.data.current;
         });
