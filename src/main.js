@@ -46,7 +46,7 @@ Vue.use(ElementUI)
 // Vue.use(ElementUI)
 
 const goEasy = GoEasy.getInstance({
-  host:"hangzhou.goeasy.io",//应用所在的区域地址: 【hangzhou.goeasy.io |singapore.goeasy.io】
+  host:"hangzhou.goeasy.io",
   appkey:"BC-abcfb2ed9f294d3b9ba0f9008ab365d6",// common key
   modules: ['pubsub']
 });

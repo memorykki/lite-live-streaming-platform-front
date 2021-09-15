@@ -59,7 +59,8 @@
         <!-- 虽然v-if报错但是能用！！！！！！！！！！！！！！！！！！！！！！！！！！！！！ -->
         <!-- 控制显示的数据条数 -->
         <div class="top-10">
-          <tr v-for="(item, index) in userRank" v-if="index < 10" :key="index">
+          <div style="height:300px">
+          <tr v-for="(item, index) in userRank" v-if="index < 6" :key="index">
             <td>
               <div id="lidiv">
                 <p class="lipnum">{{ index + 1 }}</p>
@@ -81,6 +82,48 @@
               </div>
             </td>
           </tr>
+          </div>
+      <div class="chat-room">
+        
+          <div class="chat-room-content" ref="myscroll">
+            <div
+              class="message-box"
+              v-for="(message, key) in currentRoom.messages"
+              :key="key"
+              :id="'message-box' + key"
+            >
+              <div class="message-item">
+                <span class="user-name">{{ message.senderNickname }}:</span>
+                <span
+                  :class="
+                    message.senderUserId == currentRoom.currentUser.id
+                      ? 'user-message self'
+                      : 'user-message'
+                  "
+                >
+                  {{ message.content }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-room-action">
+            <div class="message-input-box">
+              <input
+                class="message-input"
+                :value="newMessageContent"
+                placeholder="说点什么..."
+                @input="onInputMessage"
+              />
+              <div
+                class="message-btn"
+                @click="sendMessage(MessageType.CHAT, newMessageContent)"
+              >
+                ↑
+              </div>
+            </div>
+          
+        </div>
+      </div>
         </div>
       </el-aside>
     </el-container>
@@ -102,62 +145,13 @@
             </div>
           </td>
         </tr>
+
+        
+
       </div>
       <dynamic :liveid="this.inanchorId"></dynamic>
 
-      <div class="chat-room">
-        <div class="online-avatar-container">
-          <div
-            class="online-avatar-item"
-            v-for="(user, key) in currentRoom.onlineUsers.users"
-            :key="key"
-            :style="realignAvatar(key)"
-          >
-            <img :src="user.avatar" />
-          </div>
-        </div>
-        <div class="chat-room-container">
-          <div class="chat-room-content" ref="myscroll">
-            <div
-              class="message-box"
-              v-for="(message, key) in currentRoom.messages"
-              :key="key"
-              :id="'message-box' + key"
-            >
-              <div class="message-item">
-                <span class="user-name"
-                  >{{ message && message.senderNickname }}:</span
-                >
-                <span
-                  :class="
-                    message.senderUserId == currentRoom.currentUser.id
-                      ? 'user-message self'
-                      : 'user-message'
-                  "
-                >
-                  {{ message && message.content }}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="chat-room-action">
-            <div class="message-input-box">
-              <input
-                class="message-input"
-                :value="newMessageContent"
-                placeholder="说点什么..."
-                @input="onInputMessage"
-              />
-              <div
-                class="message-btn"
-                @click="sendMessage(MessageType.CHAT, newMessageContent)"
-              >
-                ↑
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <!-- <dynamic ></dynamic> -->
       <!-- <p v-for="(item,i) in roomgift" in listObj"></p> -->
     </el-footer>
@@ -213,8 +207,12 @@ export default {
       roomId: "error",
       // 用户id
       inuserId: "",
+      //用户名
+      inuserName: "",
       // 主播id
       inanchorId: "error",
+      //用户头像
+      inuserHeadPhoto: "",
       // 是否关注主播
       userAttention: "",
       // 直播间热度
@@ -402,6 +400,7 @@ export default {
         // 监听当前聊天室的消息
         let self = this;
         let roomId = this.currentRoom.roomId;
+        console.log("监听this.currentRoom.roomId："+this.currentRoom.roomId)
         this.pubSub.subscribe({
             channel: roomId,
             onMessage : function (message) {
@@ -467,6 +466,7 @@ export default {
             type: messageType,
             content: content
         };
+        console.log("发送this.currentRoom.roomId："+this.currentRoom.roomId)
         this.pubSub.publish({
             channel : this.currentRoom.roomId,
             message : JSON.stringify(message),
@@ -507,34 +507,21 @@ export default {
     }
   },
   beforeMount() {
-    // 传入
-    // this.roomToken = {
-    //     roomId: room.roomId,
-    //     roomName: room.name,
-    //     userId: (Math.random() * 1000).toString(),
-    //     nickname: this.nickname,
-    //     avatar: this.selectedAvatar.imgUrl
-    // };
-    // this.$router.push({
-    //     path: '/chatRoom',
-    //     query: this.roomToken
-    // })
-    // 初始化room
-    // let roomToken = this.$route.query;
+    this.user = Vue.ls.get("userInfo").user;
+    // 将登录得到的用户的id属性赋给传入的用户id
+    this.inuserId = this.user.userId;
+    this.inuserName = this.user.userName;
+    this.inuserHeadPhoto = this.user.userHeadPhoto;
     this.currentRoom = {
-      roomId: roomToken.roomId, //房间ID
-      //   roomName: roomToken.roomName, //房间名
-      onlineUsers: {
-        count: 0,
-        users: [],
-      },
+      roomId: JSON.parse(this.$route.query.data).roomId, //房间ID
       messages: [],
       currentUser: {
-        id: roomToken.userId, //用户id
-        nickname: roomToken.nickname, //用户名
-        avatar: roomToken.avatar, //用户头像
+        id: this.inuserId, //用户id
+        nickname: this.inuserName, //用户名
+        avatar: this.inuserHeadPhoto, //用户头像
       },
     };
+    console.log(this.currentRoom)
     // 连接goEasy
     this.connectGoEasy();
     // 监听新消息
@@ -554,15 +541,16 @@ export default {
     //   "rtmp://ts.memorykk.cn:1935/vod/" + this.realroompath;
     new ckplayer(child.videoObject);
 
-    console.log(child.videoObject.video);
+    // console.log(child.videoObject.video);
     // 获取路由信息并赋给roomId
-    console.log("输出路由信息——————————————————————————————————————");
-    console.log(this.$route.query.data);
+    // console.log("输出路由信息——————————————————————————————————————");
+    // console.log(this.$route.query.data);
 
     let routedata = JSON.parse(this.$route.query.data);
-    console.log("输出路由json转译信息——————————————————————————————————————");
-    console.log(routedata);
+    // console.log("输出路由json转译信息——————————————————————————————————————");
+    // console.log(routedata);
     this.roomId = routedata.roomId;
+    console.log("roomId:"+this.roomId)
     this.inanchorId = routedata.userId;
     // this.roomtitle= this.$route.query.data.roomTitle;
 
@@ -571,14 +559,15 @@ export default {
     this.user = Vue.ls.get("userInfo").user;
     // 将登录得到的用户的id属性赋给传入的用户id
     this.inuserId = this.user.userId;
-    console.log("用户信息=========================");
-    console.log(this.user.userId);
+    this.inuserName = this.user.userName;
+    this.inuserHeadPhoto = this.user.userHeadPhoto;
+    // console.log("用户信息=========================");
+    // console.log(this.user.userId);
 
     this.findRoom();
     this.findGifit();
     this.findRank();
   },
-  // computed: {},
 };
 </script>
 
@@ -702,7 +691,7 @@ export default {
 
 #lidiv {
   display: flex;
-  background-color: #737268e0;
+  background-color: rgba(196, 196, 196, 0.2);
   margin: 0px;
 }
 .liimage {
@@ -734,10 +723,11 @@ export default {
   margin-bottom: 6px;
 }
 
+/*聊天区域*/
 .chat-room {
     width: 100%;
     flex-direction: column;
-    height: 100%;;
+    height: 50%;
     position: relative;
 }
 
@@ -800,18 +790,13 @@ export default {
     height: 0.4rem;
 }
 
-.chat-room-container {
-    flex-direction: column;
-    padding: 1.3rem 0.2rem 0.66rem 0.2rem ;
-    overflow: hidden;
-    width:100%;
-    height: 100%;
-}
+
 
 .chat-room-content {
     width: 100%;
     overflow: auto;
-    height: 100%;
+    height: 495px;
+    padding: 10px;
 }
 
 .message-box {
@@ -821,11 +806,10 @@ export default {
 
 .message-item {
     box-sizing: border-box;
-    height: 0.36rem;
-    background-color: rgba(196, 196, 196, 0.2);
-    font-size: 0.14rem;
-    border-radius: 0.5rem;
-    padding: 0.09rem 0.15rem;
+    
+    /* background-color: rgba(196, 196, 196, 0.2); */
+    font-size: 20px;
+    
     font-family: Microsoft YaHei UI;
 }
 
@@ -840,12 +824,15 @@ export default {
 }
 
 .chat-room-action {
-    height: 0.66rem;
+    
+    height: 50px;
     line-height: 0.46rem;
-    padding:0.1rem 0.14rem;
+    
+    padding: 0px;
+    margin-bottom: 10px;
     display: flex;
     background: #ffffff;
-    position: fixed;
+   
     bottom: 0;
     right: 0;
     width: 100%;
@@ -869,17 +856,18 @@ export default {
 
 .message-btn {
     position: absolute;
-    width: 0.36rem;
-    height: 0.36rem;
+    width: 49px;
+    height: 49px;
     background: #D02129;
     right: 0.05rem;
     top: 0.05rem;
     border-radius: 0.36rem;
     text-align: center;
+    padding: 10px;
     line-height: 0.36rem;
     color: #fff;
     font-weight: bold;
-    font-size: 0.16rem;
+    font-size: 25px;
 }
 
 .heart {
