@@ -12,8 +12,8 @@
       </div>
       <div id="opra">
         <div id="zan-count">{{ item.userDynamic.dynamicLike }}</div>
-        <div v-if="item.haveLike" id="zan-btn_cacel_like"><img class="like" src="http://ts.memorykk.cn:1936/dynamic_img/like_no.png" @click="cancel_like(item.userDynamic.dynamicId,index)"/></div>
-        <div v-else id="zan-btn_like"><img class="like" src="http://ts.memorykk.cn:1936/dynamic_img/like_yes.png" @click="like(item.userDynamic.dynamicId,index)"/></div>
+        <div v-if="item.haveLike" id="zan-btn_cacel_like"><img class="like" src="http://ts.memorykk.cn:1936/dynamic_img/like_yes.png" @click="cancel_like(item.userDynamic.dynamicId,index)"/></div>
+        <div v-else id="zan-btn_like"><img class="like" src="http://ts.memorykk.cn:1936/dynamic_img/like_no.png" @click="like(item.userDynamic.dynamicId,index)"/></div>
       </div>
     </div>
   </div>
@@ -31,6 +31,8 @@ export default {
     return {
       list: [],
       realroompath: "",
+      userId: 7,
+      anchorId: 6
     }
     props:['liveid']
   },
@@ -40,22 +42,19 @@ export default {
       {
         pageCurrent: 0,
         pageSize: 10,
-        userId: 7,
-        anchorId: 6
+        userId: this.userId,
+        anchorId: this.anchorId
       }
     ).then(res => {
       if (res.status === 200) {
-        // console.log(res)
         this.list = res.data.data.records
       } else {
         alert('获取数据失败')
       }
-    }),
-    setTimeout(() => {
-      this.loadVideo();
-    }, 1000);
-    this.userId = Vue.ls.get("userInfo").user.userId;
-    this.anchorId = this.liveid;
+    })
+    // setTimeout(() => {
+    //   this.loadVideo();
+    // }, 1000);
   },
   methods: {
     loadVideo(){
@@ -65,7 +64,7 @@ export default {
       // new ckplayer(child.videoObject);
     },
     cancel_like(id, index) {
-      deleteAction('lite-live-streaming-platform/userLikeDynamic/cancel?userId=' + 7 + '&dynamicId=' + id
+      deleteAction('lite-live-streaming-platform/userLikeDynamic/cancel?userId=' + this.userId + '&dynamicId=' + id
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike - 1
@@ -76,7 +75,7 @@ export default {
       })
     },
     like(id, index) {
-      putAction('lite-live-streaming-platform/userLikeDynamic/like?userId=' + 7 + '&dynamicId=' + id
+      putAction('lite-live-streaming-platform/userLikeDynamic/like?userId=' + this.userId + '&dynamicId=' + id
       ).then((res) => {
         if (res.status === 200) {
           this.list[index].userDynamic.dynamicLike = this.list[index].userDynamic.dynamicLike + 1
@@ -86,6 +85,12 @@ export default {
         }
       })
     }
+  },
+  mounted(){
+    this.userId = Vue.ls.get("userInfo").user.userId;
+    this.anchorId = this.liveid;
+    console.log(this.userId)
+    console.log(this.anchorId)
   }
 }
 </script>

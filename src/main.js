@@ -15,7 +15,7 @@ import axios from 'axios'
 import '@/icons' // icon
 import '@/permission' // permission control
 import Storage from 'vue-ls'
-import GoEasy from "goeasy";
+import GoEasy from "goeasy";  //npm install --save goeasy
 
 const options = {
   namespace: 'vuejs__', // key键前缀

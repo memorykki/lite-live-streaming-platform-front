@@ -10,7 +10,9 @@
         <!-- liveHeader存放头部信息 -->
         <div id="liveHeader">
           <div id="liveheadertop">
-            <el-tag type="info" id="gonggao">公告：{{ roomdata.roomAnnouncement }}</el-tag>
+            <el-tag type="info" id="gonggao"
+              >公告：{{ roomdata.roomAnnouncement }}</el-tag
+            >
           </div>
           <div id="liveheaderbottom">
             <el-row :gutter="20">
@@ -27,26 +29,24 @@
                 </div></el-col
               >
 
-              <el-col :span="5"
+              <el-col :span="5">
+                <el-button
+                  class="livebutton"
+                  type="info"
+                  plain
+                  @click="userlike"
+                  >{{ userAttention }}</el-button
                 >
-                 
-                    <el-button class="livebutton" type="info" plain @click="userlike">{{
-                      userAttention
-                    }}</el-button>
-                
-                 
-                </el-col
-              >
-              <el-col :span="5"
+              </el-col>
+              <el-col :span="5">
+                <el-button
+                  class="livebutton"
+                  type="info"
+                  plain
+                  @click="openreport"
+                  >举报</el-button
                 >
-                 
-                  
-                    <el-button class="livebutton" type="info" plain @click="openreport"
-                      >举报</el-button
-                    >
-                
-                </el-col
-              >
+              </el-col>
             </el-row>
           </div>
         </div>
@@ -59,21 +59,27 @@
         <!-- 虽然v-if报错但是能用！！！！！！！！！！！！！！！！！！！！！！！！！！！！！ -->
         <!-- 控制显示的数据条数 -->
         <div class="top-10">
-          <tr v-for="(item, index) in userRank"  v-if="index<10" :key="index" >
+          <tr v-for="(item, index) in userRank" v-if="index < 10" :key="index">
             <td>
               <div id="lidiv">
-                <p class="lipnum">{{index+1}}</p>
+                <p class="lipnum">{{ index + 1 }}</p>
                 <div style="display: flex">
-             
-              <img class="liimage" :src="item.userHeadPhoto" alt="userhead" />
-               <p class="lip">{{item.userName}}</p>
-              </div>
-               <p class="lip">{{item.roleName}}</p>
-              <img class="lvimage" :src="item.roleIdentification" alt="rolehead" />
-              <p class="lip">{{item.sendGiftValue}}</p>
+                  <img
+                    class="liimage"
+                    :src="item.userHeadPhoto"
+                    alt="userhead"
+                  />
+                  <p class="lip">{{ item.userName }}</p>
+                </div>
+                <p class="lip">{{ item.roleName }}</p>
+                <img
+                  class="lvimage"
+                  :src="item.roleIdentification"
+                  alt="rolehead"
+                />
+                <p class="lip">{{ item.sendGiftValue }}</p>
               </div>
             </td>
-           
           </tr>
         </div>
       </el-aside>
@@ -83,18 +89,75 @@
       <!-- test -->
       <div id="giftdiv">
         <tr>
-          
           <td v-for="(item, index) in roomgift" :key="index">
             <div class="gifttr">
-            <img id="giftphoto" :src="item.giftPhoto" alt="gift" @click="sendgift(item)"/>
-            <p>{{item.giftName}}:{{ item.giftValue }}</p>
-            <p>{{ item.giftValue }}</p>
+              <img
+                id="giftphoto"
+                :src="item.giftPhoto"
+                alt="gift"
+                @click="sendgift(item)"
+              />
+              <p>{{ item.giftName }}:{{ item.giftValue }}</p>
+              <p>{{ item.giftValue }}</p>
             </div>
           </td>
-        
         </tr>
       </div>
       <dynamic :liveid="this.inanchorId"></dynamic>
+
+      <div class="chat-room">
+        <div class="online-avatar-container">
+          <div
+            class="online-avatar-item"
+            v-for="(user, key) in currentRoom.onlineUsers.users"
+            :key="key"
+            :style="realignAvatar(key)"
+          >
+            <img :src="user.avatar" />
+          </div>
+        </div>
+        <div class="chat-room-container">
+          <div class="chat-room-content" ref="myscroll">
+            <div
+              class="message-box"
+              v-for="(message, key) in currentRoom.messages"
+              :key="key"
+              :id="'message-box' + key"
+            >
+              <div class="message-item">
+                <span class="user-name"
+                  >{{ message && message.senderNickname }}:</span
+                >
+                <span
+                  :class="
+                    message.senderUserId == currentRoom.currentUser.id
+                      ? 'user-message self'
+                      : 'user-message'
+                  "
+                >
+                  {{ message && message.content }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-room-action">
+            <div class="message-input-box">
+              <input
+                class="message-input"
+                :value="newMessageContent"
+                placeholder="说点什么..."
+                @input="onInputMessage"
+              />
+              <div
+                class="message-btn"
+                @click="sendMessage(MessageType.CHAT, newMessageContent)"
+              >
+                ↑
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- <dynamic ></dynamic> -->
       <!-- <p v-for="(item,i) in roomgift" in listObj"></p> -->
     </el-footer>
@@ -161,7 +224,7 @@ export default {
       //控制举报记录对话框
       reportDialog: false,
       // 直播间礼物排行榜
-      userRank:[],
+      userRank: [],
       //存储举报记录
       reportdata: {
         userId: "",
@@ -169,6 +232,23 @@ export default {
         status: 1,
         type: 1,
         subType: "",
+      },
+      currentRoom: null,
+      propDisplay: {
+        showPropType: 0,
+        play: false,
+        timer: null,
+      },
+      newMessageContent: "",
+      // 道具类型
+      Prop: {
+        HEART: 0, //桃心
+        ROCKET: 1, //火箭
+      },
+      // 消息类型
+      MessageType: {
+        CHAT: 0, //文字聊天
+        PROP: 1, //道具
       },
     };
   },
@@ -259,32 +339,33 @@ export default {
         console.log(res);
       });
     },
-    sendgift(item){
-
-postAction(
-        "/lite-live-streaming-platform/giftRecord?reason="+"在"+this.roomId+"号房间送出了"+item.giftName,
+    sendgift(item) {
+      postAction(
+        "/lite-live-streaming-platform/giftRecord?reason=" +
+          "在" +
+          this.roomId +
+          "号房间送出了" +
+          item.giftName,
 
         {
-          roomId:this.roomId,
-          userId:this.user.userId,
-          giftId:item.giftId,
-          
+          roomId: this.roomId,
+          userId: this.user.userId,
+          giftId: item.giftId,
         }
       ).then((res) => {
-        
         console.log("送礼物返回信息==========");
         console.log(res);
-          this.$message({
-            message: "送出了一个"+item.giftName,
-            type: "success",
-          });
-          this.findRank();
+        this.$message({
+          message: "送出了一个" + item.giftName,
+          type: "success",
+        });
+        this.findRank();
       });
     },
     // 查询排行榜信息
     findRank() {
-      getAction("/lite-live-streaming-platform/room/rank",{
-        roomId:this.roomId
+      getAction("/lite-live-streaming-platform/room/rank", {
+        roomId: this.roomId,
       }).then((res) => {
         //  将得到的数据赋值
         this.userRank = res.data.data;
@@ -292,9 +373,175 @@ postAction(
         console.log("直播间礼物排行榜=============");
 
         console.log(res);
-        console.log( this.userRank);
+        console.log(this.userRank);
       });
     },
+    // 连接goEasy
+    connectGoEasy(){
+        let self = this;
+        let userData = {
+            avatar: this.currentRoom.currentUser.avatar,
+            nickname: this.currentRoom.currentUser.nickname
+        }
+        this.goEasy.connect({
+            id : this.currentRoom.currentUser.id,
+            data : userData,
+            onSuccess: function(){
+                console.log("GoEasy connect successfully.");
+            },
+            onFailed: function(error){
+                console.log("Failed to connect GoEasy, code:"+error.code+ ",error:"+error.content);
+            },
+            onProgress: function(attempts){
+                console.log("GoEasy is connecting", attempts);
+            }
+        });
+    },
+    // 监听新消息
+    listenNewMessage(){
+        // 监听当前聊天室的消息
+        let self = this;
+        let roomId = this.currentRoom.roomId;
+        this.pubSub.subscribe({
+            channel: roomId,
+            onMessage : function (message) {
+                let messageContent = "";
+                let content = JSON.parse(message.content);
+                //聊天消息
+                if(content.type === self.MessageType.CHAT) {
+                    messageContent = content.content;
+                }
+                //道具消息
+                if(content.type === self.MessageType.PROP) {
+                    if (content.content === self.Prop.ROCKET) {
+                        messageContent = "送出了一枚大火箭";
+                    }
+                    if (content.content === self.Prop.HEART) {
+                        messageContent = "送出了一个大大的比心";
+                    }
+                }
+                //添加消息
+                let newMessage = {
+                    content: messageContent,
+                    senderUserId: content.senderUserId,
+                    senderNickname: content.senderNickname,
+                    type: self.MessageType.CHAT
+                };
+                self.currentRoom.messages.push(newMessage);
+                if (content.type === self.MessageType.PROP) {
+                    self.propAnimation(parseInt(content.content))
+                }
+                self.$nextTick(() => {
+                    self.$refs.myscroll.scrollTo(0, self.$refs.myscroll.scrollHeight)
+                })
+            },
+            onSuccess : function () {
+                console.log("监听新消息成功")
+            },
+            onFailed : function(error) {
+                console.log("订阅消息失败, code:"+error.code+ ",错误信息:"+error.content);
+            }
+        })
+    },
+    realignAvatar(key) {//排列头像
+        let len = this.currentRoom.onlineUsers.users.length-1;
+        if(key!== len) {
+            let p = (len - key+1)*0.1 +'rem';
+            return {
+                transform:'translateX('+ p +')',
+                zIndex : 100-key
+            }
+        }
+    },
+    onInputMessage(event) {//双向绑定消息 兼容
+        this.newMessageContent = event.target.value;
+    },
+    sendMessage(messageType, content) {
+        //发送消息
+        if (content === "" && messageType === this.MessageType.CHAT){
+            return;
+        }
+        let message = {
+            senderNickname: this.currentRoom.currentUser.nickname,
+            senderUserId: this.currentRoom.currentUser.id,
+            type: messageType,
+            content: content
+        };
+        this.pubSub.publish({
+            channel : this.currentRoom.roomId,
+            message : JSON.stringify(message),
+            onSuccess : function () {
+                console.log("发送成功");
+            },
+            onFailed : function (error) {
+                console.log("消息发送失败，错误编码：" + error.code + " 错误信息：" + error.content);
+            }
+        });
+        this.newMessageContent = "";
+    },
+    propAnimation(type) {//道具动画
+        //动画的实现，可以不用关心
+        if (this.propDisplay.timer) {
+            return;
+        }
+        this.propDisplay.showPropType = type;
+        this.propDisplay.play = true;
+        this.propDisplay.timer = setTimeout(() => {
+            this.propDisplay.play = false;
+            this.propDisplay.timer = null;
+        }, 2000)
+    },
+    quitRoom () {
+        let self = this;
+        this.goEasy.disconnect({
+            onSuccess(){
+                // self.$router.push({
+                //     name: "login"
+                // });
+                console.log("GoEasy disconnect successfully");
+            },
+            onFailed(error){
+                console.log("GoEasy disconnect failed"+JSON.stringify(error));
+            }
+        });
+    }
+  },
+  beforeMount() {
+    // 传入
+    // this.roomToken = {
+    //     roomId: room.roomId,
+    //     roomName: room.name,
+    //     userId: (Math.random() * 1000).toString(),
+    //     nickname: this.nickname,
+    //     avatar: this.selectedAvatar.imgUrl
+    // };
+    // this.$router.push({
+    //     path: '/chatRoom',
+    //     query: this.roomToken
+    // })
+    // 初始化room
+    // let roomToken = this.$route.query;
+    this.currentRoom = {
+      roomId: roomToken.roomId, //房间ID
+      //   roomName: roomToken.roomName, //房间名
+      onlineUsers: {
+        count: 0,
+        users: [],
+      },
+      messages: [],
+      currentUser: {
+        id: roomToken.userId, //用户id
+        nickname: roomToken.nickname, //用户名
+        avatar: roomToken.avatar, //用户头像
+      },
+    };
+    // 连接goEasy
+    this.connectGoEasy();
+    // 监听新消息
+    this.listenNewMessage();
+  },
+  destroyed() {
+    this.quitRoom();
   },
   mounted() {
     const rid = this.$route.query.data.roomId;
@@ -311,10 +558,10 @@ postAction(
     // 获取路由信息并赋给roomId
     console.log("输出路由信息——————————————————————————————————————");
     console.log(this.$route.query.data);
- 
-let routedata = JSON.parse(this.$route.query.data)
-console.log("输出路由json转译信息——————————————————————————————————————");
- console.log(routedata);
+
+    let routedata = JSON.parse(this.$route.query.data);
+    console.log("输出路由json转译信息——————————————————————————————————————");
+    console.log(routedata);
     this.roomId = routedata.roomId;
     this.inanchorId = routedata.userId;
     // this.roomtitle= this.$route.query.data.roomTitle;
@@ -372,17 +619,17 @@ console.log("输出路由json转译信息—————————————
   display: flex;
   flex-direction: column;
 }
-#liveheadertop{
+#liveheadertop {
   height: 35px;
 }
-#liveheaderbottom{
+#liveheaderbottom {
   height: 35px;
   margin-bottom: 10px;
 }
-#gonggao{
+#gonggao {
   width: 100%;
 }
-.livebutton{
+.livebutton {
   margin-top: 5px;
   width: 142px;
 }
@@ -400,7 +647,6 @@ console.log("输出路由json转译信息—————————————
   text-align: left;
 }
 #giftdiv {
-  
   height: auto;
   width: 100%;
   /* 设置边框阴影 */
@@ -414,17 +660,29 @@ console.log("输出路由json转译信息—————————————
   height: 40px;
 }
 /* 控制礼物和价值显示样式 */
-.gifttr{
+.gifttr {
   /* 控制礼物间距 */
   margin-left: 40px;
   text-align: center;
   font-size: 12px;
-  background-image: -webkit-linear-gradient(left,blue,#66ffff 10%,#cc00ff 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
-    -webkit-text-fill-color: transparent;/* 将字体设置成透明色 */
-    -webkit-background-clip: text;/* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
-    -webkit-background-size: 200% 100%; 
-    -webkit-animation: masked-animation 4s linear infinite;
-
+  background-image: -webkit-linear-gradient(
+    left,
+    blue,
+    #66ffff 10%,
+    #cc00ff 20%,
+    #cc00cc 30%,
+    #ccccff 40%,
+    #00ffff 50%,
+    #ccccff 60%,
+    #cc00cc 70%,
+    #cc00ff 80%,
+    #66ffff 90%,
+    blue 100%
+  );
+  -webkit-text-fill-color: transparent; /* 将字体设置成透明色 */
+  -webkit-background-clip: text; /* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 4s linear infinite;
 }
 .el-row {
   width: 100%;
@@ -442,18 +700,17 @@ console.log("输出路由json转译信息—————————————
   box-shadow: #d0d0d0 1px 1px 10px 0px;
 }
 
-
-#lidiv{
+#lidiv {
   display: flex;
- background-color: #737268e0;
+  background-color: #737268e0;
   margin: 0px;
 }
-.liimage{
-width: 30px;
+.liimage {
+  width: 30px;
   height: 36px;
-  margin-top: 6px
+  margin-top: 6px;
 }
-.lipnum{
+.lipnum {
   background-color: #fffb93e0;
   padding: 5px 10px 5px 10px;
   margin: 0px;
@@ -462,20 +719,218 @@ width: 30px;
   margin-right: 10px;
   margin-top: 5px;
   text-align: center;
- 
 }
-.lip{
+.lip {
   margin-left: 10px;
   width: 80px;
   height: 10px;
-   /* margin: 0px; */
+  /* margin: 0px; */
 }
-.lvimage{
+.lvimage {
   height: 36px;
   width: 40px;
   margin-top: 6px;
   margin-left: 10px;
   margin-bottom: 6px;
-  
+}
+
+.chat-room {
+    width: 100%;
+    flex-direction: column;
+    height: 100%;;
+    position: relative;
+}
+
+.header{
+    height: 0.9rem;
+    line-height: 0.9rem;
+    text-align: center;
+    font-size: 0.24rem;
+    color: #D02129;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+}
+.quit-btn{
+    position: absolute;
+    right: 0.1rem;
+    color: #999;
+}
+
+.online-avatar-container {
+    height: 0.4rem;
+    line-height: 0.4rem;
+    display: flex;
+    justify-content: flex-end;
+    box-shadow: 0.05rem 0.15rem 0.25rem #fff;
+    z-index: 40;
+    padding: 0 0.1rem;
+    position: fixed;
+    top:0.9rem;
+    right: 0;
+    width: 100%;
+    background: #fff;
+}
+
+.online-avatar-item {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 0.2rem;
+    text-align: center;
+    line-height: 0.4rem;
+    background: rgba(51, 51, 51, 0.3);
+    color: #fff;
+    font-size: 0.14rem;
+}
+
+.online-count {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 0.4rem;
+    text-align: center;
+    background: rgba(51, 51, 51, 0.3);
+    color: #fff;
+    font-size: 0.14rem;
+}
+
+.online-avatar-item img {
+    width: 0.4rem;
+    height: 0.4rem;
+}
+
+.chat-room-container {
+    flex-direction: column;
+    padding: 1.3rem 0.2rem 0.66rem 0.2rem ;
+    overflow: hidden;
+    width:100%;
+    height: 100%;
+}
+
+.chat-room-content {
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+}
+
+.message-box {
+    margin-top: 0.08rem;
+    display: flex;
+}
+
+.message-item {
+    box-sizing: border-box;
+    height: 0.36rem;
+    background-color: rgba(196, 196, 196, 0.2);
+    font-size: 0.14rem;
+    border-radius: 0.5rem;
+    padding: 0.09rem 0.15rem;
+    font-family: Microsoft YaHei UI;
+}
+
+.user-name {
+    color: #D02129;
+    font-family: Microsoft YaHei UI;
+}
+
+.user-message {
+    color: #333;
+    font-family: Microsoft YaHei UI;
+}
+
+.chat-room-action {
+    height: 0.66rem;
+    line-height: 0.46rem;
+    padding:0.1rem 0.14rem;
+    display: flex;
+    background: #ffffff;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+.message-input-box{
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+}
+
+.message-input {
+    background-color: rgba(51, 51, 51, 0.1);
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    font-size: 0.14rem;
+    padding: 0.13rem 0.2rem;
+    flex: 1;
+    border: 0;
+    outline: none;
+}
+
+.message-btn {
+    position: absolute;
+    width: 0.36rem;
+    height: 0.36rem;
+    background: #D02129;
+    right: 0.05rem;
+    top: 0.05rem;
+    border-radius: 0.36rem;
+    text-align: center;
+    line-height: 0.36rem;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.16rem;
+}
+
+.heart {
+    width: 0.4rem;
+    height: 0.46rem;
+}
+
+.rocket {
+    width: 0.2rem;
+    height: 0.46rem;
+}
+
+.self {
+    color: #D02129;
+}
+
+.show-animation {
+    width: 0.4rem;
+    height: 1.6rem;
+    position: fixed;
+    z-index: 44;
+    left: 50%;
+    bottom: 0.4rem;
+    margin: 0 -0.2rem;
+    justify-content: flex-end;
+    animation: myanimation 2s linear;
+    display: flex;
+    flex-direction: column;
+}
+
+.prop-hearts {
+    display: flex;
+    flex-direction: column;
+}
+
+.prop-heart {
+    height: 0.4rem;
+    width: 0.4rem;
+}
+
+.prop-rocket {
+    height: 0.8rem;
+    width: 0.4rem;
+}
+
+@keyframes myanimation {
+    from {
+        bottom: 0.4rem;
+    }
+    to {
+        bottom: 3rem;
+    }
 }
 </style>
