@@ -178,9 +178,10 @@
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page.sync="pager.pageCurrent"
-            :page-size="pager.pageSize"
-            layout="total, pager, next, jumper"
+            :current-page="pager.pageCurrent"
+          :page-size="pager.pageSize"
+          layout="prev, pager, next, jumper"
+          :total="pager.total"
           />
         </el-tab-pane>
       </el-tabs>

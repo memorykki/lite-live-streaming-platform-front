@@ -195,7 +195,7 @@ export default {
     add() {
       this.$http
         .post(
-          "http://172.29.3.78:8081/lite-live-streaming-platform/gift/",
+          "/lite-live-streaming-platform/gift/",
           this.addUser
         )
         .then((res) => {

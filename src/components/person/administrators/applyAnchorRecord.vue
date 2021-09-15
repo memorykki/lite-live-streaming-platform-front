@@ -119,7 +119,7 @@ export default {
       //记得更新地址********************************************************************
       console.log(this.user.userId);
       putAction(
-          "lite-live-streaming-platform/applyAnchorRecord/",
+          "lite-live-streaming-platform/applyAnchorRecord",
           {
               userId:this.user.userId,
               applyResult:this.applyResult,

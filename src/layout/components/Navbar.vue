@@ -22,7 +22,7 @@
           <div class="avatar-wrapper">
            
           <!-- 登录时使用数据库中头像，未登录则显示默认头像 -->
-             <img  :src="Avatar" class="user-avatar" onerror="this.src='http://172.29.3.78:8081/lite-live-streaming-platform/static/file/commonfile/5f4901fe-a286-471c-bc94-d76379629929.png'"/>
+             <img  :src="Avatar" class="user-avatar" onerror="this.src='http://ts.memorykk.cn:1936/cover/moren.png'"/>
             
           </div>
           <el-dropdown-menu slot="dropdown">

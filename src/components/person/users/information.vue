@@ -149,13 +149,13 @@
               </el-col>
               </el-row>
     <el-dialog title="修改个人信息" :visible.sync="dialogFormVisible">
-      <el-form :model="user">
+      <el-form :v-model="information" :rules="rule">
         <el-form-item label="昵称">
-          <el-input v-model="user.userName"/>
+          <el-input v-model="information.userName"/>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="user.userPasswd"/>
-        </el-form-item>
+        <!-- <el-form-item label="密码">
+          <el-input show-password v-model="information.userPasswd"/>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -170,6 +170,8 @@
 
 <script>
 import Vue from 'vue';
+import { getAction, putAction } from '@/api/api';
+import user from '@/store/modules/user';
   export default {
     name: "info",
     components: {
@@ -179,9 +181,10 @@ import Vue from 'vue';
       return {
         tabPosition: 'left',
         dialogFormVisible:false,
-        user:{
+        information:{
           userName:'',    
-          userPasswd:'',
+          // userPasswd:'',
+          // userId:''
         },
         userInfo:[],
         role:[],
@@ -209,16 +212,13 @@ import Vue from 'vue';
       // 修改昵称
       update() {
       //记得更新地址********************************************************************
-      this.$http
-        .put("lite-live-streaming-platform/user/", {
-          userName:this.user.userName,
-          userPasswd:this.user.userPasswd
-        })
+      putAction("lite-live-streaming-platform/user/", this.information)
         .then((res) => {
+          console.log(this.information);
+          location.reload();
           //关闭对话框
           this.dialogFormVisible = !this.dialogFormVisible;
-          this.findPage();
-          
+          this.findPage();         
           this.$message({
             //提示添加成功消息
             message: "处理完成",
@@ -229,7 +229,6 @@ import Vue from 'vue';
           this.$message.error("出错了");
         });
     },
-
     // 弹出修改对话框
     openEditDialog(row) {
       // 将数据填充到表单
@@ -239,10 +238,15 @@ import Vue from 'vue';
       //让对话框显示
       this.dialogFormVisible = true;
     },
+    select(){
+      getAction()
+      
+    }
     },
     mounted() { //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
     this.userInfo=Vue.ls.get("userInfo").user;
     this.role=Vue.ls.get("userInfo").role;
+    this.information.userId=Vue.ls.get("userInfo").user.userId;
     console.log(this.userInfo);
     }
   }
