@@ -62,7 +62,6 @@ import { getAction } from '@/api/api';
       },
 
       find(tag) { //定义的分页查询方法
-        // Vue.http.options.root = 'http://172.29.3.78:8081/lite-live-streaming-platform'
         getAction('lite-live-streaming-platform/room/selectClassifyList', {
           
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1

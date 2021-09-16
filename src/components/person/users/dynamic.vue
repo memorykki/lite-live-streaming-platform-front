@@ -308,7 +308,6 @@ export default {
 
     findPage() {
       //定义的分页查询方法
-      // Vue.http.options.root = 'http://172.29.3.78:8081/lite-live-streaming-platform'
       getAction("lite-live-streaming-platform/userDynamic/list", {
         pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
         pageSize: this.pager.pageSize, //每页显示多少条记录

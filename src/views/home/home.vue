@@ -312,9 +312,6 @@ export default {
       getAction("/lite-live-streaming-platform/gift/").then((res) => {
         //  将得到的数据赋值
         this.roomgift = res.data.data.records;
-
-        console.log("直播间礼物");
-
         console.log(res);
       });
     },
@@ -326,6 +323,7 @@ export default {
     addreport() {
       this.reportdata.evidence = this.$refs.postimage.imageurl;
       this.reportdata.userId = this.inanchorId;
+      console.log("this.inanchorId"+this.inanchorId)
 
       postAction(
         "/lite-live-streaming-platform/banRecord/",
@@ -530,30 +528,10 @@ export default {
   destroyed() {
     this.quitRoom();
   },
-  mounted() {
-    const rid = this.$route.query.data.roomId;
-    const child = this.$refs.myplayer;
-    child.roompath = rid;
-    //直播间或者视频的播放路径，从路由传参获得
-    child.videoObject.video =
-      "rtmp://ts.memorykk.cn:1935/live/" + child.roompath;
-    // child.videoObject.video =
-    //   "rtmp://ts.memorykk.cn:1935/vod/" + this.realroompath;
-    new ckplayer(child.videoObject);
-
-    // console.log(child.videoObject.video);
-    // 获取路由信息并赋给roomId
-    // console.log("输出路由信息——————————————————————————————————————");
-    // console.log(this.$route.query.data);
-
+  created() {
     let routedata = JSON.parse(this.$route.query.data);
-    // console.log("输出路由json转译信息——————————————————————————————————————");
-    // console.log(routedata);
     this.roomId = routedata.roomId;
-    console.log("roomId:"+this.roomId)
     this.inanchorId = routedata.userId;
-    // this.roomtitle= this.$route.query.data.roomTitle;
-
     //获取登陆的用户信息
     // 将用户信息赋给user
     this.user = Vue.ls.get("userInfo").user;
@@ -561,13 +539,18 @@ export default {
     this.inuserId = this.user.userId;
     this.inuserName = this.user.userName;
     this.inuserHeadPhoto = this.user.userHeadPhoto;
-    // console.log("用户信息=========================");
-    // console.log(this.user.userId);
+    
+  },
+  mounted(){
+    const child = this.$refs.myplayer;
+    //直播间或者视频的播放路径，从路由传参获得
+    child.videoObject.video = "rtmp://ts.memorykk.cn:1935/live/" + this.roomId;   
+    new ckplayer(child.videoObject);
 
     this.findRoom();
     this.findGifit();
     this.findRank();
-  },
+  }
 };
 </script>
 

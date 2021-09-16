@@ -6,12 +6,7 @@
       <el-col :span="12" v-for="(item, index) in game" :key="index" style="margin-bottom: 30px">
         <!-- 封面 -->
         <div id="Detail">
-          <el-image :src="item.roomPhoto" fit="fill" style="width: 100%; height: 100%; border-radius: 8px" @click="
-                  $router.push({
-                    name: '',
-                    query: {},
-                  })
-                "></el-image><!-- @click="toVideoPage(item.id)" -->
+          <el-image :src="item.roomPhoto" fit="fill" style="width: 100%; height: 100%; border-radius: 8px"  @click="send(item)"></el-image><!-- @click="toVideoPage(item.id)" -->
         </div>
         <!-- 介绍 -->
         <div id="Intro">
@@ -55,6 +50,16 @@ import { getAction } from '@/api/api';
         console.log(this.pager.pageSize);
         this.findPage();
       },
+      
+    send(sendroom){
+        this.$router.push({
+                    name: 'home',
+                    query: {
+                      data:JSON.stringify(sendroom)
+
+                    },
+                  })
+    },
       handleCurrentChange(val) { //当前是第几页
         this.pager.pageCurrent = val;
         console.log(this.pager.pageCurrent);
@@ -62,7 +67,6 @@ import { getAction } from '@/api/api';
       },
 
       find(tag) { //定义的分页查询方法
-        // Vue.http.options.root = 'http://172.29.3.78:8081/lite-live-streaming-platform'
         getAction('lite-live-streaming-platform/room/selectClassifyList', {
           
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1

@@ -93,12 +93,11 @@ export default {
       getAction("lite-live-streaming-platform/giftRecord", {
         pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
         pageSize: this.pager.pageSize, //每页显示多少条记录
-        giftName: this.giftName, //条件查询的参数
+        userId: this.userInfo.userId
       })
         .then((res) => {
           //在此将数据赋值给数据表格数组
           this.tableData = res.data.data.records;
-          console.log(this.tableData);
           this.pager.total = res.data.data.total; //获得后台传递过来的分页统计数
           this.pager.pageCurrent = res.data.data.current; //将当前分页的期数数据回传到页面，要使用
         })
@@ -110,7 +109,6 @@ export default {
   mounted() {
     //生命周期函数挂载完成后的方法，该函数不是自己定义的，vue自带的
     this.userInfo = Vue.ls.get("userInfo").user;
-    console.log(this.userInfo);
     this.findPage();
   },
 };

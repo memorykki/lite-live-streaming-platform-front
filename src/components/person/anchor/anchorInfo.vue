@@ -54,7 +54,7 @@
       <button type="info" @click="getchilddata">获取封面路径</button>
     </div>
     <div id="address" v-if="havePush">
-      您的直播推流地址是：rtmp://ts.memorykk.cn:1935/live/{{ roomId }}
+      您的直播推流地址是：rtmp://ts.memorykk.cn:1935/live/{{ this.Room.roomId }}
     </div>
   </el-card>
 </template>
@@ -94,6 +94,8 @@ export default {
           this.$message.error("出错了");
         } else {
           this.Room.roomId = Vue.ls.get("userInfo").user.roomId;
+          console.log(this.Room.roomId)
+          // document.getElementById("address").setAttribute()
           this.havePush = true
           this.$message({
             type: "success",

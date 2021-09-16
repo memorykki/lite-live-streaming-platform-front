@@ -63,12 +63,6 @@
               <el-button
                 size="mini"
                 circle
-                icon="el-icon-edit"
-                @click="openEditDialog(scope.row)"
-              ></el-button>
-              <el-button
-                size="mini"
-                circle
                 icon="el-icon-delete"
                 @click="remove(scope.row)"
               ></el-button>
@@ -225,7 +219,6 @@ export default {
 
     // 数据删除
     remove(row) {
-      console.log(row.playbackId);
 
       this.deleUser.playbackId = row.playbackId;
       console.log(this.deleUser.playbackId);
@@ -240,7 +233,7 @@ export default {
           //没有返回值记得删除res
           this.$http
             .delete(
-              "lite-live-streaming-platform//playback/",
+              "lite-live-streaming-platform/playback/",
               {
                 params: {
                   idList: this.deleUser.playbackId,

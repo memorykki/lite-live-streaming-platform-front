@@ -52,7 +52,11 @@
           <el-table-column prop="type" label="类型"> </el-table-column>
           <el-table-column prop="subType" label="子类型"> </el-table-column>
           <el-table-column prop="status" label="状态"> </el-table-column>
-          <el-table-column prop="evidence" label="举证"> </el-table-column>
+          <el-table-column prop="evidence" label="举证">
+            <template slot-scope="scope">
+              <img slot="reference" :src="scope.row.evidence" style="width: 30px;height: 30px">
+            </template>
+          </el-table-column>
           <el-table-column prop="createTime" label="创建时间">
           </el-table-column>
 
@@ -120,6 +124,7 @@ export default {
       // 表单对象，用来存放修改用户信息的数据
       user: {
         status: "",
+        userId: null
       },
 
       //控制修改对话框是否显示，默认不显示
@@ -135,6 +140,7 @@ export default {
           banId: this.user.banId,
           type: 1,
           status: this.user.status,
+          userId: this.user.userId
         })
         .then((res) => {
           //关闭对话框

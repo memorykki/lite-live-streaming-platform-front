@@ -41,6 +41,7 @@ module.exports = {
     port: 3000,
     proxy: {
       '/lite-live-streaming-platform': {
+        // target: 'http://172.29.3.78:8081/',
         target: 'http://ts.memorykk.cn:8081/',
         changeOrigin: true
       },

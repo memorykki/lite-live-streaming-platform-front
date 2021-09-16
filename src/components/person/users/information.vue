@@ -4,9 +4,9 @@
     <el-card class="box-card">
       <el-tabs :tab-position="tabPosition" style="height: 700px;">
         <el-tab-pane label="我的信息">
-          <div class="grid-content bg-purple">
+          <!-- <div class="grid-content bg-purple">
                 <el-button @click="openEditDialog"><i class="el-icon-edit">修改个人信息</i></el-button>
-              </div>
+              </div> -->
           <!-- 头像 -->
           <el-row :gutter="20">
             <el-col :span="6">
@@ -44,6 +44,9 @@
               <div class="grid-content bg-purple">
                 <p>{{userInfo.userName}}</p>
               </div>
+            </el-col>
+            <el-col :span="6">
+              <el-button @click="openEditDialog"><i class="el-icon-edit"></i></el-button>
             </el-col>
           </el-row>
           <!-- 邮箱 -->
@@ -148,9 +151,9 @@
               </div>
               </el-col>
               </el-row>
-    <el-dialog title="修改个人信息" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改昵称" :visible.sync="dialogFormVisible">
       <el-form :v-model="information" :rules="rule">
-        <el-form-item label="昵称">
+        <el-form-item label="昵称" prop="userName">
           <el-input v-model="information.userName"/>
         </el-form-item>
         <!-- <el-form-item label="密码">

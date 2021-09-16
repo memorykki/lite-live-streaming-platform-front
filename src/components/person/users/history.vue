@@ -78,12 +78,11 @@ import Vue from 'vue';
       },
 
       findPage() { //定义的分页查询方法
-        // Vue.http.options.root = 'http://172.29.3.78:8081/lite-live-streaming-platform'
-        getAction('lite-live-streaming-platform/userWatchHistory?userId='+this.userInfo.userId, {
+        getAction('lite-live-streaming-platform/userWatchHistory', {
           
             pageCurrent: this.pager.pageCurrent, //当前从那条记录开始分页第一条1
             pageSize: this.pager.pageSize, //每页显示多少条记录
-            roomId: this.roomId,//条件查询的参数
+            // roomId: this.roomId,//条件查询的参数
             userId:this.userInfo.userId
           
         }).then(res => {

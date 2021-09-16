@@ -31,12 +31,14 @@ export default {
     return {
       list: [],
       realroompath: "",
-      userId: 7,
-      anchorId: 6
+      userId: null,
+      anchorId: null
     }
-    props:['liveid']
   },
-  created() {
+  props:['liveid'],
+  mounted() {
+    this.userId = Vue.ls.get("userInfo").user.userId;
+    this.anchorId = this.liveid;
     getAction(
       'lite-live-streaming-platform/userDynamic/list',
       {
@@ -86,12 +88,6 @@ export default {
       })
     }
   },
-  mounted(){
-    this.userId = Vue.ls.get("userInfo").user.userId;
-    this.anchorId = this.liveid;
-    console.log(this.userId)
-    console.log(this.anchorId)
-  }
 }
 </script>
 <style scoped>
