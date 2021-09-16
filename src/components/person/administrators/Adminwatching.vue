@@ -225,7 +225,7 @@ export default {
         if (res.status === 200) {
           // console.log(res);
           // this.list = res.data.data.records;
-          row.flag = "已推流"
+          row.flag = "未推流"
         } else {
           alert("获取数据失败");
         }
