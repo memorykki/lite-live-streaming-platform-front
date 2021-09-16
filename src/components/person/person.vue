@@ -61,12 +61,12 @@
 <style>
   
   #asdd{
-    margin: 5px;
+    /* margin: 5px; */
     
   }
   .el-container{
     width: 100%;
-    margin: 20px;
+    /* margin: 20px; */
   }
   </style>
 </style>

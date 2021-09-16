@@ -267,7 +267,7 @@ import user from '@/store/modules/user';
   }
 
   .el-col {
-    border-radius: 4px;
+    /* border-radius: 4px; */
   }
 
   .bg-purple-dark {

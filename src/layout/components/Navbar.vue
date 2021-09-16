@@ -5,10 +5,12 @@
     <el-menu
       mode="horizontal"
       router
-      background-color="#545c64"
+      background-color="#669999"
       text-color="#fff"
       active-text-color="#ffd04b"
     >
+    
+      <el-menu-item index="/dashboard" style="text-align:center;margin-bottom: 10px;"><img src="http://ts.memorykk.cn:1936/cover/logo.png" style="height:90px;width:90px; "/></el-menu-item>
       <el-menu-item index="/dashboard">直播</el-menu-item>
       <el-menu-item index="/vod">点播</el-menu-item>
 
@@ -155,6 +157,7 @@ export default {
     }
     .leftmenu {
       float: left;
+     
     }
 
     .avatar-container {

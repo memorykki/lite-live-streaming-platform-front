@@ -135,7 +135,6 @@
           </el-menu-item>
         </div>
       </el-menu>
-      <br /><br /><br /><br /><br /><br /><br /><br /><br />
     </el-col>
 
   </div>
@@ -184,8 +183,11 @@ export default {
 </script>
 
 <style scoped>
+.el-menu-vertical-demo{
+  background-color: #aacece;
+}
 .el-col {
-  height: 100vh;
+  /* height: 100vh; */
   width: 100%;
   overflow-y: hidden;
   overflow-x: hidden;
