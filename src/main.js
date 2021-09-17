@@ -47,7 +47,7 @@ Vue.use(ElementUI)
 
 const goEasy = GoEasy.getInstance({
   host:"hangzhou.goeasy.io",
-  appkey:"BC-abcfb2ed9f294d3b9ba0f9008ab365d6",// common key
+  appkey:"",// common key 需要自己添加
   modules: ['pubsub']
 });
 
